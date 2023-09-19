@@ -6,17 +6,15 @@ This DApp provides and overview of the Mento airgrab process, lets users check t
 
 ## Architecture
 
-This project uses Next.JS, React, Tailwind, Wagmi, Rainbow Kit. 
-
-We also use Fractal ID facilitate the KYC process
+This project uses Next.js, React, Tailwind, Wagmi, Rainbow Kit.
 
 ## Getting Started
 
 ### Run Locally
 
-Install deps: `yarn`
+Install deps: `pnpm`
 
-Start server: `yarn dev`
+Start server: `pnpm dev`
 
 ### Deploy
 
@@ -24,8 +22,8 @@ Deployments happen automatically via Vercel's Github app after pushing branch up
 
 ## Stay in touch
 
--  Author - [Mento Labs](https://mentolabs.xyz)
--  Twitter - [@mentolabs](https://twitter.com/mentolabs)
+- Author - [Mento Labs](https://mentolabs.xyz)
+- Twitter - [@mentolabs](https://twitter.com/mentolabs)
 
 ## License
 
