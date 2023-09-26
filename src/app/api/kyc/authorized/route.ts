@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "development") {
   if (!BASE_URL) throw new Error("BASE_URL is not set");
 } else {
   // preview & production
-  BASE_URL = process.env.VERCEL_BRANCH_URL;
+  BASE_URL = "https://" + process.env.VERCEL_BRANCH_URL;
   if (!BASE_URL) throw new Error("VERCEL_BRANCH_URL is not set");
 }
 
