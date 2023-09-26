@@ -42,7 +42,7 @@ export async function GET(request: Request) {
     authResponse = await res.json();
   } catch (error) {
     console.log(error);
-    return NextResponse.redirect("/");
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   try {
@@ -65,7 +65,7 @@ export async function GET(request: Request) {
     );
 
     if (!validCase) {
-      return NextResponse.redirect("/");
+      return NextResponse.redirect(new URL("/", request.url));
     }
 
     return NextResponse.redirect(
@@ -73,6 +73,6 @@ export async function GET(request: Request) {
     );
   } catch (error) {
     console.log(error);
-    return NextResponse.redirect("/");
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
