@@ -1,12 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
-const FRACTAL_CLIENT_ID = process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID;
-const BASE_URL = process.env.BASE_URL;
+if (!FRACTAL_APP_URL) throw new Error("FRACTAL_APP_URL is not set");
 
-if (!FRACTAL_APP_URL || !FRACTAL_CLIENT_ID || !BASE_URL) {
-  throw new Error("Environment variables are not set correctly");
+const FRACTAL_CLIENT_ID = process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID;
+if (!FRACTAL_CLIENT_ID) throw new Error("FRACTAL_CLIENT_ID is not set");
+
+let BASE_URL: string | undefined;
+
+if (process.env.NODE_ENV === "development") {
+  BASE_URL = process.env.BASE_URL;
+  if (!BASE_URL) throw new Error("BASE_URL is not set");
+} else {
+  // preview & production
+  BASE_URL = process.env.VERCEL_URL;
+  if (!BASE_URL) throw new Error("VERCEL_URL is not set");
 }
+
 const REDIRECT_URL = BASE_URL + "/api/kyc/authorized";
 
 export async function GET(request: NextRequest) {

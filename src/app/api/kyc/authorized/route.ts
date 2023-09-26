@@ -4,13 +4,11 @@ let BASE_URL: string | undefined;
 
 if (process.env.NODE_ENV === "development") {
   BASE_URL = process.env.BASE_URL;
-  if (!BASE_URL) throw new Error("BASE_URL is not set in development");
+  if (!BASE_URL) throw new Error("BASE_URL is not set");
 } else {
   // preview & production
   BASE_URL = process.env.VERCEL_URL;
   if (!BASE_URL) throw new Error("VERCEL_URL is not set");
-  if (process.env.BASE_URL)
-    throw new Error("BASE_URL should not be set in production");
 }
 
 const FRACTAL_AUTH_URL = process.env.FRACTAL_AUTH_URL;
