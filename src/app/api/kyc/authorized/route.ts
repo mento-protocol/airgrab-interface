@@ -65,11 +65,15 @@ export async function GET(request: Request) {
     );
 
     if (!validCase) {
+      // This will only happen if a user is some how redirected to us without having completed the process
       return NextResponse.redirect(new URL("/", request.url));
     }
 
     return NextResponse.redirect(
-      new URL(`/?status=${validCase.credential}`, request.url)
+      new URL(
+        `/?status=${validCase.status}&approvalStatus=${validCase.credential}`,
+        request.url
+      )
     );
   } catch (error) {
     console.log(error);

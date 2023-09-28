@@ -13,7 +13,7 @@ export default function Home() {
         </WhenConnected>
         <WhenConnected behavior="show">
           <KYC>
-            
+            <>Claim</>
           </KYC>
         </WhenConnected>
       </ClaimCard>
