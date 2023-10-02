@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { useAccount, useSignMessage } from "wagmi";
-import { useSearchParams } from "next/navigation";
-import { watchAccount } from "wagmi/actions";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAccount, useSignMessage } from "wagmi";
+import { watchAccount } from "wagmi/actions";
 import { MESSAGE } from "@/config/constants";
 import { PrimaryButton } from "./button";
 
@@ -35,6 +35,8 @@ export default function KYC({ children }: { children: React.ReactNode }) {
   const status = params.get("status");
   const approvalStatus = params.get("approvalStatus");
 
+  const router = useRouter();
+
   const {
     data: signature,
     variables,
@@ -51,19 +53,21 @@ export default function KYC({ children }: { children: React.ReactNode }) {
       if (account.address !== address) {
         setProof("");
         setProofStatus("");
+        router.replace("/");
       }
     });
 
     return () => {
       unwatch();
     };
-  }, [address]);
+  }, [address, router]);
 
   // Try to get a proof if we have a signature
   React.useEffect(() => {
     (async () => {
       if (variables?.message && signature) {
         try {
+          setProofStatus("loading");
           const { proof, error } = await fetchProof(
             signature,
             variables.message
@@ -90,6 +94,10 @@ export default function KYC({ children }: { children: React.ReactNode }) {
 
   if (!address) {
     return null;
+  }
+
+  if (proofStatus === "loading") {
+    return <>loading...</>;
   }
 
   if (isLoading) {
