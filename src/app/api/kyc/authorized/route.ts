@@ -22,7 +22,12 @@ if (!FRACTAL_CLIENT_SECRET) throw new Error("FRACTAL_CLIENT_SECRET is not set");
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
+  const error = searchParams.get("error");
   let authResponse;
+
+  if (error === "access_denied") {
+    return NextResponse.redirect(new URL("/?status=denied", request.url));
+  }
 
   try {
     const res = await fetch(`${FRACTAL_AUTH_URL}/oauth/token`, {
@@ -40,6 +45,8 @@ export async function GET(request: Request) {
     });
 
     authResponse = await res.json();
+
+    console.log(res);
   } catch (error) {
     console.log(error);
     return NextResponse.redirect(new URL("/", request.url));

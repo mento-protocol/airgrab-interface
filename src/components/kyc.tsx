@@ -96,6 +96,15 @@ export default function KYC({ children }: { children: React.ReactNode }) {
     return null;
   }
 
+  if (status === "denied") {
+    return (
+      <>
+        Access Denied: Authorization to your Fractal ID information is required to proceed. Please grant
+        permission and try again.
+      </>
+    );
+  }
+
   if (proofStatus === "loading") {
     return <>loading...</>;
   }
