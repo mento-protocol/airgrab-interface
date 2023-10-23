@@ -1,5 +1,6 @@
 "use client";
 
+import { AllocationMap } from "@/utils/merkle";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React, { ReactNode, createContext, useContext } from "react";
 import { formatUnits } from "viem";
@@ -34,7 +35,7 @@ const AuthorizationProvider = ({
   allocations,
 }: {
   children: ReactNode;
-  allocations: { [key: string]: string };
+  allocations: AllocationMap;
 }) => {
   const _signMessageReturn = useSignMessage({ message: "MESSAGE" });
   const { address } = useAccount();

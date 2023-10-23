@@ -29,13 +29,15 @@ export const getTree = (): StandardMerkleTree<any[]> | null => {
   return tree;
 };
 
+export type AllocationMap = { [key: string]: string };
+
 export const getAllocationList = (
   tree: StandardMerkleTree<any[]> | null
-): { [key: string]: string } => {
+): AllocationMap => {
   try {
     if (!tree) throw new Error("Tree not found");
 
-    const allocationObject: { [key: string]: string } = {};
+    const allocationObject: AllocationMap = {};
     for (let [, [address, allocation]] of tree.entries()) {
       allocationObject[address] = allocation;
     }
