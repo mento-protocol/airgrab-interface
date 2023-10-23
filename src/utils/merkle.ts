@@ -1,11 +1,18 @@
 import fs from "fs";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
-const tree = StandardMerkleTree.load(
-  JSON.parse(fs.readFileSync("src/merkle/tree.json", "utf8"))
-);
+let tree: StandardMerkleTree<any[]> | null = null;
+let loadError: Error | null = null;
 
+try {
+  tree = StandardMerkleTree.load(
+    JSON.parse(fs.readFileSync("src/merkle/tree.json", "utf8"))
+  );
+} catch (err) {
+  loadError = err as Error;
+}
 export const getTree = () => {
+  if (loadError) throw loadError;
   return tree;
 };
 
@@ -19,12 +26,17 @@ export const getAllocationList = (tree: StandardMerkleTree<any[]>) => {
   return allocationObject;
 };
 
-export const getProof = (address: string, tree: StandardMerkleTree<any[]>) => {
+export const getProofForAddress = (
+  address: string,
+  tree: StandardMerkleTree<any[]>
+) => {
   let proof;
 
   for (const [i, v] of tree.entries()) {
-    if (v[0].toLowerCase() !== address.toLowerCase()) continue;
-    proof = tree.getProof(i);
+    if (v[0].toLowerCase() === address.toLowerCase()) {
+      proof = tree.getProof(i);
+      break;
+    }
   }
 
   return proof;
