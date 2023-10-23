@@ -16,7 +16,9 @@ export const getTree = () => {
   return tree;
 };
 
-export const getAllocationList = (tree: StandardMerkleTree<any[]>) => {
+export const getAllocationList = (tree: StandardMerkleTree<any[]> | null) => {
+  if (!tree || loadError) throw loadError;
+
   const allocationObject: { [key: string]: string } = {};
 
   for (let [, [address, allocation]] of tree.entries()) {
@@ -28,8 +30,10 @@ export const getAllocationList = (tree: StandardMerkleTree<any[]>) => {
 
 export const getProofForAddress = (
   address: string,
-  tree: StandardMerkleTree<any[]>
+  tree: StandardMerkleTree<any[]> | null
 ) => {
+  if (!tree || loadError) throw loadError;
+
   let proof;
 
   for (const [i, v] of tree.entries()) {
