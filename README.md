@@ -14,6 +14,8 @@ This project uses Next.js, React, Tailwind, Wagmi, Rainbow Kit.
 
 Install deps: `pnpm`
 
+Environment Variables: Copy env.example to env.local
+
 Start server: `pnpm dev`
 
 ### Deploy
