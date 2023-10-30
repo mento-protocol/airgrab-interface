@@ -1,5 +1,5 @@
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { getAllocationList, getProofForAddress } from "@/utils/merkle";
+import { getAllocationList, getProofForAddress } from "@/lib/merkle/merkle";
 import { parse } from "csv-parse/sync";
 import { TextEncoder } from "util";
 

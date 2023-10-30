@@ -1,7 +1,12 @@
 "use client";
 
+<<<<<<< HEAD
 import { AllocationMap } from "@/utils/merkle";
 import { redirect } from "next/navigation";
+=======
+import { AllocationMap } from "@/lib/merkle/merkle";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+>>>>>>> 52eb648 (chore: restructure project directories)
 import React, { ReactNode, createContext, useContext } from "react";
 import { formatUnits } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
@@ -26,6 +31,9 @@ interface AllocationsType {
 
 type AuthorizationContextValue = SignMessageReturnType & AllocationsType;
 
+const MESSAGE = `I authorize Airgrab (${process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
+- I passed KYC level basic+liveness`;
+
 const AuthorizationContext = createContext<AuthorizationContextValue | null>(
   null
 );
@@ -37,6 +45,7 @@ const AuthorizationProvider = ({
   children: ReactNode;
   allocations: AllocationMap;
 }) => {
+<<<<<<< HEAD
   const _signMessageReturn = useSignMessage({ message: "MESSAGE" });
   const { address } = useAccount({
     onDisconnect: () => {
@@ -44,6 +53,25 @@ const AuthorizationProvider = ({
     },
   });
   const allocationForConnectedAddress = address && allocations[address];
+=======
+  const _signMessageReturn = useSignMessage({ message: MESSAGE });
+  const { address } = useAccount();
+  const { data: signature, signMessage } = _signMessageReturn;
+
+  if (!address) {
+    return <ConnectButton />;
+  }
+
+  if (!signature) {
+    return <button onClick={() => signMessage()}>Sign a Message</button>;
+  }
+
+  const allocation = allocations[address];
+
+  if (!allocation) {
+    return <div>Sorry, you do not have an allocation</div>;
+  }
+>>>>>>> 52eb648 (chore: restructure project directories)
 
   return (
     <AuthorizationContext.Provider
