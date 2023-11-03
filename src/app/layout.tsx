@@ -1,53 +1,12 @@
 import "./globals.css";
-import "@rainbow-me/rainbowkit/styles.css";
-import { ReactNode } from "react";
-import localFont from "next/font/local";
-import { PrimaryButton } from "@/components/button";
-import { links } from "@/lib/constants";
-import {
-  DiscordIcon,
-  ChevronRight,
-  LearnMoreDark,
-  LearnMoreImage,
-  MobileLearnIllustration,
-  MobileLearnMoreDark,
-  TokenL1,
-  TokenL2,
-  TokenL3,
-  TokenL4,
-  TokenR1,
-  TokenR2,
-  TokenR3,
-  TokenR4,
-} from "@/components/svgs";
-import FAQ from "@/components/faq";
-import ClaimCard from "@/components/claim-card";
-import Footer from "@/components/footer";
-import Header from "@/components/header/header";
-import Spacer from "@/components/spacer";
-import { Authorization } from "@/contexts/authorization-provider.server";
-import { Web3Provider } from "@/components/web3-provider";
 
-const founders_grotesk = localFont({
-  variable: "--font-fg",
-  src: [
-    {
-      path: "../../public/fonts/FoundersGrotesk-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/FoundersGrotesk-Medium.otf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/FoundersGrotesk-Semibold.otf",
-      weight: "600",
-      style: "normal",
-    },
-  ],
-});
+import type { Metadata } from "next";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import { Providers } from "@/components/providers";
+import ClaimCard from "@/components/claim-card";
+import FAQ from "@/components/faq";
+import { Authorization } from "@/contexts/authorization-provider.server";
 
 export const metadata = {
   title: "Mento | Sustainable stable asset protocol",

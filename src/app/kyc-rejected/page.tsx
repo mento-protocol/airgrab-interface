@@ -10,9 +10,6 @@ if (!FRACTAL_APP_URL) {
 export default function KYCRejected() {
   return (
     <div className="flex flex-col items-center gap-6">
-      <h3 className="font-fg font-medium text-2xl">
-        KYC Verification Rejected
-      </h3>
       <div className="flex flex-col items-center gap-6">
         <span className="text-lg">
           Your KYC Verification been rejected visit your

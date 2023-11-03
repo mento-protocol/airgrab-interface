@@ -45,10 +45,7 @@ export async function GET(request: Request) {
     });
 
     authResponse = await res.json();
-
-    console.log(res);
   } catch (error) {
-    console.log(error);
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -76,14 +73,16 @@ export async function GET(request: Request) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
-    return NextResponse.redirect(
-      new URL(
-        `/?status=${validCase.status}&approvalStatus=${validCase.credential}`,
-        request.url
-      )
-    );
+    const status = validCase.status;
+    const approvalStatus = validCase.credential;
+
+    if (status === "pending") {
+      return NextResponse.redirect(new URL("/kyc-pending", request.url));
+    }
+    if (approvalStatus === "rejected") {
+      return NextResponse.redirect(new URL("/kyc-rejected", request.url));
+    }
   } catch (error) {
-    console.log(error);
     return NextResponse.redirect(new URL("/", request.url));
   }
 }
