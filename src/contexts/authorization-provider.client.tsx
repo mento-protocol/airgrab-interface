@@ -1,38 +1,23 @@
 "use client";
 
-<<<<<<< HEAD
-import { AllocationMap } from "@/utils/merkle";
-import { redirect } from "next/navigation";
-=======
-import { AllocationMap } from "@/lib/merkle/merkle";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
->>>>>>> 52eb648 (chore: restructure project directories)
 import React, { ReactNode, createContext, useContext } from "react";
 import { formatUnits } from "viem";
-import { useAccount, useSignMessage } from "wagmi";
-import { SignMessageArgs } from "wagmi/actions";
-
-interface SignMessageReturnType {
-  data?: `0x${string}`;
-  error?: Error | null;
-  isError: boolean;
-  isIdle: boolean;
-  isLoading: boolean;
-  isSuccess: boolean;
-  signMessage: (args?: SignMessageArgs) => void;
-  signMessageAsync: (args?: SignMessageArgs) => Promise<string>;
-  reset: () => void;
-  status: "idle" | "error" | "loading" | "success";
-}
+import { useKYCProof } from "@/hooks/useKYCProof";
+import { useAccount } from "wagmi";
+import { useRedirectWhenUnauthenticated } from "@/hooks/useRedirectWhenUnauthenticated";
 
 interface AllocationsType {
   allocation: string;
+  proof: string | null;
+  proofStatus: string;
+  isLoading?: boolean;
+  isLoadingProof: boolean;
+  isLoadingSignature: boolean;
+  signature: `0x${string}` | undefined;
+  signMessage: () => void;
 }
 
-type AuthorizationContextValue = SignMessageReturnType & AllocationsType;
-
-const MESSAGE = `I authorize Airgrab (${process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
-- I passed KYC level basic+liveness`;
+type AuthorizationContextValue = AllocationsType;
 
 const AuthorizationContext = createContext<AuthorizationContextValue | null>(
   null
@@ -43,41 +28,38 @@ const AuthorizationProvider = ({
   allocations,
 }: {
   children: ReactNode;
-  allocations: AllocationMap;
+  allocations: { [key: string]: string };
 }) => {
-<<<<<<< HEAD
-  const _signMessageReturn = useSignMessage({ message: "MESSAGE" });
-  const { address } = useAccount({
-    onDisconnect: () => {
-      redirect("/");
-    },
-  });
+  const { isConnected, address } = useAccount();
   const allocationForConnectedAddress = address && allocations[address];
-=======
-  const _signMessageReturn = useSignMessage({ message: MESSAGE });
-  const { address } = useAccount();
-  const { data: signature, signMessage } = _signMessageReturn;
 
-  if (!address) {
-    return <ConnectButton />;
-  }
+  const {
+    proof,
+    proofStatus,
+    isLoadingProof,
+    isLoadingSignature,
+    signature,
+    signMessage,
+  } = useKYCProof({ enabled: Boolean(allocationForConnectedAddress) });
 
-  if (!signature) {
-    return <button onClick={() => signMessage()}>Sign a Message</button>;
-  }
+  //TODO: Handle this case 
+  // const connectedWalletNotVerified = !proof && approvalStatus === "approved";
 
-  const allocation = allocations[address];
-
-  if (!allocation) {
-    return <div>Sorry, you do not have an allocation</div>;
-  }
->>>>>>> 52eb648 (chore: restructure project directories)
+  useRedirectWhenUnauthenticated({
+    publicPages: ["/", "/kyc-pending", "/kyc-rejected"],
+    isAuthed: (!!signature || !!proof) && isConnected,
+  });
 
   return (
     <AuthorizationContext.Provider
       value={{
-        ..._signMessageReturn,
         allocation: formatUnits(BigInt(allocationForConnectedAddress ?? 0), 18),
+        proof,
+        proofStatus,
+        isLoadingProof,
+        isLoadingSignature,
+        signature,
+        signMessage,
       }}
     >
       {children}
