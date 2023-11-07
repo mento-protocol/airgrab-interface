@@ -22,7 +22,7 @@ import {
 } from "@/components/svgs";
 import FAQ from "@/components/faq";
 import ClaimCard from "@/components/claim-card";
-import Footer from "@/components/footer/footer";
+import Footer from "@/components/footer";
 import Header from "@/components/header/header";
 import Spacer from "@/components/spacer";
 import { Authorization } from "@/contexts/authorization-provider.server";
