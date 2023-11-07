@@ -1,18 +1,51 @@
-import ClaimCard from "@/components/claim-card";
-import FAQ from "@/components/faq";
-import { AllocationDisplay } from "@/components/allocation-display";
-import { Authorization } from "@/contexts/authorization-provider.server";
+"use client";
 
+import { useAccount } from "wagmi";
+import { PrimaryButton } from "@/components/button";
+import { ConnectButton } from "@/components/connect-button";
+import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
+import Loading from "@/components/loading";
+import { useAuthorization } from "@/contexts/authorization-provider.client";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <main className="flex-grow flex flex-col items-center justify-around">
-      <ClaimCard>
-        <Authorization>
-          <AllocationDisplay />
-        </Authorization>
-      </ClaimCard>
-      <FAQ />
-    </main>
-  );
+  const { address, isConnecting } = useAccount();
+  const { signMessage, data: signature } = useAuthorization();
+
+  if (isConnecting) {
+    return <Loading />;
+  }
+
+  if (!address) {
+    return (
+      <div className="flex flex-col gap-8 items-center justify-center">
+        <h3 className="font-fg font-medium text-2xl">
+          Connect wallet to check your eligibility to claim MNTO token
+        </h3>
+        <ConnectButton />
+        <EligibilityFAQLink />
+      </div>
+    );
+  }
+
+  if (signature) {
+    redirect("/allocation");
+  }
+  if (address) {
+    return (
+      <div className="flex flex-col gap-8 items-center justify-center text-center">
+        <h3 className="font-fg font-medium text-2xl">
+          To get started, please sign a message with your wallet.
+        </h3>
+        <p>
+          We use this to verify if you are the owner of the wallet & to check
+          your wallet's KYC status with our partner Fractal ID.
+        </p>
+        <PrimaryButton onClick={() => signMessage()}>
+          Sign a Message
+        </PrimaryButton>
+        <EligibilityFAQLink />
+      </div>
+    );
+  }
 }
