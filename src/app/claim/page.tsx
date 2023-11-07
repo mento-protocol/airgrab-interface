@@ -58,7 +58,7 @@ export const LockingFAQLink = () => {
   return (
     <Link
       className="text-primary-blue underline font-fg text-xl"
-      href="#eligibility-criteria"
+      href="#lock-tokens"
     >
       Why do I need to lock tokens?
     </Link>
