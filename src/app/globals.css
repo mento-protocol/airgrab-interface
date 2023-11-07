@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+  }
+  .dark {
+    --background: #02010a;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background;
+  }
+
+  body,
+  html {
+    height: 100%;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
