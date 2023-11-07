@@ -39,27 +39,13 @@ const AuthorizationProvider = ({
 }) => {
   const _signMessageReturn = useSignMessage({ message: "MESSAGE" });
   const { address } = useAccount();
-  const { data: signature, signMessage } = _signMessageReturn;
-
-  if (!address) {
-    return <ConnectButton />;
-  }
-
-  if (!signature) {
-    return <button onClick={() => signMessage()}>Sign a Message</button>;
-  }
-
-  const allocation = allocations[address];
-
-  if (!allocation) {
-    return <div>Sorry, you do not have an allocation</div>;
-  }
+  const allocationForConnectedAddress = address && allocations[address];
 
   return (
     <AuthorizationContext.Provider
       value={{
         ..._signMessageReturn,
-        allocation: formatUnits(BigInt(allocation), 18),
+        allocation: formatUnits(BigInt(allocationForConnectedAddress ?? 0), 18),
       }}
     >
       {children}
