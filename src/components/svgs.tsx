@@ -873,6 +873,7 @@ export const Logout = (props: SVGProps<SVGSVGElement>) => (
     </g>
   </svg>
 );
+
 export const LogoutDark = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="32"
@@ -2273,6 +2274,7 @@ export const TeamImage = (props: SVGProps<SVGSVGElement>) => (
     </defs>
   </svg>
 );
+
 export const LiveOnCeloImage = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -5697,6 +5699,7 @@ export const MoonSVG = (props: SVGProps<SVGSVGElement>) => {
     </svg>
   );
 };
+
 export const SunSVG = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
