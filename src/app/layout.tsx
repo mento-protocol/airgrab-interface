@@ -1,12 +1,31 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Providers } from "@/components/providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const founders_grotesk = localFont({
+  variable: "--font-fg",
+  src: [
+    {
+      path: "../../public/fonts/FoundersGrotesk-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/FoundersGrotesk-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/FoundersGrotesk-Semibold.otf",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${founders_grotesk.variable}`}>
         <Providers>
           <div className="h-screen flex flex-col">
             <Header />
