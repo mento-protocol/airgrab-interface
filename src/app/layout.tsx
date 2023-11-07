@@ -2,9 +2,10 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Header from "@/components/header/header";
-import Footer from "@/components/footer";
+
 import { Providers } from "@/components/providers";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 
 const founders_grotesk = localFont({
   variable: "--font-fg",
@@ -41,11 +42,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${founders_grotesk.variable}`}>
         <Providers>
-          <div className="h-screen flex flex-col">
-            <Header />
-            {children}
-            <Footer />
-          </div>
+          <Header />
+          <div className="h-screen flex flex-col">{children}</div>
+          <Footer />
         </Providers>
       </body>
     </html>
