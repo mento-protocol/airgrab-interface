@@ -3,8 +3,9 @@ import { MobileHeader } from "../mobile-header";
 import { MentoLogo } from "../svgs";
 import HeaderNav from "./header-nav";
 import { ConnectButton } from "../connect-button";
-import { TertiaryButton } from "../button";
+
 import Link from "next/link";
+import { Web3Provider } from "../web3-provider";
 
 const Header = () => {
   return (
@@ -22,7 +23,9 @@ const DesktopHeader = () => {
         <MentoLogo className="w-[108px] h-6" />
       </Link>
       <HeaderNav />
-      <ConnectButton />
+      <Web3Provider>
+        <ConnectButton />
+      </Web3Provider>
     </header>
   );
 };
