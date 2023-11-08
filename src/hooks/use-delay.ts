@@ -5,7 +5,7 @@ import React from "react";
  * @param {number} duration - Duration of the delay in milliseconds.
  * @return {boolean} - A boolean indicating whether delay is ongoign.
  */
-function useDelay(duration = 1000) {
+export const useDelay = (duration = 1000) => {
   const [delayed, setDelayed] = React.useState(true);
 
   React.useEffect(() => {
@@ -17,6 +17,4 @@ function useDelay(duration = 1000) {
   }, [duration]);
 
   return delayed;
-}
-
-export default useDelay;
+};
