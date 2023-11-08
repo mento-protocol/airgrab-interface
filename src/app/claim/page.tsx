@@ -58,7 +58,7 @@ export default function Claim() {
   );
 }
 
-export const LockingFAQLink = () => {
+const LockingFAQLink = () => {
   return (
     <Link
       className="text-primary-blue underline font-fg text-xl"
