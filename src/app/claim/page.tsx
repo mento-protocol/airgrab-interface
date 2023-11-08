@@ -22,7 +22,7 @@ export default function Claim() {
           <span className="font-medium font-fg">{allocation} MNTO</span> for{" "}
           <span className="font-medium font-fg">24 months</span>
         </span>
-        <PrimaryButton href="/" fullWidth>
+        <PrimaryButton internal href="/" fullWidth>
           Check another wallet
         </PrimaryButton>
         <TertiaryButton href="https://app.mento.org" fullWidth>

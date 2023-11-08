@@ -19,7 +19,9 @@ export default function KYCRejected() {
         </Link>{" "}
         for more details
       </div>
-      <PrimaryButton href="/">Return to Home</PrimaryButton>
+      <PrimaryButton internal href="/">
+        Return to Home
+      </PrimaryButton>
     </div>
   );
 }

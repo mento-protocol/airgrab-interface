@@ -18,7 +18,9 @@ export default function KYCPending() {
         </Link>
       </span>
 
-      <PrimaryButton href="/">Return to Home</PrimaryButton>
+      <PrimaryButton internal href="/">
+        Return to Home
+      </PrimaryButton>
     </div>
   );
 }

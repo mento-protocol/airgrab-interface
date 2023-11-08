@@ -7,6 +7,7 @@ type BaseProps = {
   rel?: string;
   fullWidth?: boolean;
   className?: string;
+  internal?: boolean;
 };
 
 type ButtonActionProps =
@@ -23,10 +24,11 @@ const BaseButton = ({
   children,
   icon,
   href,
-  target,
-  rel,
+  target = "_blank",
+  rel = "noopener noreferrer",
   color,
   fullWidth,
+  internal,
   className,
   ...restProps
 }: ButtonProps & Partial<ColorProps>) => {
@@ -82,8 +84,8 @@ const BaseButton = ({
   return (
     <Component
       href={href}
-      target={isLink ? target : undefined}
-      rel={isLink ? rel : undefined}
+      target={isLink && !internal ? target : undefined}
+      rel={isLink && !internal ? rel : undefined}
       {...restProps}
     >
       <span className={containerClasses.join(" ")}>
