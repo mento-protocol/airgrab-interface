@@ -4,15 +4,19 @@ import { useAccount } from "wagmi";
 import { PrimaryButton } from "@/components/button";
 import { ConnectButton } from "@/components/connect-button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
-import Loading from "@/components/loading";
 import { useAuthorization } from "@/contexts/authorization-provider.client";
 import { redirect } from "next/navigation";
+import React from "react";
+import { useHasMounted } from "@/hooks/use-has-mounted";
+import Loading from "@/components/loading";
 
 export default function Home() {
-  const { address, isConnecting } = useAccount();
+  const { address, isConnecting, isReconnecting } = useAccount();
   const { signMessage, data: signature } = useAuthorization();
 
-  if (isConnecting) {
+  const hasMounted = useHasMounted();
+
+  if (!hasMounted || isConnecting || isReconnecting) {
     return <Loading />;
   }
 
@@ -31,6 +35,7 @@ export default function Home() {
   if (signature) {
     redirect("/allocation");
   }
+
   if (address) {
     return (
       <div className="flex flex-col gap-8 items-center justify-center text-center">
