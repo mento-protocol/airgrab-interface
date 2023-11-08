@@ -46,7 +46,7 @@ export const KYCButton = () => {
   const { address } = useAccount();
   const url = buildFractalUrl(address);
 
-  return <PrimaryButton href={url}>KYC with Fractal ID</PrimaryButton>;
+  return <PrimaryButton href={url}>Verify via Fractal ID</PrimaryButton>;
 };
 
 export default KYCButton;

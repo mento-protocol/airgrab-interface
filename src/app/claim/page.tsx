@@ -20,7 +20,7 @@ export default function Claim() {
         <span className="font-fg font-normal text-xl">
           You claimed and locked{" "}
           <span className="font-medium font-fg">{allocation} MNTO</span> for{" "}
-          <span className="font-medium font-fg">24 months</span>
+          <span className="font-medium font-fg">24 months</span>{" "}
         </span>
         <PrimaryButton internal href="/" fullWidth>
           Check another wallet
@@ -43,7 +43,7 @@ export default function Claim() {
         </span>
         <span className="text-xl">
           To claim your MNTO, you are required to lock them as veMNTO for 24
-          months.
+          months.{" "}
           <span className="inline-block md:inline">
             You can&apos;t withdraw, but you can participate in governance of
             the protocol and receiving rewards.
