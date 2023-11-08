@@ -1,7 +1,7 @@
 "use client";
 
 import { AllocationMap } from "@/utils/merkle";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { redirect } from "next/navigation";
 import React, { ReactNode, createContext, useContext } from "react";
 import { formatUnits } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
@@ -38,7 +38,11 @@ const AuthorizationProvider = ({
   allocations: AllocationMap;
 }) => {
   const _signMessageReturn = useSignMessage({ message: "MESSAGE" });
-  const { address } = useAccount();
+  const { address } = useAccount({
+    onDisconnect: () => {
+      redirect("/");
+    },
+  });
   const allocationForConnectedAddress = address && allocations[address];
 
   return (
