@@ -12,11 +12,11 @@ import { shortenAddress } from "@/lib/addresses";
 import { tryClipboardSet } from "@/lib/clipboard";
 import { useAccount, useDisconnect } from "wagmi";
 import { TertiaryButton } from "./button";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { DropdownModal } from "./dropdown";
 
 export function ConnectButton() {
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { disconnect } = useDisconnect();
 
@@ -30,16 +30,43 @@ export function ConnectButton() {
     disconnect();
   };
 
+  const [hasMounted, setHasMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted)
+    return (
+      <div className="relative flex justify-end mb-1 min-h-6">
+        <button
+          className={
+            styles.walletButtonConnected + " " + styles.walletButtonDefault
+          }
+        >
+          <div className="flex items-center">
+            <Identicon
+              address={address ?? "0xE2F3f946c78aB213f06F1eC44E9Ff265Ee14D476"}
+              size={26}
+            />
+            <div className="hidden sm:block ml-[12px]">
+              {address ? shortenAddress(address) : "Loading..."}
+            </div>
+          </div>
+        </button>
+      </div>
+    );
+
   return (
-    <div className="relative flex justify-end mb-1">
-      {address && isConnected ? (
+    <div className="relative flex justify-end mb-1 min-h-6">
+      {address ? (
         <DropdownModal
           placement="bottom-end"
           buttonContent={() => (
             <div className="flex items-center">
-              <Identicon address={address} size={26} />
+              <Identicon address={address ?? ""} size={26} />
               <div className="hidden sm:block ml-[12px]">
-                {shortenAddress(address)}
+                {address ? shortenAddress(address) : "Loading..."}
               </div>
             </div>
           )}
