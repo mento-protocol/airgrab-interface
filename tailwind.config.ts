@@ -27,6 +27,18 @@ const config: Config = {
 
         background: "var(--background)",
       },
+      keyframes: {
+        "spin-slow": {
+          "0%": { transform: "rotate(0deg)" },
+          "5%, 25%": { transform: "rotate(90deg)" },
+          "30%, 50%": { transform: "rotate(180deg)" },
+          "55%, 75%": { transform: "rotate(270deg)" },
+          "80%, 100%": { transform: "rotate(360deg)" },
+        },
+      },
+      animation: {
+        "spin-slow": "spin-slow 3s linear infinite",
+      },
     },
   },
   plugins: [],
