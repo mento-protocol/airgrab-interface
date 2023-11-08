@@ -1,49 +1,61 @@
 "use client";
-import { useAuthorization } from "@/contexts/authorization-provider.client";
+
+import React from "react";
+import { useAccount } from "wagmi";
 import KYCButton from "@/components/kyc-button";
-import useDelay from "@/hooks/use-delay";
-import MentoLoadingAnimation from "@/components/mento-loading-animation";
 import { FractalIDLogo } from "@/components/svgs";
+import MentoLoadingAnimation from "@/components/mento-loading-animation";
 import { PrimaryButton } from "@/components/button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
-import { useAccount } from "wagmi";
+import { useAuthorization } from "@/contexts/authorization-provider.client";
 import { shortenAddress } from "@/lib/addresses";
-import React from "react";
-import Loading from "@/components/loading";
+import { useHasMounted, useDelay } from "@/hooks";
 
 export default function Allocation() {
   const { allocation } = useAuthorization();
   const { address, isConnecting } = useAccount();
-  const [proof, setProof] = React.useState<boolean>(false);
+  const [kycProof, setKYCProof] = React.useState<boolean>(false);
+  const [mentoAllocation, setMentoAllocation] =
+    React.useState<string>(allocation);
 
+  const hasMounted = useHasMounted();
   const isLoading = useDelay(1500);
   const shortAddress = address ? shortenAddress(address) : "";
 
-  if (isConnecting) {
-    return <Loading />;
+  if (isLoading || !hasMounted || !address || isConnecting) {
+    return <LoadingAllocation address={!hasMounted ? "" : shortAddress} />;
   }
 
-  if (isLoading) {
-    return <LoadingAllocation address={shortAddress} />;
-  }
+  const hasAllocation = mentoAllocation !== "0";
 
   return (
     <div className="flex flex-col gap-4">
-      {allocation !== "0" ? (
+      {hasAllocation ? (
         <WithAllocation
-          proof={proof}
-          allocation={allocation}
+          kycProof={kycProof}
+          allocation={mentoAllocation}
           address={shortAddress}
         />
       ) : (
         <NoAllocation address={shortAddress} />
       )}
+      {hasAllocation ? (
+        <button
+          onClick={() => {
+            setKYCProof((prevState) => !prevState);
+          }}
+        >
+          {`Pretend we ${kycProof ? "are not" : "are"} verified`}
+        </button>
+      ) : null}
       <button
         onClick={() => {
-          setProof((prevState) => !prevState);
+          setMentoAllocation((prevState) =>
+            prevState === "0" ? "100000" : "0"
+          );
         }}
       >
-        {`Pretend we ${proof ? "don't" : "do"} have proof`}
+        {`Pretend we ${hasAllocation ? "don't have" : "have"} an allocation`}
       </button>
     </div>
   );
@@ -62,7 +74,7 @@ const NoAllocation = ({ address }: { address: string }) => {
   );
 };
 
-const LoadingAllocation = ({ address }: { address: string }) => {
+export const LoadingAllocation = ({ address }: { address: string }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <h3 className="font-fg font-medium text-2xl">
@@ -76,11 +88,11 @@ const LoadingAllocation = ({ address }: { address: string }) => {
 
 const WithAllocation = ({
   allocation,
-  proof,
+  kycProof,
   address,
 }: {
   allocation: string;
-  proof: string | null | boolean;
+  kycProof: string | null | boolean;
   address: string;
 }) => {
   return (
@@ -93,13 +105,15 @@ const WithAllocation = ({
         </span>
         <span className="text-3xl">{allocation} MNTO</span>
       </h3>
-      {proof ? (
+      {kycProof ? (
         <>
           <p className="text-center max-w-[500px]">
             We have confirmed your verificaion with Fractal ID, please continue
             to claim your MNTO
           </p>
-          <PrimaryButton href={"/claim"}>Claim Your MNTO</PrimaryButton>
+          <PrimaryButton internal href={"/claim"}>
+            Claim Your MNTO
+          </PrimaryButton>
         </>
       ) : (
         <>
