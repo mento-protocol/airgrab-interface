@@ -1,5 +1,5 @@
 "use client";
-export const dynamic = "true";
+export const dynamic = "force-dynamic";
 
 import { useAccount } from "wagmi";
 import { PrimaryButton } from "@/components/button";
