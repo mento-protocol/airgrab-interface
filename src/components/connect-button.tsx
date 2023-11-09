@@ -30,33 +30,6 @@ export function ConnectButton() {
     disconnect();
   };
 
-  const [hasMounted, setHasMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  if (!hasMounted)
-    return (
-      <div className="relative flex justify-end mb-1 min-h-6">
-        <button
-          className={
-            styles.walletButtonConnected + " " + styles.walletButtonDefault
-          }
-        >
-          <div className="flex items-center">
-            <Identicon
-              address={address ?? "0xE2F3f946c78aB213f06F1eC44E9Ff265Ee14D476"}
-              size={26}
-            />
-            <div className="hidden sm:block ml-[12px]">
-              {address ? shortenAddress(address) : "Loading..."}
-            </div>
-          </div>
-        </button>
-      </div>
-    );
-
   return (
     <div className="relative flex justify-end mb-1 min-h-6">
       {address ? (
