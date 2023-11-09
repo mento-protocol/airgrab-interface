@@ -17,7 +17,16 @@ export default function Home() {
   const hasMounted = useHasMounted();
 
   if (!hasMounted || isConnecting || isReconnecting) {
-    return <Loading />;
+    return (
+      <>
+        <Loading />
+        <pre>
+          <code>
+            {JSON.stringify({ isConnecting, isReconnecting }, null, 4)}
+          </code>
+        </pre>
+      </>
+    );
   }
 
   if (!address) {
