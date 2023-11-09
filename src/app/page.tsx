@@ -11,22 +11,13 @@ import { useHasMounted } from "@/hooks/use-has-mounted";
 import Loading from "@/components/loading";
 
 export default function Home() {
-  const { address, isConnecting, isReconnecting } = useAccount();
+  const { address, isReconnecting } = useAccount();
   const { signMessage, data: signature } = useAuthorization();
 
   const hasMounted = useHasMounted();
 
-  if (!hasMounted || isConnecting || isReconnecting) {
-    return (
-      <>
-        <Loading />
-        <pre>
-          <code>
-            {JSON.stringify({ isConnecting, isReconnecting }, null, 4)}
-          </code>
-        </pre>
-      </>
-    );
+  if (!hasMounted || isReconnecting) {
+    return <Loading />;
   }
 
   if (!address) {
