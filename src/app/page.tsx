@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "true";
 
 import { useAccount } from "wagmi";
 import { PrimaryButton } from "@/components/button";
@@ -11,7 +12,7 @@ import { useHasMounted } from "@/hooks/use-has-mounted";
 import Loading from "@/components/loading";
 
 export default function Home() {
-  const { address, isConnecting, isReconnecting } = useAccount();
+  const { address, isReconnecting } = useAccount();
   const { signMessage, data: signature } = useAuthorization();
 
   const hasMounted = useHasMounted();
@@ -21,9 +22,7 @@ export default function Home() {
       <>
         <Loading />
         <pre>
-          <code>
-            {JSON.stringify({ hasMounted, isReconnecting }, null, 4)}
-          </code>
+          <code>{JSON.stringify({ hasMounted, isReconnecting }, null, 4)}</code>
         </pre>
       </>
     );
