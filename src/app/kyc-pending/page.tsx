@@ -10,6 +10,7 @@ if (!FRACTAL_APP_URL) {
 export default function KYCPending() {
   return (
     <div className="flex flex-col items-center gap-6">
+      <h3 className="font-fg font-medium text-2xl">KYC Verification Pending</h3>
       <span className="text-lg text-center flex flex-col">
         Your KYC Verification is pending, for an update on your verification
         status visit your{" "}
