@@ -10,6 +10,7 @@ import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import { useAuthorization } from "@/contexts/authorization-provider.client";
 import { shortenAddress } from "@/lib/addresses";
 import { useHasMounted, useDelay } from "@/hooks";
+import { DisconnectButton } from "@/components/disconnect-button";
 
 export default function Allocation() {
   const { allocation } = useAuthorization();
@@ -69,6 +70,7 @@ const NoAllocation = ({ address }: { address: string }) => {
         <span className="text-primary-blue">{address}</span> is not elligible to
         receive MNTO
       </p>
+      <DisconnectButton>Disconnect & Try another wallet</DisconnectButton>
       <EligibilityFAQLink />
     </div>
   );
