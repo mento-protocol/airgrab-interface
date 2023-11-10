@@ -33,32 +33,14 @@ export default function Allocation() {
     <div className="flex flex-col gap-4">
       {hasAllocation ? (
         <WithAllocation
-          kycProof={kycProof}
+          proof={kycProof}
           allocation={mentoAllocation}
           address={shortAddress}
         />
       ) : (
         <NoAllocation address={shortAddress} />
       )}
-      {hasAllocation ? (
-        <button
-          onClick={() => {
-            setKYCProof((prevState) => !prevState);
-          }}
-        >
-          {`Pretend we ${kycProof ? "are not" : "are"} verified`}
-        </button>
-      ) : null}
-      <button
-        onClick={() => {
-          setMentoAllocation((prevState) =>
-            prevState === "0" ? "100000" : "0"
-          );
-        }}
-      >
-        {`Pretend we ${hasAllocation ? "don't have" : "have"} an allocation`}
-      </button>
-    </div>
+    </>
   );
 }
 
@@ -91,11 +73,11 @@ const LoadingAllocation = ({ address }: { address: string }) => {
 
 const WithAllocation = ({
   allocation,
-  kycProof,
+  proof,
   address,
 }: {
   allocation: string;
-  kycProof: string | null | boolean;
+  proof: string | null | boolean;
   address: string;
 }) => {
   return (
@@ -108,7 +90,7 @@ const WithAllocation = ({
         </span>
         <span className="text-3xl">{allocation} MNTO</span>
       </h3>
-      {kycProof ? (
+      {proof ? (
         <>
           <p className="text-center max-w-[500px]">
             We have confirmed your verificaion with Fractal ID, please continue
