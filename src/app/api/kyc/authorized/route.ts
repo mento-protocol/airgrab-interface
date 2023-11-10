@@ -82,6 +82,8 @@ export async function GET(request: Request) {
     if (approvalStatus === "rejected") {
       return NextResponse.redirect(new URL("/kyc-rejected", request.url));
     }
+
+    return NextResponse.redirect(new URL("/", request.url));
   } catch (error) {
     return NextResponse.redirect(new URL("/", request.url));
   }
