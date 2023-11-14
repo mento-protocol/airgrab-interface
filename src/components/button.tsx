@@ -86,6 +86,7 @@ const BaseButton = ({
       href={href}
       target={isLink && !internal ? target : undefined}
       rel={isLink && !internal ? rel : undefined}
+      className={fullWidth ? "w-full" : ""}
       {...restProps}
     >
       <span className={containerClasses.join(" ")}>
