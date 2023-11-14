@@ -50,7 +50,7 @@ export default function Claim() {
           </span>
         </span>
       </p>
-      <PrimaryButton onClick={() => claim()}>
+      <PrimaryButton fullWidth onClick={() => claim()}>
         Claim & Lock {allocation} MNTO
       </PrimaryButton>
       <LockingFAQLink />

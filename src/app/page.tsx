@@ -47,7 +47,7 @@ export default function Home() {
           We use this to verify if you are the owner of the wallet & to check
           your wallet's KYC status with our partner Fractal ID.
         </p>
-        <PrimaryButton onClick={() => signMessage()}>
+        <PrimaryButton fullWidth onClick={() => signMessage()}>
           Sign a Message
         </PrimaryButton>
         <EligibilityFAQLink />
