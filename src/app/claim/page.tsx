@@ -15,7 +15,7 @@ export default function Claim() {
 
   if (hasClaimed) {
     return (
-      <div className="flex items-center justify-center flex-col gap-8 text-center px-20">
+      <div className="flex items-center justify-center flex-col gap-8 text-center md:px-20">
         <Locked className="h-[248px] w-[251px]" />
         <span className="font-fg font-normal text-xl">
           You claimed and locked{" "}
