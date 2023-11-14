@@ -114,7 +114,7 @@ const WithAllocation = ({
             We have confirmed your verificaion with Fractal ID, please continue
             to claim your MNTO
           </p>
-          <PrimaryButton internal href={"/claim"}>
+          <PrimaryButton fullWidth internal href={"/claim"}>
             Claim Your MNTO
           </PrimaryButton>
         </>

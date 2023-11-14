@@ -34,7 +34,7 @@ const faqs = [
 export default function FAQ() {
   return (
     <div className="w-full">
-      <h2 className="font-fg text-center font-medium text-xl  md:text-[56px] tracking-[-0.02em] leading-none mb-3 dark:text-clean-white">
+      <h2 className="font-fg text-center font-medium text-[22px]  md:text-[56px] tracking-[-0.02em] leading-none mb-3 dark:text-clean-white">
         Frequently asked questions
       </h2>
       <AccordianMenu list={faqs} />

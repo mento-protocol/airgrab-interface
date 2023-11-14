@@ -74,7 +74,7 @@ export default function RootLayout({
               <div className="h-2" />
               <SubHeading />
             </MaxWidthContainer>
-            <div className="h-20  md:h-20" />
+            <div className="h-8  md:h-20" />
             <MaxWidthContainer>
               <Web3Provider>
                 <Authorization>
@@ -82,11 +82,11 @@ export default function RootLayout({
                 </Authorization>
               </Web3Provider>
             </MaxWidthContainer>
-            <div className="h-[112px]" />
+            <div className="h-[56px] md:h-[112px]" />
             <MaxWidthContainer>
               <FAQ />
             </MaxWidthContainer>
-            <div className="h-[115px]" />
+            <div className="h-[56px] md:h-[112px]" />
             <LearnMoreSection />
           </main>
           <Footer />
@@ -182,8 +182,8 @@ const LearnMoreSection = () => {
         </div>
         <LearnMoreImage className="hidden overflow-visible lg:inline w-[444px] h-[352px] dark:hidden" />
         <LearnMoreDark className="hidden overflow-visible w-[444px] h-[352px] dark:lg:inline" />
-        <MobileLearnIllustration className="py-8 dark:hidden lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
-        <MobileLearnMoreDark className="py-8 hidden dark:lg:hidden dark:inline lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
+        <MobileLearnIllustration className="md:py-8 dark:hidden lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
+        <MobileLearnMoreDark className="md:py-8 hidden dark:lg:hidden dark:inline lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
       </div>
     </div>
   );
