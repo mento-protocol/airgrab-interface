@@ -9,7 +9,7 @@ if (!FRACTAL_CLIENT_ID) throw new Error("FRACTAL_CLIENT_ID is not set");
 let BASE_URL: string | undefined;
 
 if (process.env.NODE_ENV === "development") {
-  BASE_URL = process.env.BASE_URL;
+  BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   if (!BASE_URL) throw new Error("BASE_URL is not set");
 } else {
   // preview & production
