@@ -1,7 +1,7 @@
 import { MESSAGE } from "@/lib/constants";
 import React from "react";
-import { useAccount, useSignMessage } from "wagmi";
-import { watchAccount } from "wagmi/actions";
+import { useSignMessage } from "wagmi";
+import useOnWalletDisconnect from "./use-on-wallet-disconnect";
 import { useLocalStorage } from "./useLocalStorage";
 
 const fetchProof = async (signature: string, message: string) => {
@@ -27,23 +27,15 @@ export const useKYCProof = ({ enabled }: { enabled?: boolean }) => {
     isLoading: isLoadingSignature,
     reset,
   } = useSignMessage({ message: MESSAGE });
-  const { address } = useAccount();
 
   const isLoadingProof = proofStatus === "loading";
 
   // Reset state when account changes
-  React.useEffect(() => {
-    const unwatch = watchAccount((account) => {
-      if (account.address !== address) {
-        setProof("");
-        reset();
-      }
-    });
-
-    return () => {
-      unwatch();
-    };
-  }, [address]);
+  useOnWalletDisconnect(() => {
+    setProof("");
+    setProofStatus("");
+    reset();
+  });
 
   // Try to get a proof if we have a signature
   React.useEffect(() => {
