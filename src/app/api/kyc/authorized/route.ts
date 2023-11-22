@@ -1,22 +1,12 @@
+import {
+  FRACTAL_AUTH_URL,
+  FRACTAL_CLIENT_ID,
+  REDIRECT_URL,
+} from "@/lib/constants";
 import { NextResponse } from "next/server";
 
-let BASE_URL: string | undefined;
-
-if (process.env.NODE_ENV === "development") {
-  BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  if (!BASE_URL) throw new Error("BASE_URL is not set");
-} else {
-  // preview & production
-  BASE_URL = "https://" + process.env.VERCEL_BRANCH_URL;
-  if (!BASE_URL) throw new Error("VERCEL_BRANCH_URL is not set");
-}
-
-const FRACTAL_AUTH_URL = process.env.FRACTAL_AUTH_URL;
-const FRACTAL_CLIENT_ID = process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID;
 const FRACTAL_CLIENT_SECRET = process.env.FRACTAL_CLIENT_SECRET;
 
-if (!FRACTAL_AUTH_URL) throw new Error("FRACTAL_AUTH_URL is not set");
-if (!FRACTAL_CLIENT_ID) throw new Error("FRACTAL_CLIENT_ID is not set");
 if (!FRACTAL_CLIENT_SECRET) throw new Error("FRACTAL_CLIENT_SECRET is not set");
 
 export async function GET(request: Request) {
@@ -40,7 +30,7 @@ export async function GET(request: Request) {
         client_secret: FRACTAL_CLIENT_SECRET,
         code,
         grant_type: "authorization_code",
-        redirect_uri: `${BASE_URL}/api/kyc/authorized`,
+        redirect_uri: REDIRECT_URL,
       }),
     });
 
@@ -55,7 +45,10 @@ export async function GET(request: Request) {
       headers: { Authorization: `Bearer ${access_token}` },
     });
 
-    const { verification_cases } = await res.json();
+    const theResJson = await res.json();
+    const { verification_cases } = theResJson;
+
+    console.log(theResJson);
 
     // Find a case which matches our requirements and return the status
     const validCase = verification_cases.find(
@@ -79,6 +72,7 @@ export async function GET(request: Request) {
     if (status === "pending") {
       return NextResponse.redirect(new URL("/kyc-pending", request.url));
     }
+
     if (approvalStatus === "rejected") {
       return NextResponse.redirect(new URL("/kyc-rejected", request.url));
     }
