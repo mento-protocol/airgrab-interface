@@ -1,8 +1,13 @@
 import {
   FRACTAL_AUTH_URL,
   FRACTAL_CLIENT_ID,
+  FRACTAL_RESOURCE_URL,
   REDIRECT_URL,
 } from "@/lib/constants";
+import { sessionOptions } from "@/lib/session/config";
+import { SessionData } from "@/lib/session/types";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const FRACTAL_CLIENT_SECRET = process.env.FRACTAL_CLIENT_SECRET;
@@ -41,14 +46,12 @@ export async function GET(request: Request) {
 
   try {
     const { access_token } = authResponse;
-    const res = await fetch(`${process.env.FRACTAL_RESOURCE_URL}/users/me`, {
+    const res = await fetch(`${FRACTAL_RESOURCE_URL}/users/me`, {
       headers: { Authorization: `Bearer ${access_token}` },
     });
 
     const theResJson = await res.json();
     const { verification_cases } = theResJson;
-
-    console.log(theResJson);
 
     // Find a case which matches our requirements and return the status
     const validCase = verification_cases.find(
@@ -76,7 +79,14 @@ export async function GET(request: Request) {
     if (approvalStatus === "rejected") {
       return NextResponse.redirect(new URL("/kyc-rejected", request.url));
     }
+    
+    const session = await getIronSession<SessionData>(
+      cookies(),
+      sessionOptions
+    );
 
+    session.kyc = true;
+    await session.save();
     return NextResponse.redirect(new URL("/", request.url));
   } catch (error) {
     return NextResponse.redirect(new URL("/", request.url));
