@@ -3,15 +3,22 @@
 import { PrimaryButton, TertiaryButton } from "@/components/button";
 import { Locked } from "@/components/svgs";
 import { useAuthorization } from "@/contexts/authorization-provider.client";
+import { useKYCProof } from "@/hooks/useKYCProof";
 import Link from "next/link";
 import React from "react";
 
 export default function Claim() {
   const [hasClaimed, setHasClaimed] = React.useState(false);
   const { allocation } = useAuthorization();
+  const { proof, signMessage } = useKYCProof({ enabled: true });
   const claim = () => {
     setHasClaimed(true);
   };
+
+  if(!proof) {
+
+    //sign Message
+  }
 
   if (hasClaimed) {
     return (

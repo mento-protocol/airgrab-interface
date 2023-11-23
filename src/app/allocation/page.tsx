@@ -13,34 +13,29 @@ import { useHasMounted, useDelay } from "@/hooks";
 import { DisconnectButton } from "@/components/disconnect-button";
 
 export default function Allocation() {
-  const { allocation } = useAuthorization();
+  const { allocation, session } = useAuthorization();
   const { address, isConnecting } = useAccount();
-  const [kycProof, setKYCProof] = React.useState<boolean>(false);
-  const [mentoAllocation, setMentoAllocation] =
-    React.useState<string>(allocation);
 
   const hasMounted = useHasMounted();
   const isLoading = useDelay(1500);
   const shortAddress = address ? shortenAddress(address) : "";
 
-  if (isLoading || !hasMounted || !address || isConnecting) {
-    return <LoadingAllocation address={!hasMounted ? "" : shortAddress} />;
+  if (isConnecting) {
+    return <>Loading...</>;
   }
 
-  const hasAllocation = mentoAllocation !== "0";
+  const hasAllocation = allocation !== "0";
+
+  if (!hasAllocation) {
+    return <NoAllocation address={shortAddress} />;
+  }
 
   return (
-    <div className="flex flex-col gap-4">
-      {hasAllocation ? (
-        <WithAllocation
-          proof={kycProof}
-          allocation={mentoAllocation}
-          address={shortAddress}
-        />
-      ) : (
-        <NoAllocation address={shortAddress} />
-      )}
-    </>
+    <WithAllocation
+      proof={session.kyc}
+      allocation={allocation}
+      address={shortAddress}
+    />
   );
 }
 

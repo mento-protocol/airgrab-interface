@@ -1,65 +1,64 @@
 "use client";
 
-import React, { ReactNode, createContext, useContext } from "react";
+import React from "react";
 import { formatUnits } from "viem";
-import { useKYCProof } from "@/hooks/useKYCProof";
 import { useAccount } from "wagmi";
 import { useRedirectWhenUnauthenticated } from "@/hooks/useRedirectWhenUnauthenticated";
+import { TriggerWithoutArgs } from "swr/mutation";
+import { SessionData } from "@/lib/session/types";
+import useOnWalletDisconnect from "@/hooks/use-on-wallet-disconnect";
+import useSession from "@/hooks/use-session";
+import { useRouter } from "next/navigation";
 
-interface AllocationsType {
+type AllocationsType = {
   allocation: string;
-  proof: string | null;
-  proofStatus: string;
-  isLoading?: boolean;
-  isLoadingProof: boolean;
-  isLoadingSignature: boolean;
-  signature: `0x${string}` | undefined;
-  signMessage: () => void;
-}
+  login: TriggerWithoutArgs;
+  logout: TriggerWithoutArgs;
+  session: SessionData;
+  isSessionLoading: boolean;
+  isLoggedIn: boolean;
+};
 
 type AuthorizationContextValue = AllocationsType;
 
-const AuthorizationContext = createContext<AuthorizationContextValue | null>(
-  null
-);
+const AuthorizationContext =
+  React.createContext<AuthorizationContextValue | null>(null);
 
 const AuthorizationProvider = ({
   children,
   allocations,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
   allocations: { [key: string]: string };
 }) => {
-  const { isConnected, address } = useAccount();
+  const { address, isConnected } = useAccount();
   const allocationForConnectedAddress = address && allocations[address];
+  const { login, session, isSessionLoading, logout } = useSession();
+  const isLoggedIn = (session as SessionData).siwe.success;
+  const router = useRouter();
 
-  const {
-    proof,
-    proofStatus,
-    isLoadingProof,
-    isLoadingSignature,
-    signature,
-    signMessage,
-  } = useKYCProof({ enabled: Boolean(allocationForConnectedAddress) });
-
-  //TODO: Handle this case 
+  //TODO: Handle this case
   // const connectedWalletNotVerified = !proof && approvalStatus === "approved";
 
   useRedirectWhenUnauthenticated({
     publicPages: ["/", "/kyc-pending", "/kyc-rejected"],
-    isAuthed: (!!signature || !!proof) && isConnected,
+    isAuthed: (isLoggedIn || isSessionLoading) && isConnected,
+  });
+
+  useOnWalletDisconnect(() => {
+    router.replace("/");
+    logout();
   });
 
   return (
     <AuthorizationContext.Provider
       value={{
         allocation: formatUnits(BigInt(allocationForConnectedAddress ?? 0), 18),
-        proof,
-        proofStatus,
-        isLoadingProof,
-        isLoadingSignature,
-        signature,
-        signMessage,
+        login,
+        logout,
+        session: session as SessionData,
+        isSessionLoading,
+        isLoggedIn,
       }}
     >
       {children}
@@ -68,7 +67,7 @@ const AuthorizationProvider = ({
 };
 
 const useAuthorization = () => {
-  const context = useContext(AuthorizationContext);
+  const context = React.useContext(AuthorizationContext);
 
   if (!context) {
     throw new Error(
