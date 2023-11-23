@@ -12,7 +12,7 @@ export const useRedirectWhenUnauthenticated = ({
   const pathname = usePathname();
   const isPublicPage = publicPages.includes(pathname);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (!isAuthed && !isPublicPage) {
       push("/");
     }
