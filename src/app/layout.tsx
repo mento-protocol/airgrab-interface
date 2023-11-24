@@ -1,12 +1,52 @@
 import "./globals.css";
-
-import type { Metadata } from "next";
-import Header from "@/components/header";
+import "@rainbow-me/rainbowkit/styles.css";
+import Header from "@/components/header/header";
 import Footer from "@/components/footer";
-import { Providers } from "@/components/providers";
 import ClaimCard from "@/components/claim-card";
 import FAQ from "@/components/faq";
 import { Authorization } from "@/contexts/authorization-provider.server";
+import Spacer from "@/components/spacer";
+import { Web3Provider } from "@/components/web3-provider";
+import {
+  ChevronRight,
+  DiscordIcon,
+  LearnMoreDark,
+  LearnMoreImage,
+  MobileLearnIllustration,
+  MobileLearnMoreDark,
+  TokenL1,
+  TokenL2,
+  TokenL3,
+  TokenL4,
+  TokenR1,
+  TokenR2,
+  TokenR3,
+  TokenR4,
+} from "@/components/svgs";
+import { PrimaryButton } from "@/components/button";
+import { links } from "@/lib/constants";
+
+import localFont from "next/font/local";
+const founders_grotesk = localFont({
+  variable: "--font-fg",
+  src: [
+    {
+      path: "../../public/fonts/FoundersGrotesk-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/FoundersGrotesk-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/FoundersGrotesk-Semibold.otf",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+});
 
 export const metadata = {
   title: "Mento | Sustainable stable asset protocol",
@@ -102,7 +142,7 @@ const MainHeading = () => {
   );
 };
 
-const MaxWidthContainer = ({ children }: { children: ReactNode }) => {
+const MaxWidthContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col items-center justify-center mx-auto max-w-[846px] px-4 md:px-0">
       {children}
@@ -152,7 +192,7 @@ const FeatureParagraph = ({
   children,
   className = "",
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -168,7 +208,7 @@ const Heading = ({
   children,
   className = "",
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -192,7 +232,7 @@ const GradientPrimaryLightMobile = ({
   children,
   className,
 }: {
-  children?: ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }) => {
   return (
