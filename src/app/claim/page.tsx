@@ -1,6 +1,7 @@
 "use client";
 
 import { PrimaryButton, TertiaryButton } from "@/components/button";
+import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import { Locked } from "@/components/svgs";
 import { useAuthorization } from "@/contexts/authorization-provider.client";
 import { useKYCProof } from "@/hooks/useKYCProof";
@@ -15,9 +16,23 @@ export default function Claim() {
     setHasClaimed(true);
   };
 
-  if(!proof) {
-
-    //sign Message
+  if (!proof) {
+    return (
+      <div className="flex flex-col gap-8 items-center justify-center text-center">
+        <h3 className="font-fg font-medium text-2xl">
+          To claim your MENTO, you need to sign a message the verify your
+          Fractal KYC based on your wallet is included in your KYC verification.
+        </h3>
+        <p>
+          We use this signature to verify your KYC on chain with our partner
+          Fractal ID.
+        </p>
+        <PrimaryButton onClick={() => signMessage()}>
+          Sign a Message
+        </PrimaryButton>
+        <EligibilityFAQLink />
+      </div>
+    );
   }
 
   if (hasClaimed) {
