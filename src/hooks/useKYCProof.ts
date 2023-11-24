@@ -18,7 +18,7 @@ const fetchProof = async (signature: string, message: string) => {
 };
 
 export const useKYCProof = ({ enabled }: { enabled?: boolean }) => {
-  const [proof, setProof] = useLocalStorage("proof", "");
+  const [proof, setProof] = React.useState<string>("");
   const [proofStatus, setProofStatus] = React.useState<string>("");
   const {
     data: signature,
