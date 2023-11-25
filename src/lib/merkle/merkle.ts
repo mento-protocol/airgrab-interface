@@ -1,3 +1,5 @@
+import "server-only";
+
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import treeJson from "./tree.json";
 
