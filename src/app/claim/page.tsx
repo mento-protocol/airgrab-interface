@@ -2,6 +2,7 @@
 
 import { PrimaryButton, TertiaryButton } from "@/components/button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
+import RedirectTo from "@/components/redirect-to";
 import { Locked } from "@/components/svgs";
 import { useAuthorization } from "@/contexts/authorization-provider.client";
 import { useKYCProof } from "@/hooks/useKYCProof";
@@ -10,11 +11,16 @@ import React from "react";
 
 export default function Claim() {
   const [hasClaimed, setHasClaimed] = React.useState(false);
-  const { allocation } = useAuthorization();
+  const { allocation, session } = useAuthorization();
   const { proof, signMessage } = useKYCProof({ enabled: true });
+
   const claim = () => {
     setHasClaimed(true);
   };
+
+  if (!session.kyc) {
+    return <RedirectTo path="/" />;
+  }
 
   if (!proof) {
     return (
@@ -39,7 +45,7 @@ export default function Claim() {
     return (
       <div className="flex items-center justify-center flex-col gap-8 text-center md:px-20">
         <Locked className="h-[248px] w-[251px]" />
-        <span className="font-fg font-normal text-xl">
+        <span className="font-fg font-medium text-2xl">
           You claimed and locked{" "}
           <span className="font-medium font-fg">{allocation} MNTO</span> for{" "}
           <span className="font-medium font-fg">24 months</span>{" "}
