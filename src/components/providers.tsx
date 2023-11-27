@@ -2,26 +2,22 @@
 
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { ThemeProviderProps } from "next-themes/dist/types";
-
-<<<<<<< HEAD
-export function Providers({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
-=======
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { WagmiConfig } from "wagmi";
 import { chains, config } from "@/lib/wagmi";
+import type { ThemeProviderProps } from "next-themes/dist/types";
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
     <WagmiConfig config={config}>
       <RainbowKitProvider
         appInfo={{ appName: "Mento Airgrab Interface" }}
         chains={chains}
       >
-        {mounted && children}
+        <NextThemesProvider forcedTheme="light" {...props}>
+          {children}
+        </NextThemesProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
->>>>>>> 52eb648 (chore: restructure project directories)
 }

@@ -6,7 +6,6 @@ import ClaimCard from "@/components/claim-card";
 import FAQ from "@/components/faq";
 import { Authorization } from "@/contexts/authorization-provider.server";
 import Spacer from "@/components/spacer";
-import { Web3Provider } from "@/components/web3-provider";
 import {
   ChevronRight,
   DiscordIcon,
@@ -27,6 +26,7 @@ import { PrimaryButton } from "@/components/button";
 import { links } from "@/lib/constants";
 
 import localFont from "next/font/local";
+import { Providers } from "@/components/providers";
 const founders_grotesk = localFont({
   variable: "--font-fg",
   src: [
@@ -59,38 +59,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en"   suppressHydrationWarning>
       <body
         className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
       >
-        <div className="relative w-full h-full max-w-[1440px]">
-          <Header />
-          <main className="flex-grow z-30">
-            <div className="h-12 md:h-24 " />
-            <Spacer axis="vertical" size={24} />
-            <MaxWidthContainer>
-              <MainHeading />
-              <div className="h-2" />
-              <SubHeading />
-            </MaxWidthContainer>
-            <div className="h-8  md:h-20" />
-            <MaxWidthContainer>
-              <Web3Provider>
+        <Providers>
+          <div className="relative w-full h-full max-w-[1440px]">
+            <Header />
+            <main className="flex-grow z-30">
+              <div className="h-12 md:h-24 " />
+              <Spacer axis="vertical" size={24} />
+              <MaxWidthContainer>
+                <MainHeading />
+                <div className="h-2" />
+                <SubHeading />
+              </MaxWidthContainer>
+              <div className="h-8  md:h-20" />
+              <MaxWidthContainer>
                 <Authorization>
                   <ClaimCard>{children}</ClaimCard>
                 </Authorization>
-              </Web3Provider>
-            </MaxWidthContainer>
-            <div className="h-[56px] md:h-[112px]" />
-            <MaxWidthContainer>
-              <FAQ />
-            </MaxWidthContainer>
-            <div className="h-[56px] md:h-[112px]" />
-            <LearnMoreSection />
-          </main>
-          <Footer />
-          <Background />
-        </div>
+              </MaxWidthContainer>
+              <div className="h-[56px] md:h-[112px]" />
+              <MaxWidthContainer>
+                <FAQ />
+              </MaxWidthContainer>
+              <div className="h-[56px] md:h-[112px]" />
+              <LearnMoreSection />
+            </main>
+            <Footer />
+            <Background />
+          </div>
+        </Providers>
       </body>
     </html>
   );
