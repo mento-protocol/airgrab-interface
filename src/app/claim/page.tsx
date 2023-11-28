@@ -11,14 +11,14 @@ import React from "react";
 
 export default function Claim() {
   const [hasClaimed, setHasClaimed] = React.useState(false);
-  const { allocation, session } = useAuthorization();
+  const { allocation, session, isSessionLoading } = useAuthorization();
   const { proof, signMessage } = useKYCProof({ enabled: true });
 
   const claim = () => {
     setHasClaimed(true);
   };
 
-  if (!session.kyc) {
+  if (!session.kyc && !isSessionLoading) {
     return <RedirectTo path="/" />;
   }
 
