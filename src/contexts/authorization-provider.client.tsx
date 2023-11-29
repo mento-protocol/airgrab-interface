@@ -34,7 +34,7 @@ const AuthorizationProvider = ({
   const { address, isConnected } = useAccount();
   const allocationForConnectedAddress = address && allocations[address];
   const { login, session, isSessionLoading, logout } = useSession();
-  const isLoggedIn = (session as SessionData).siwe.success;
+  const isLoggedIn = (session as SessionData).siwe?.success;
   const router = useRouter();
 
   //TODO: Handle this case
