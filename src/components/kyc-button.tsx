@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === "development") {
   BASE_URL = `https://${process.env.VERCEL_BRANCH_URL}`;
 }
 
-export const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
+const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
 
 function buildFractalUrl(wallet?: string): string {
   const url = new URL(FRACTAL_APP_URL + "/authorize");

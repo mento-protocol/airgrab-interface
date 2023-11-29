@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "development") {
   BASE_URL = `https://${process.env.VERCEL_BRANCH_URL}`;
 }
 
-export const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
+ const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
