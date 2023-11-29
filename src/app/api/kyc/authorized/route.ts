@@ -79,13 +79,12 @@ export async function GET(request: Request) {
     if (approvalStatus === "rejected") {
       return NextResponse.redirect(new URL("/kyc-rejected", request.url));
     }
-    
     const session = await getIronSession<SessionData>(
       cookies(),
       sessionOptions
     );
 
-    session.kyc = true;
+    session.isKycVerified = true;
     await session.save();
     return NextResponse.redirect(new URL("/", request.url));
   } catch (error) {

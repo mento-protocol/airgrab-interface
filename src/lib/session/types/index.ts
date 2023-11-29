@@ -3,5 +3,5 @@ export interface SessionData {
   nonce?: string;
   siwe: any;
   success: boolean;
-  kyc: boolean;
+  isKycVerified: boolean;
 }

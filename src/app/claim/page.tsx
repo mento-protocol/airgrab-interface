@@ -18,7 +18,7 @@ export default function Claim() {
     setHasClaimed(true);
   };
 
-  if (!session.kyc && !isSessionLoading) {
+  if (!session.isKycVerified && !isSessionLoading) {
     return <RedirectTo path="/" />;
   }
 

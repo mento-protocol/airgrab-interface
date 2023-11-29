@@ -5,5 +5,5 @@ export const defaultSession: SessionData = {
   nonce: "",
   siwe: {},
   success: false,
-  kyc: false,
+  isKycVerified: false,
 };

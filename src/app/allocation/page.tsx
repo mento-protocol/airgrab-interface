@@ -32,7 +32,7 @@ export default function Allocation() {
 
   return (
     <WithAllocation
-      proof={session.kyc}
+      proof={session.isKycVerified}
       allocation={allocation}
       address={shortAddress}
     />
