@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import cn from "classnames";
+import { color } from "framer-motion";
 
 type BaseProps = {
    children: ReactNode;
@@ -10,6 +11,8 @@ type BaseProps = {
    className?: string;
    internal?: boolean;
    innerClassNames?: string;
+   containerClassNames?: string;
+   color?: "blush" | "blue";
 };
 
 type ButtonActionProps =
@@ -33,6 +36,7 @@ const BaseButton = ({
    internal,
    className,
    innerClassNames,
+   containerClassNames,
    ...restProps
 }: ButtonProps & Partial<ColorProps>) => {
    const isLink = Boolean(href);
@@ -53,11 +57,11 @@ const BaseButton = ({
       "inline-block",
       href ? "inline-block" : "",
       isBlue ? "bg-[#2A326A]" : "bg-[#845F84]",
-      fullWidth ? "w-full" : "",
+      "w-[260px]",
    ].filter(Boolean);
 
    const innerClasses = [
-      "pl-10",
+      "text-center",
       "group-active:-translate-y-[2px]",
       "block",
       "py-[18px]",
@@ -73,16 +77,18 @@ const BaseButton = ({
       "rounded-lg",
       "border-primary-dark",
       "leading-5",
-      icon ? "pr-6" : "pr-10",
       isBlue
          ? "bg-[#4D62F0] text-clean-white"
          : "bg-primary-blush text-primary-dark",
       fullWidth ? "w-full flex items-center justify-center" : "",
    ].filter(Boolean);
 
-   const contentClasses = ["flex", "items-center", icon ? "gap-3" : ""].filter(
-      Boolean
-   );
+   const contentClasses = [
+      "flex",
+      "flex-col",
+      "items-center",
+      icon ? "gap-3" : "",
+   ].filter(Boolean);
 
    return (
       <Component
@@ -91,7 +97,7 @@ const BaseButton = ({
          rel={isLink && !internal ? rel : undefined}
          {...restProps}
       >
-         <span className={containerClasses.join(" ")}>
+         <span className={cn(containerClasses.join(" "), containerClassNames)}>
             <span className={cn(innerClasses.join(" "), innerClassNames)}>
                <span className={contentClasses.join(" ")}>
                   {children}
@@ -109,4 +115,6 @@ export const PrimaryButton = (props: ButtonProps) => (
 export const SecondaryButton = (props: ButtonProps) => (
    <BaseButton {...props} color="blush" />
 );
-export const TertiaryButton = (props: ButtonProps) => <BaseButton {...props} />;
+export const TertiaryButton = (props: ButtonProps) => (
+   <BaseButton {...props} color={props.color} />
+);
