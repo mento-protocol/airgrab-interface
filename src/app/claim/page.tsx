@@ -29,11 +29,7 @@ export default function Claim() {
             <PrimaryButton internal href="/" fullWidth>
                Check another wallet
             </PrimaryButton>
-            <TertiaryButton
-               href="https://app.mento.org"
-               fullWidth
-               innerClassNames="md:w-[229px]"
-            >
+            <TertiaryButton href="https://app.mento.org" fullWidth>
                Go to app
             </TertiaryButton>
          </div>
