@@ -39,14 +39,11 @@ const config: Config = {
          keyframes: {
             "spin-slow": {
                "0%": { transform: "rotate(0deg)" },
-               "5%, 25%": { transform: "rotate(90deg)" },
-               "30%, 50%": { transform: "rotate(180deg)" },
-               "55%, 75%": { transform: "rotate(270deg)" },
-               "80%, 100%": { transform: "rotate(360deg)" },
+               "100%": { transform: "rotate(360deg)" },
             },
          },
          animation: {
-            "spin-slow": "spin-slow 3s linear infinite",
+            "spin-slow": "spin-slow 1s linear infinite",
          },
          screens: {
             "token-header-touchpoint": "1155px", // Width at which the page header touches token icon
