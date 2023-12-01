@@ -33,7 +33,7 @@ export default function Home() {
             <h3 className="font-fg font-medium text-[18px] md:text-base">
                Connect wallet to check your eligibility to claim MNTO token
             </h3>
-            <ConnectButton />
+            <ConnectButton color="blue" />
             <EligibilityFAQLink />
          </div>
       );
