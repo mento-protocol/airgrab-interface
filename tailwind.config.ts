@@ -48,6 +48,9 @@ const config: Config = {
          animation: {
             "spin-slow": "spin-slow 3s linear infinite",
          },
+         screens: {
+            "token-header-touchpoint": "1155px", // Width at which the page header touches token icon
+         },
       },
    },
    plugins: [],
