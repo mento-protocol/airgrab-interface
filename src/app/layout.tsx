@@ -50,7 +50,7 @@ const founders_grotesk = localFont({
 });
 
 export const metadata = {
-   title: "Mento | Sustainable stable asset protocol",
+   title: "Mento | Airgrab",
    description:
       "Over-Collateralized, Decentralized & Transparent stable assets",
 };
