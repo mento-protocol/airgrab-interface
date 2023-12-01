@@ -21,9 +21,11 @@ export default function Claim() {
       return (
          <div className="flex items-center justify-center flex-col gap-8 text-center px-20">
             <Locked className="h-[248px] w-[251px]" />
-            <span className="font-fg font-normal text-xl">
-               You claimed and locked{" "}
-               <span className="font-medium font-fg">{allocation} MENTO</span>{" "}
+            <span className="font-fg font-normal text-sm sm:text-xl">
+               You claimed and locked <br className="block sm:hidden" />
+               <span className="font-medium font-fg">
+                  {allocation} MENTO
+               </span>{" "}
                for <span className="font-medium font-fg">24 months</span>{" "}
             </span>
             <PrimaryButton internal href="/" fullWidth>
@@ -38,21 +40,21 @@ export default function Claim() {
 
    return (
       <div className="flex items-center justify-center flex-col gap-8 text-center">
-         <h3 className="font-fg font-medium text-base text-center flex flex-col gap-8">
+         <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
             <span>
                Congratulations, wallet address{" "}
                <span className="text-primary-blue">{shortAddress}</span> is
                elligible to receive
             </span>
-            <span className="text-2xl">{allocation} MENTO</span>
+            <span className="text-base sm:text-2xl">{allocation} MENTO</span>
          </h3>
 
          <p className="flex flex-col gap-8 font-fg">
-            <span className="text-xl">
+            <span className="text-sm sm:text-xl">
                To claim your MENTO, you are required to lock them as veMENTO for{" "}
-               <br />
+               <br className="hidden sm:block" />
                24 months. You can&apos;t withdraw, but you can participate in{" "}
-               <br />
+               <br className="hidden sm:block" />
                governance of the protocol and receiving rewards.
             </span>
          </p>
