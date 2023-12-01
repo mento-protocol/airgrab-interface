@@ -6,6 +6,7 @@ This DApp provides and overview of the Mento airgrab process, lets users check t
 
 ## Architecture
 
+
 This project uses Next.js, React, Tailwind, Wagmi, Rainbow Kit.
 
 ## Getting Started
