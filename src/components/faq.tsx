@@ -34,7 +34,7 @@ const faqs = [
 export default function FAQ() {
    return (
       <div className="w-full">
-         <h2 className="font-fg text-center font-medium text-[22px]  md:text-[56px] tracking-[-0.02em] leading-none mb-3 dark:text-clean-white">
+         <h2 className="font-fg text-center font-medium text-xl  md:text-[56px] tracking-[-0.02em] leading-none mb-3 dark:text-clean-white">
             Frequently asked questions
          </h2>
          <AccordianMenu list={faqs} />
@@ -62,7 +62,7 @@ const AccordianMenu = ({
                            id={id}
                            className={`${
                               open ? "border-b" : ""
-                           }  px-8 pb-6 pt-5 font-medium text-left text-[18px] font-fg flex justify-between w-full`}
+                           }  p-[1.875rem] mt-2 font-medium text-left text-base font-fg flex justify-between w-full`}
                         >
                            {question}
 
@@ -73,7 +73,7 @@ const AccordianMenu = ({
                               <ChevronDown />
                            </motion.span>
                         </Disclosure.Button>
-                        <Disclosure.Panel className="flex flex-col leading-7 justify-around gap-4 px-8 pb-8 pt-6 text-[16px]">
+                        <Disclosure.Panel className="flex flex-col leading-7 justify-around gap-4 px-8 pb-8 pt-6 font-fg text-sm">
                            {answer}
                         </Disclosure.Panel>
                      </>

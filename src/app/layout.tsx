@@ -75,7 +75,7 @@ export default function RootLayout({
                      <div className="h-2" />
                      <SubHeading />
                   </MaxWidthContainer>
-                  <div className="h-8  md:h-20" />
+                  <div className="h-20  md:h-20" />
                   <MaxWidthContainer>
                      <Web3Provider>
                         <Authorization>
@@ -83,11 +83,11 @@ export default function RootLayout({
                         </Authorization>
                      </Web3Provider>
                   </MaxWidthContainer>
-                  <div className="h-[56px] md:h-[112px]" />
+                  <div className="h-[112px]" />
                   <MaxWidthContainer>
                      <FAQ />
                   </MaxWidthContainer>
-                  <div className="h-[56px] md:h-[112px]" />
+                  <div className="h-[115px]" />
                   <LearnMoreSection />
                </main>
                <Footer />
@@ -100,7 +100,7 @@ export default function RootLayout({
 
 const SubHeading = () => {
    return (
-      <h2 className="font-fg font-medium leading-[1.375rem] text-[22px] md:text-3xl">
+      <h2 className="font-fg font-medium text-xl md:text-2xl leading-8">
          Claim your part and participate in <br /> shaping the future of digital
          assets
       </h2>
@@ -111,7 +111,7 @@ const Background = () => {
    return (
       <>
          {/* Floating Tokens */}
-         <TokenL1 className=" hidden md:block w-[123px] h-[112px] absolute top-[175.69px] left-[176.52px] -z-10" />
+         <TokenL1 className=" hidden token-header-touchpoint:block w-[123px] h-[112px] absolute top-[175.69px] left-[176.52px] -z-10" />
          <TokenL2 className=" hidden md:block w-[106px] h-[107px] absolute top-[479px] left-[49.09px] -z-10" />
          <TokenL3 className=" hidden md:block w-[73px] h-[75px] absolute top-[786.50px] left-[200.01px] -z-10" />
          <TokenL4 className=" hidden md:block w-[144px] h-[142px] absolute top-[1192px] left-[75.31px] -z-10" />
@@ -176,6 +176,7 @@ const LearnMoreSection = () => {
                      fullWidth
                      href={links.discord}
                      icon={<ChevronRight />}
+                     noFlexZone={true}
                   >
                      <DiscordIcon className="text-clean-white" /> Join the
                      community
@@ -184,8 +185,8 @@ const LearnMoreSection = () => {
             </div>
             <LearnMoreImage className="hidden overflow-visible lg:inline w-[444px] h-[352px] dark:hidden" />
             <LearnMoreDark className="hidden overflow-visible w-[444px] h-[352px] dark:lg:inline" />
-            <MobileLearnIllustration className="md:py-8 dark:hidden lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
-            <MobileLearnMoreDark className="md:py-8 hidden dark:lg:hidden dark:inline lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
+            <MobileLearnIllustration className="py-8 dark:hidden lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
+            <MobileLearnMoreDark className="py-8 hidden dark:lg:hidden dark:inline lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
          </div>
       </div>
    );

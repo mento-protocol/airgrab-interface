@@ -4,7 +4,7 @@ import React from "react";
 export const EligibilityFAQLink = () => {
    return (
       <Link
-         className="text-primary-blue underline text-[18px] font-fg"
+         className="font-fg text-primary-blue underline text-sm"
          href="#eligibility-criteria"
       >
          What are eligibility criteria?
