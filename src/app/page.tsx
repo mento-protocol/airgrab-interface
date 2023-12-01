@@ -41,15 +41,16 @@ export default function Home() {
 
    return (
       <div className="flex flex-col gap-8 items-center justify-center text-center">
-         <h3 className="font-fg font-medium text-2xl">
+         <h3 className="font-fg font-medium text-base">
             To get started, please sign a message with your wallet.
          </h3>
-         <p>
-            We use this to verify if you are the owner of the wallet & to check
+         <p className="font-fg text-base leading-[1.625rem]">
+            We use this to verify if you are the owner of the wallet & to check{" "}
+            <br />
             your wallet's KYC status with our partner Fractal ID.
          </p>
          <PrimaryButton onClick={() => signMessage()}>
-            Sign a Message
+            Sign Message
          </PrimaryButton>
          <EligibilityFAQLink />
       </div>
