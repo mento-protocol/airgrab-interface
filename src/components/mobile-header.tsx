@@ -66,12 +66,13 @@ const DropDownMenuOverlay = ({
             </button>
          </div>
          <MobileAccordianMenu />
-         <div className="flex-col md:w-full md:justify-center">
+         <div className="flex flex-col w-full justify-center items-center">
             <PrimaryButton
                icon={<ChevronRight />}
                href={links.app}
                fullWidth
                noFlexZone={true}
+               width="w-[340px] sm:w-[260px] md:w-[260px]"
             >
                Open app
             </PrimaryButton>
