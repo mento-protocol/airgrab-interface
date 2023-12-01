@@ -11,6 +11,7 @@ import { useAuthorization } from "@/contexts/authorization-provider.client";
 import { shortenAddress } from "@/lib/addresses";
 import { useHasMounted, useDelay } from "@/hooks";
 import { DisconnectButton } from "@/components/disconnect-button";
+import { useRouter } from "next/navigation";
 
 export default function Allocation() {
    const { allocation } = useAuthorization();
@@ -22,6 +23,7 @@ export default function Allocation() {
    const hasMounted = useHasMounted();
    const isLoading = useDelay(1500);
    const shortAddress = address ? shortenAddress(address) : "";
+   const router = useRouter();
 
    if (isLoading || !hasMounted || !address || isConnecting) {
       return <LoadingAllocation address={!hasMounted ? "" : shortAddress} />;
@@ -40,15 +42,17 @@ export default function Allocation() {
          ) : (
             <NoAllocation address={shortAddress} />
          )}
-         {hasAllocation ? (
+
+         {hasAllocation && !kycProof ? (
             <button
                onClick={() => {
-                  setKYCProof((prevState) => !prevState);
+                  router.push("/claim");
                }}
             >
-               {`Pretend we ${kycProof ? "are not" : "are"} verified`}
+               {`Pretend we are verified`}
             </button>
          ) : null}
+
          <button
             onClick={() => {
                setMentoAllocation((prevState) =>
