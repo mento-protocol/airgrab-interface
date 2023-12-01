@@ -30,7 +30,7 @@ export default function Home() {
    if (!address) {
       return (
          <div className="flex flex-col gap-8 items-center justify-center text-center">
-            <h3 className="font-fg font-medium text-2xl">
+            <h3 className="font-fg font-medium text-[18px] md:text-2xl">
                Connect wallet to check your eligibility to claim MNTO token
             </h3>
             <ConnectButton />
