@@ -171,7 +171,7 @@ const LearnMoreSection = () => {
                   <span className="inline xl:block"> our discord server.</span>
                </FeatureParagraph>
 
-               <div className="md:w-full md:flex md:justify-center lg:justify-start">
+               <div className="md:w-full flex justify-center lg:justify-start">
                   <PrimaryButton
                      fullWidth
                      href={links.discord}
