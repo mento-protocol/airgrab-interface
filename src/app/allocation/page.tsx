@@ -85,10 +85,13 @@ const NoAllocation = ({ address }: { address: string }) => {
 const LoadingAllocation = ({ address }: { address: string }) => {
    return (
       <div className="flex flex-col items-center justify-center gap-8 text-center">
-         <h3 className="font-fg font-medium text-base">
-            Address confirmed, checking token allocation for address <br />
+         <h3 className="font-fg font-medium text-sm sm:text-base">
+            Address confirmed, checking token allocation for address{" "}
+            <br className="" />
             <span className="text-primary-blue">{address}</span>
-            <MentoLoadingAnimation />
+            <div className="flex justify-center">
+               <MentoLoadingAnimation />
+            </div>
          </h3>
       </div>
    );
