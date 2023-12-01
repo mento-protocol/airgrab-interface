@@ -14,6 +14,7 @@ type BaseProps = {
    containerClassNames?: string;
    color?: "blush" | "blue";
    noFlexZone?: boolean;
+   width?: string;
 };
 
 type ButtonActionProps =
@@ -39,6 +40,7 @@ const BaseButton = ({
    innerClassNames,
    containerClassNames,
    noFlexZone,
+   width,
    ...restProps
 }: ButtonProps & Partial<ColorProps>) => {
    const isLink = Boolean(href);
@@ -59,7 +61,7 @@ const BaseButton = ({
       "inline-block",
       href ? "inline-block" : "",
       isBlue ? "bg-[#2A326A]" : "bg-[#845F84]",
-      "w-[260px]",
+      width ? width : "w-[260px]",
    ].filter(Boolean);
 
    const innerClasses = [

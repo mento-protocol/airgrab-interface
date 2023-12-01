@@ -24,7 +24,13 @@ const DesktopHeader = () => {
          </Link>
          <HeaderNav />
          <Web3Provider>
-            <ConnectButton containerClassNames="w-[206px]" color="blush" />
+            <ConnectButton
+               icon={<ChevronRight />}
+               color="blush"
+               noFlexZone={true}
+               width="w-[206px]"
+               innerClassNames="pl-10"
+            />
          </Web3Provider>
       </header>
    );

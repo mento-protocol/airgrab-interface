@@ -19,10 +19,16 @@ export function ConnectButton({
    containerClassNames,
    color,
    icon,
+   noFlexZone,
+   width,
+   innerClassNames,
 }: {
    containerClassNames?: string;
    color?: "blush" | "blue";
    icon?: ReactNode;
+   noFlexZone?: boolean;
+   width?: string;
+   innerClassNames?: string;
 }) {
    const { address } = useAccount();
    const { openConnectModal } = useConnectModal();
@@ -92,6 +98,9 @@ export function ConnectButton({
                containerClassNames={containerClassNames}
                color={color}
                icon={icon}
+               noFlexZone={noFlexZone}
+               width={width}
+               innerClassNames={innerClassNames}
             >
                Connect Wallet
             </TertiaryButton>
