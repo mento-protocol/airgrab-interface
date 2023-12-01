@@ -67,11 +67,10 @@ export default function Allocation() {
 const NoAllocation = ({ address }: { address: string }) => {
    return (
       <div className="flex flex-col items-center justify-center gap-8 text-center">
-         <h3 className="font-fg font-medium text-2xl">No Allocation Found</h3>
-         <p className="font-fg font-regular text-base">
-            Sorry, wallet address{" "}
+         <p className="font-fg font-regular text-base font-medium">
+            Sorry, the wallet address{" "}
             <span className="text-primary-blue">{address}</span> is not
-            elligible to receive MENTO
+            elligible{":("}
          </p>
          <DisconnectButton>Disconnect & try another wallet</DisconnectButton>
          <EligibilityFAQLink />
