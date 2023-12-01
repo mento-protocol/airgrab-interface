@@ -113,7 +113,7 @@ const Background = () => {
          {/* Floating Tokens */}
          <TokenL1 className=" hidden token-header-touchpoint:block w-[123px] h-[112px] absolute top-[175.69px] left-[176.52px] -z-10" />
          <TokenL2 className=" hidden md:block w-[106px] h-[107px] absolute top-[479px] left-[49.09px] -z-10" />
-         <TokenL3 className=" hidden md:block w-[73px] h-[75px] absolute top-[786.50px] left-[200.01px] -z-10" />
+         <TokenL3 className=" hidden token-header-touchpoint:block w-[73px] h-[75px] absolute top-[786.50px] left-[200.01px] -z-10" />
          <TokenL4 className=" hidden md:block w-[144px] h-[142px] absolute top-[1192px] left-[75.31px] -z-10" />
          <TokenR1 className=" hidden md:block w-[123px] h-[112px] absolute top-[132.81px] left-[1104.23px] -z-10" />
          <TokenR2 className=" hidden md:block w-[106px] h-[107px] absolute top-[533.54px] left-[1296.08px] -z-10" />
