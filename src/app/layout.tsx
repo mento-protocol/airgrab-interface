@@ -65,34 +65,34 @@ export default function RootLayout({
          <body
             className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
          >
-            <div className="relative w-full h-full max-w-[1440px]">
-               <Header />
-               <main className="flex-grow z-30">
-                  <div className="h-12 md:h-24 " />
-                  <Spacer axis="vertical" size={24} />
-                  <MaxWidthContainer>
-                     <MainHeading />
-                     <div className="h-2" />
-                     <SubHeading />
-                  </MaxWidthContainer>
-                  <div className="h-8 sm:h-20  md:h-20" />
-                  <MaxWidthContainer>
-                     <Web3Provider>
+            <Web3Provider>
+               <div className="relative w-full h-full max-w-[1440px]">
+                  <Header />
+                  <main className="flex-grow z-30">
+                     <div className="h-12 md:h-24 " />
+                     <Spacer axis="vertical" size={24} />
+                     <MaxWidthContainer>
+                        <MainHeading />
+                        <div className="h-2" />
+                        <SubHeading />
+                     </MaxWidthContainer>
+                     <div className="h-8 sm:h-20  md:h-20" />
+                     <MaxWidthContainer>
                         <Authorization>
                            <ClaimCard>{children}</ClaimCard>
                         </Authorization>
-                     </Web3Provider>
-                  </MaxWidthContainer>
-                  <div className="h-[56px] sm:h-[112px] md:h-[112px]" />
-                  <MaxWidthContainer>
-                     <FAQ />
-                  </MaxWidthContainer>
-                  <div className="h-[115px]" />
-                  <LearnMoreSection />
-               </main>
-               <Footer />
-               <Background />
-            </div>
+                     </MaxWidthContainer>
+                     <div className="h-[56px] sm:h-[112px] md:h-[112px]" />
+                     <MaxWidthContainer>
+                        <FAQ />
+                     </MaxWidthContainer>
+                     <div className="h-[115px]" />
+                     <LearnMoreSection />
+                  </main>
+                  <Footer />
+                  <Background />
+               </div>
+            </Web3Provider>
          </body>
       </html>
    );

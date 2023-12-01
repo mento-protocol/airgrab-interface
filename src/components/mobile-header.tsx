@@ -19,6 +19,8 @@ import Link from "next/link";
 // import ThemeSwitch from "./ThemeSwitch";
 import { PrimaryButton } from "@/components/button";
 import MobileAccordianMenu from "@/components/mobile-accordian-menu";
+import { DisconnectButton } from "@/components/disconnect-button";
+import { useAccount } from "wagmi";
 
 const variants = {
    open: { opacity: 1, y: 0 },
@@ -27,6 +29,7 @@ const variants = {
 
 export const MobileHeader = () => {
    const [isOpen, setIsOpen] = React.useState(false);
+   const { address } = useAccount();
 
    return (
       <header className="px-4 lg:hidden">
@@ -38,7 +41,11 @@ export const MobileHeader = () => {
             >
                <MobileMenuHamburger className="text-primary-dark dark:text-clean-white" />
             </button>
-            <DropDownMenuOverlay isOpen={isOpen} setIsOpen={setIsOpen} />
+            <DropDownMenuOverlay
+               isOpen={isOpen}
+               setIsOpen={setIsOpen}
+               address={address}
+            />
          </div>
       </header>
    );
@@ -47,9 +54,11 @@ export const MobileHeader = () => {
 const DropDownMenuOverlay = ({
    isOpen,
    setIsOpen,
+   address,
 }: {
    isOpen: boolean;
    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   address?: string;
 }) => {
    return (
       <motion.div
@@ -76,6 +85,17 @@ const DropDownMenuOverlay = ({
             >
                Open app
             </PrimaryButton>
+
+            {address ? (
+               <div className="flex flex-col w-full justify-center items-center mt-5">
+                  <DisconnectButton
+                     width="w-[340px] sm:w-[260px] md:w-[260px]"
+                     color="blush"
+                  >
+                     Disconnect Wallet
+                  </DisconnectButton>
+               </div>
+            ) : null}
 
             <div className="flex flex-col items-center ">
                <SocialLinks className="mt-[20%]" />

@@ -76,7 +76,9 @@ const NoAllocation = ({ address }: { address: string }) => {
             <span className="text-primary-blue">{address}</span> is not
             elligible{" :("}
          </p>
-         <DisconnectButton>Disconnect & try another wallet</DisconnectButton>
+         <DisconnectButton color="blue">
+            Disconnect & try another wallet
+         </DisconnectButton>
          <EligibilityFAQLink />
       </div>
    );

@@ -114,7 +114,7 @@ const BaseButton = ({
 };
 
 export const PrimaryButton = (props: ButtonProps) => (
-   <BaseButton {...props} color="blue" />
+   <BaseButton color="blue" {...props} />
 );
 export const SecondaryButton = (props: ButtonProps) => (
    <BaseButton {...props} color="blush" />
