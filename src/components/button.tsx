@@ -61,7 +61,7 @@ const BaseButton = ({
       "inline-block",
       href ? "inline-block" : "",
       isBlue ? "bg-[#2A326A]" : "bg-[#845F84]",
-      width ? width : "w-[260px]",
+      width ? width : "w-[298px] sm:w-[260px] md:w-[260px]",
    ].filter(Boolean);
 
    const innerClasses = [
