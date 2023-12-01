@@ -13,6 +13,7 @@ type BaseProps = {
    innerClassNames?: string;
    containerClassNames?: string;
    color?: "blush" | "blue";
+   noFlexZone?: boolean;
 };
 
 type ButtonActionProps =
@@ -37,6 +38,7 @@ const BaseButton = ({
    className,
    innerClassNames,
    containerClassNames,
+   noFlexZone,
    ...restProps
 }: ButtonProps & Partial<ColorProps>) => {
    const isLink = Boolean(href);
@@ -85,7 +87,7 @@ const BaseButton = ({
 
    const contentClasses = [
       "flex",
-      "flex-col",
+      noFlexZone ? "" : "flex-col",
       "items-center",
       icon ? "gap-3" : "",
    ].filter(Boolean);

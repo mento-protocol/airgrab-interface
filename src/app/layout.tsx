@@ -176,6 +176,7 @@ const LearnMoreSection = () => {
                      fullWidth
                      href={links.discord}
                      icon={<ChevronRight />}
+                     noFlexZone={true}
                   >
                      <DiscordIcon className="text-clean-white" /> Join the
                      community
