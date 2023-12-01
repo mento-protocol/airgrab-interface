@@ -75,7 +75,7 @@ export default function RootLayout({
                      <div className="h-2" />
                      <SubHeading />
                   </MaxWidthContainer>
-                  <div className="h-20  md:h-20" />
+                  <div className="h-8 sm:h-20  md:h-20" />
                   <MaxWidthContainer>
                      <Web3Provider>
                         <Authorization>
@@ -83,7 +83,7 @@ export default function RootLayout({
                         </Authorization>
                      </Web3Provider>
                   </MaxWidthContainer>
-                  <div className="h-[112px]" />
+                  <div className="h-[56px] sm:h-[112px] md:h-[112px]" />
                   <MaxWidthContainer>
                      <FAQ />
                   </MaxWidthContainer>
