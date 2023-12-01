@@ -1,7 +1,7 @@
 "use client";
 
 import { AllocationMap } from "@/utils/merkle";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { redirect } from "next/navigation";
 import React, { ReactNode, createContext, useContext } from "react";
 import { formatUnits } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
@@ -38,28 +38,18 @@ const AuthorizationProvider = ({
   allocations: AllocationMap;
 }) => {
   const _signMessageReturn = useSignMessage({ message: "MESSAGE" });
-  const { address } = useAccount();
-  const { data: signature, signMessage } = _signMessageReturn;
-
-  if (!address) {
-    return <ConnectButton />;
-  }
-
-  if (!signature) {
-    return <button onClick={() => signMessage()}>Sign a Message</button>;
-  }
-
-  const allocation = allocations[address];
-
-  if (!allocation) {
-    return <div>Sorry, you do not have an allocation</div>;
-  }
+  const { address } = useAccount({
+    onDisconnect: () => {
+      redirect("/");
+    },
+  });
+  const allocationForConnectedAddress = address && allocations[address];
 
   return (
     <AuthorizationContext.Provider
       value={{
         ..._signMessageReturn,
-        allocation: formatUnits(BigInt(allocation), 18),
+        allocation: formatUnits(BigInt(allocationForConnectedAddress ?? 0), 18),
       }}
     >
       {children}
