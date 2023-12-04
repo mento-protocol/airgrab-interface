@@ -7,45 +7,46 @@ import FAQ from "@/components/faq";
 import { Authorization } from "@/contexts/authorization-provider.server";
 import Spacer from "@/components/spacer";
 import {
-  ChevronRight,
-  DiscordIcon,
-  LearnMoreDark,
-  LearnMoreImage,
-  MobileLearnIllustration,
-  MobileLearnMoreDark,
-  TokenL1,
-  TokenL2,
-  TokenL3,
-  TokenL4,
-  TokenR1,
-  TokenR2,
-  TokenR3,
-  TokenR4,
+   ChevronRight,
+   DiscordIcon,
+   LearnMoreDark,
+   LearnMoreImage,
+   MobileLearnIllustration,
+   MobileLearnMoreDark,
+   TokenL1,
+   TokenL2,
+   TokenL3,
+   TokenL4,
+   TokenR1,
+   TokenR2,
+   TokenR3,
+   TokenR4,
 } from "@/components/svgs";
 import { PrimaryButton } from "@/components/button";
 import { links } from "@/lib/constants";
 
 import localFont from "next/font/local";
 import { Providers } from "@/components/providers";
+import Header from "@/components/header/header";
 const founders_grotesk = localFont({
-  variable: "--font-fg",
-  src: [
-    {
-      path: "../../public/fonts/FoundersGrotesk-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/FoundersGrotesk-Medium.otf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/FoundersGrotesk-Semibold.otf",
-      weight: "600",
-      style: "normal",
-    },
-  ],
+   variable: "--font-fg",
+   src: [
+      {
+         path: "../../public/fonts/FoundersGrotesk-Regular.otf",
+         weight: "400",
+         style: "normal",
+      },
+      {
+         path: "../../public/fonts/FoundersGrotesk-Medium.otf",
+         weight: "500",
+         style: "normal",
+      },
+      {
+         path: "../../public/fonts/FoundersGrotesk-Semibold.otf",
+         weight: "600",
+         style: "normal",
+      },
+   ],
 });
 
 export const metadata = {

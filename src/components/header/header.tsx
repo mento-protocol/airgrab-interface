@@ -1,6 +1,6 @@
 import React from "react";
 import { MobileHeader } from "../mobile-header";
-import { MentoLogo } from "../svgs";
+import { ChevronRight, MentoLogo } from "../svgs";
 import HeaderNav from "./header-nav";
 
 import Link from "next/link";
