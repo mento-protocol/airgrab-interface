@@ -20,18 +20,6 @@ dependencies:
   '@metamask/jazzicon':
     specifier: ^2.0.0
     version: 2.0.0
-  '@ethersproject/address':
-    specifier: ^5.7.0
-    version: 5.7.0
-  '@headlessui-float/react':
-    specifier: ^0.11.4
-    version: 0.11.4(@headlessui/react@1.7.17)(react-dom@18.2.0)(react@18.2.0)
-  '@headlessui/react':
-    specifier: ^1.7.17
-    version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
-  '@metamask/jazzicon':
-    specifier: ^2.0.0
-    version: 2.0.0
   '@openzeppelin/merkle-tree':
     specifier: ^1.0.5
     version: 1.0.5
@@ -118,7 +106,7 @@ dependencies:
     version: 0.0.1
   siwe:
     specifier: ^2.1.4
-    version: 2.1.4(ethers@6.8.1)
+    version: 2.1.4(ethers@6.9.0)
   swr:
     specifier: ^2.2.4
     version: 2.2.4(react@18.2.0)
@@ -1499,7 +1487,7 @@ packages:
     resolution: {integrity: sha512-9WuA0ios2537cWYu39MMeH0O2KdrMKgKlOBUTWRTXQjCYu5B+mHCA0JkCbFaJ/0EjxoVIcYCXIW/DoPEpw+PqA==}
     dependencies:
       '@noble/hashes': 1.3.2
-      apg-js: 4.2.1
+      apg-js: 4.3.0
       uri-js: 4.4.1
       valid-url: 1.0.9
     dev: false
@@ -2658,8 +2646,8 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /apg-js@4.2.1:
-    resolution: {integrity: sha512-S3unf9jb9XrhmZYC27L5yits1p/+HqN6lksrkqKEv1U0Ytu+ENkIkOMV5+iutFjBaY9JTUCDQFS1svHsy3uNZA==}
+  /apg-js@4.3.0:
+    resolution: {integrity: sha512-8U8MULS+JocCnm11bfrVS4zxtAcE3uOiCAI21SnjDrV9LNhMSGwTGGeko3QfyK1JLWwT7KebFqJMB2puzfdFMQ==}
     dev: false
 
   /arg@5.0.2:
@@ -4074,8 +4062,8 @@ packages:
       '@scure/bip39': 1.1.1
     dev: false
 
-  /ethers@6.8.1:
-    resolution: {integrity: sha512-iEKm6zox5h1lDn6scuRWdIdFJUCGg3+/aQWu0F4K0GVyEZiktFkqrJbRjTn1FlYEPz7RKA707D6g5Kdk6j7Ljg==}
+  /ethers@6.9.0:
+    resolution: {integrity: sha512-pmfNyQzc2mseLe91FnT2vmNaTt8dDzhxZ/xItAV7uGsF4dI4ek2ufMu3rAkgQETL/TIs0GS5A+U05g9QyWnv3Q==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@adraffy/ens-normalize': 1.10.0
@@ -6710,14 +6698,14 @@ packages:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
     dev: false
 
-  /siwe@2.1.4(ethers@6.8.1):
+  /siwe@2.1.4(ethers@6.9.0):
     resolution: {integrity: sha512-Dke1Qqa3mgiLm3vjqw/+SQ7dl8WV/Pfk3AlQBF94cBFydTYhztngqYrikzE3X5UTsJ6565dfVbQptszsuYZNYg==}
     peerDependencies:
       ethers: ^5.6.8 || ^6.0.8
     dependencies:
       '@spruceid/siwe-parser': 2.0.2
       '@stablelib/random': 1.0.2
-      ethers: 6.8.1
+      ethers: 6.9.0
       uri-js: 4.4.1
       valid-url: 1.0.9
     dev: false
