@@ -28,12 +28,14 @@ export default function Claim() {
                </span>{" "}
                for <span className="font-medium font-fg">24 months</span>{" "}
             </span>
-            <PrimaryButton internal href="/" fullWidth>
-               Check another wallet
-            </PrimaryButton>
-            <TertiaryButton href="https://app.mento.org" fullWidth>
-               Go to app
-            </TertiaryButton>
+            <div className="flex flex-col gap-[18px]">
+               <PrimaryButton internal href="/" fullWidth>
+                  Check another wallet
+               </PrimaryButton>
+               <TertiaryButton href="https://app.mento.org" fullWidth>
+                  Go to app
+               </TertiaryButton>
+            </div>
          </div>
       );
    }
