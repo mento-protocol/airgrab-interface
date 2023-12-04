@@ -20,6 +20,18 @@ dependencies:
   '@metamask/jazzicon':
     specifier: ^2.0.0
     version: 2.0.0
+  '@ethersproject/address':
+    specifier: ^5.7.0
+    version: 5.7.0
+  '@headlessui-float/react':
+    specifier: ^0.11.4
+    version: 0.11.4(@headlessui/react@1.7.17)(react-dom@18.2.0)(react@18.2.0)
+  '@headlessui/react':
+    specifier: ^1.7.17
+    version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
+  '@metamask/jazzicon':
+    specifier: ^2.0.0
+    version: 2.0.0
   '@openzeppelin/merkle-tree':
     specifier: ^1.0.5
     version: 1.0.5

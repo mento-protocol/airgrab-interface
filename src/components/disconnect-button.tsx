@@ -3,10 +3,18 @@ import { PrimaryButton } from "./button";
 import { useDisconnect } from "wagmi";
 
 export const DisconnectButton = ({
-  children,
+   width,
+   color,
+   children,
 }: {
-  children: React.ReactNode;
+   width?: string;
+   color?: "blush" | "blue";
+   children: React.ReactNode;
 }) => {
-  const { disconnect } = useDisconnect();
-  return <PrimaryButton onClick={() => disconnect()}>{children}</PrimaryButton>;
+   const { disconnect } = useDisconnect();
+   return (
+      <PrimaryButton onClick={() => disconnect()} width={width} color={color}>
+         {children}
+      </PrimaryButton>
+   );
 };
