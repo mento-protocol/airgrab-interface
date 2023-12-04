@@ -86,7 +86,6 @@ export default function RootLayout({
                      <MaxWidthContainer>
                         <FAQ />
                      </MaxWidthContainer>
-                     <div className="h-[115px]" />
                      <LearnMoreSection />
                   </main>
                   <Footer />
@@ -154,7 +153,7 @@ const MaxWidthContainer = ({ children }: { children: ReactNode }) => {
 
 const LearnMoreSection = () => {
    return (
-      <div className="lg:mb-[150px] bg-primary-dark max-w-[1248px] mx-auto px-4 xl:px-16 lg:mt-[170px] dark:bg-[#121316] ">
+      <div className="lg:mb-[150px] bg-primary-dark max-w-[1248px] mx-auto px-4 xl:px-16 lg:mt-[46px] dark:bg-[#121316] ">
          <div className="max-w-[1120px] items-center flex md:justify-between flex-col lg:flex-row xl:gap-40 lg:px-10 xl:px-0  ">
             <div className="flex-col items-center justify-center pt-16">
                <Heading className="text-clean-white ">Learn more</Heading>
