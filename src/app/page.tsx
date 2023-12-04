@@ -6,6 +6,7 @@ import RedirectTo from "@/components/redirect-to";
 import { SignInButton } from "@/components/sign-in-button";
 import { useAuthorization } from "@/contexts/authorization-provider.client";
 import { useAccount } from "wagmi";
+import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 
 export default function Home() {
    const { isLoggedIn, isSessionLoading } = useAuthorization();
@@ -21,8 +22,8 @@ export default function Home() {
             <h3 className="font-fg font-medium text-[18px] md:text-base">
                Connect wallet to check your eligibility to claim MENTO token
             </h3>
-             <ConnectButton color="blue" />
-             <EligibilityFAQLink />
+            <ConnectButton color="blue" />
+            <EligibilityFAQLink />
          </div>
       );
    }
