@@ -50,7 +50,7 @@ const founders_grotesk = localFont({
 });
 
 export const metadata = {
-   title: "Mento | Sustainable stable asset protocol",
+   title: "Mento | Airgrab",
    description:
       "Over-Collateralized, Decentralized & Transparent stable assets",
 };
@@ -65,34 +65,33 @@ export default function RootLayout({
          <body
             className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
          >
-            <div className="relative w-full h-full max-w-[1440px]">
-               <Header />
-               <main className="flex-grow z-30">
-                  <div className="h-12 md:h-24 " />
-                  <Spacer axis="vertical" size={24} />
-                  <MaxWidthContainer>
-                     <MainHeading />
-                     <div className="h-2" />
-                     <SubHeading />
-                  </MaxWidthContainer>
-                  <div className="h-20  md:h-20" />
-                  <MaxWidthContainer>
-                     <Web3Provider>
+            <Web3Provider>
+               <div className="relative w-full h-full max-w-[1440px]">
+                  <Header />
+                  <main className="flex-grow z-30">
+                     <div className="h-12 md:h-24 " />
+                     <Spacer axis="vertical" size={24} />
+                     <MaxWidthContainer>
+                        <MainHeading />
+                        <div className="h-2" />
+                        <SubHeading />
+                     </MaxWidthContainer>
+                     <div className="h-8 sm:h-20  md:h-20" />
+                     <MaxWidthContainer>
                         <Authorization>
                            <ClaimCard>{children}</ClaimCard>
                         </Authorization>
-                     </Web3Provider>
-                  </MaxWidthContainer>
-                  <div className="h-[112px]" />
-                  <MaxWidthContainer>
-                     <FAQ />
-                  </MaxWidthContainer>
-                  <div className="h-[115px]" />
-                  <LearnMoreSection />
-               </main>
-               <Footer />
-               <Background />
-            </div>
+                     </MaxWidthContainer>
+                     <div className="h-[56px] sm:h-[112px] md:h-[112px]" />
+                     <MaxWidthContainer>
+                        <FAQ />
+                     </MaxWidthContainer>
+                     <LearnMoreSection />
+                  </main>
+                  <Footer />
+                  <Background />
+               </div>
+            </Web3Provider>
          </body>
       </html>
    );
@@ -113,7 +112,7 @@ const Background = () => {
          {/* Floating Tokens */}
          <TokenL1 className=" hidden token-header-touchpoint:block w-[123px] h-[112px] absolute top-[175.69px] left-[176.52px] -z-10" />
          <TokenL2 className=" hidden md:block w-[106px] h-[107px] absolute top-[479px] left-[49.09px] -z-10" />
-         <TokenL3 className=" hidden md:block w-[73px] h-[75px] absolute top-[786.50px] left-[200.01px] -z-10" />
+         <TokenL3 className=" hidden token-header-touchpoint:block w-[73px] h-[75px] absolute top-[786.50px] left-[200.01px] -z-10" />
          <TokenL4 className=" hidden md:block w-[144px] h-[142px] absolute top-[1192px] left-[75.31px] -z-10" />
          <TokenR1 className=" hidden md:block w-[123px] h-[112px] absolute top-[132.81px] left-[1104.23px] -z-10" />
          <TokenR2 className=" hidden md:block w-[106px] h-[107px] absolute top-[533.54px] left-[1296.08px] -z-10" />
@@ -154,7 +153,7 @@ const MaxWidthContainer = ({ children }: { children: ReactNode }) => {
 
 const LearnMoreSection = () => {
    return (
-      <div className="lg:mb-[150px] bg-primary-dark max-w-[1248px] mx-auto px-4 xl:px-16 lg:mt-[170px] dark:bg-[#121316] ">
+      <div className="lg:mb-[150px] bg-primary-dark max-w-[1248px] mx-auto px-4 xl:px-16 lg:mt-[46px] dark:bg-[#121316] ">
          <div className="max-w-[1120px] items-center flex md:justify-between flex-col lg:flex-row xl:gap-40 lg:px-10 xl:px-0  ">
             <div className="flex-col items-center justify-center pt-16">
                <Heading className="text-clean-white ">Learn more</Heading>
@@ -171,7 +170,7 @@ const LearnMoreSection = () => {
                   <span className="inline xl:block"> our discord server.</span>
                </FeatureParagraph>
 
-               <div className="md:w-full md:flex md:justify-center lg:justify-start">
+               <div className="md:w-full flex justify-center lg:justify-start">
                   <PrimaryButton
                      fullWidth
                      href={links.discord}

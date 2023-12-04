@@ -71,12 +71,14 @@ export default function Allocation() {
 const NoAllocation = ({ address }: { address: string }) => {
    return (
       <div className="flex flex-col items-center justify-center gap-8 text-center">
-         <p className="font-fg font-regular text-base font-medium">
+         <p className="font-fg font-regular text-sm sm:text-base font-medium">
             Sorry, the wallet address{" "}
             <span className="text-primary-blue">{address}</span> is not
-            elligible{":("}
+            elligible{" :("}
          </p>
-         <DisconnectButton>Disconnect & try another wallet</DisconnectButton>
+         <DisconnectButton color="blue">
+            Disconnect & try another wallet
+         </DisconnectButton>
          <EligibilityFAQLink />
       </div>
    );
@@ -85,10 +87,13 @@ const NoAllocation = ({ address }: { address: string }) => {
 const LoadingAllocation = ({ address }: { address: string }) => {
    return (
       <div className="flex flex-col items-center justify-center gap-8 text-center">
-         <h3 className="font-fg font-medium text-base">
-            Address confirmed, checking token allocation for address <br />
+         <h3 className="font-fg font-medium text-sm sm:text-base">
+            Address confirmed, checking token allocation for address{" "}
+            <br className="" />
             <span className="text-primary-blue">{address}</span>
-            <MentoLoadingAnimation />
+            <div className="flex justify-center">
+               <MentoLoadingAnimation />
+            </div>
          </h3>
       </div>
    );
@@ -105,13 +110,13 @@ const WithAllocation = ({
 }) => {
    return (
       <div className="flex flex-col items-center justify-center gap-8 text-center">
-         <h3 className="font-fg font-medium text-base text-center flex flex-col gap-8">
+         <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
             <span>
                Congratulations, wallet address{" "}
                <span className="text-primary-blue">{address}</span> is elligible
                to receive
             </span>
-            <span className="text-2xl">{allocation} MENTO</span>
+            <span className="text-base sm:text-2xl">{allocation} MENTO</span>
          </h3>
          {kycProof ? (
             <>
@@ -125,13 +130,15 @@ const WithAllocation = ({
             </>
          ) : (
             <>
-               <p className="font-fg text-center text-base">
+               <p className="font-fg text-center text-sm sm:text-base">
                   To comply with regulations we kindly ask you to verify your
                   identity.
-                  <br /> The check will be conducted by our partner Fractal ID
-                  and your data deleted immediately after.
+                  <br className="hidden sm:block" /> The check will be conducted
+                  by our partner Fractal ID and your data deleted immediately{" "}
+                  <br className="block sm:hidden" />
+                  after.
                </p>
-               <FractalIDLogo className="h-[44px] w-[200px]" />
+               <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
                <KYCButton />
             </>
          )}

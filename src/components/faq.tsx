@@ -53,7 +53,7 @@ const AccordianMenu = ({
             return (
                <Disclosure
                   as="div"
-                  className="leading-[118%] bg-clean-white rounded-md border border-primary-dark dark:border-clean-white mt-8"
+                  className="leading-[118%] bg-clean-white rounded-md border border-primary-dark dark:border-clean-white mt-[18px] sm:mt-8 md:mt-8"
                   key={question}
                >
                   {({ open }) => (
@@ -62,7 +62,7 @@ const AccordianMenu = ({
                            id={id}
                            className={`${
                               open ? "border-b" : ""
-                           }  p-[1.875rem] mt-2 font-medium text-left text-base font-fg flex justify-between w-full`}
+                           }  p-[1rem] pl-8 sm:p-[1.875rem] md:p-[1.875rem] sm:text-base mt-2 font-medium text-left text-sm font-fg flex justify-between w-full`}
                         >
                            {question}
 

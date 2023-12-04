@@ -29,8 +29,8 @@ export default function Home() {
 
    if (!address) {
       return (
-         <div className="flex flex-col gap-8 items-center justify-center">
-            <h3 className="font-fg font-medium text-base">
+         <div className="flex flex-col gap-8 items-center justify-center text-center">
+            <h3 className="font-fg font-medium text-[18px] md:text-base">
                Connect wallet to check your eligibility to claim MENTO token
             </h3>
             <ConnectButton color="blue" />
@@ -41,12 +41,12 @@ export default function Home() {
 
    return (
       <div className="flex flex-col gap-8 items-center justify-center text-center">
-         <h3 className="font-fg font-medium text-base">
+         <h3 className="font-fg font-medium text-sm sm:text-base">
             To get started, please sign a message with your wallet.
          </h3>
-         <p className="font-fg text-base leading-[1.625rem]">
+         <p className="font-fg text-sm sm:text-base leading-[1.625rem]">
             We use this to verify if you are the owner of the wallet & to check{" "}
-            <br />
+            <br className="hidden sm:block" />
             your wallet's KYC status with our partner Fractal ID.
          </p>
          <PrimaryButton onClick={() => signMessage()}>
