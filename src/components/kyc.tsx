@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAccount, useSignMessage } from "wagmi";
 import { watchAccount } from "wagmi/actions";
-import { MESSAGE } from "@/config/constants";
+import { MESSAGE } from "@/lib/constants";
 import { PrimaryButton } from "./button";
 
 const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
@@ -99,8 +99,8 @@ export default function KYC({ children }: { children: React.ReactNode }) {
   if (status === "denied") {
     return (
       <>
-        Access Denied: Authorization to your Fractal ID information is required to proceed. Please grant
-        permission and try again.
+        Access Denied: Authorization to your Fractal ID information is required
+        to proceed. Please grant permission and try again.
       </>
     );
   }

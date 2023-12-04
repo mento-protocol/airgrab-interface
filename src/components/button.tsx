@@ -1,88 +1,124 @@
 import { ReactNode } from "react";
+import cn from "classnames";
+import { color } from "framer-motion";
 
-export const TertiaryButton = ({
-  children,
-  href = "#",
-  className,
-  ...restProps
-}: Omit<BaseButtonProps, "color"> & { className?: string }) => {
-  return (
-    <a
-      href={href}
-      target={href ?? "_blank"}
-      rel={href ?? "noopener noreferrer"}
-      {...restProps} // rest props before className so it cannot be overwritten
-      className={`font-inter flex items-center justify-center border rounded-lg dark:hover:bg-[#0F0E17] bg-clean-white dark:bg-primary-dark dark:border-clean-white border-[#02010A] px-10 py-[18px] font-medium text-[15px] leading-5 ${className}`}
-    >
-      {children}
-    </a>
-  );
+type BaseProps = {
+   children: ReactNode;
+   icon?: ReactNode;
+   target?: string;
+   rel?: string;
+   fullWidth?: boolean;
+   className?: string;
+   internal?: boolean;
+   innerClassNames?: string;
+   containerClassNames?: string;
+   color?: "blush" | "blue";
+   noFlexZone?: boolean;
+   width?: string;
 };
 
-type BaseButtonProps = {
-  children: ReactNode;
-  icon?: ReactNode;
-  href?: string;
-  target?: string;
-  rel?: string;
-  color: "blush" | "blue";
-  fullWidth?: boolean;
+type ButtonActionProps =
+   | { href?: string; onClick?: () => void }
+   | { href?: undefined; onClick?: (() => void) | undefined };
+
+type ButtonProps = BaseProps & ButtonActionProps;
+
+type ColorProps = {
+   color: "blush" | "blue";
 };
 
-export const PrimaryButton = ({
-  children,
-  ...restProps
-}: Omit<BaseButtonProps, "color">) => {
-  return (
-    <_3DButtonLink color="blue" {...restProps}>
-      {children}
-    </_3DButtonLink>
-  );
-};
+const BaseButton = ({
+   children,
+   icon,
+   href,
+   target = "_blank",
+   rel = "noopener noreferrer",
+   color,
+   fullWidth,
+   internal,
+   className,
+   innerClassNames,
+   containerClassNames,
+   noFlexZone,
+   width,
+   ...restProps
+}: ButtonProps & Partial<ColorProps>) => {
+   const isLink = Boolean(href);
+   const Component: any = isLink ? "a" : "button";
 
-export const SecondaryButton = ({
-  children,
-  ...restProps
-}: Omit<BaseButtonProps, "color">) => {
-  return (
-    <_3DButtonLink {...restProps} color="blush">
-      {children}
-    </_3DButtonLink>
-  );
-};
+   const isBlue = color === "blue";
 
-const _3DButtonLink = ({
-  children,
-  color = "blue",
-  href = "#",
-  icon,
-  fullWidth,
-  ...restProps
-}: BaseButtonProps) => {
-  return (
-    <a {...restProps} href={href}>
-      <span
-        className={`group font-inter outline-offset-4 cursor-pointer ${
-          href ? "inline-block" : ""
-        } ${color === "blue" ? "bg-[#2A326A]" : "bg-[#845F84]"} ${
-          fullWidth ? "w-full md:w-auto" : ""
-        } border-b rounded-lg border-primary-dark font-medium select-none inline-block`}
+   const containerClasses = [
+      "group",
+      "font-inter",
+      "outline-offset-4",
+      "cursor-pointer",
+      "border-b",
+      "rounded-lg",
+      "border-primary-dark",
+      "font-medium",
+      "select-none",
+      "inline-block",
+      href ? "inline-block" : "",
+      isBlue ? "bg-[#2A326A]" : "bg-[#845F84]",
+      width ? width : "w-[298px] sm:w-[260px] md:w-[260px]",
+   ].filter(Boolean);
+
+   const innerClasses = [
+      "text-center",
+      "group-active:-translate-y-[2px]",
+      "block",
+      "py-[18px]",
+      "group-hover:brightness-110",
+      "group-active:brightness-90",
+      "transition-transform",
+      "delay-[250]",
+      "hover:-translate-y-[6px]",
+      "-translate-y-[4px]",
+      "font-medium",
+      "text-[15px]",
+      "border",
+      "rounded-lg",
+      "border-primary-dark",
+      "leading-5",
+      isBlue
+         ? "bg-[#4D62F0] text-clean-white"
+         : "bg-primary-blush text-primary-dark",
+      fullWidth ? "w-full flex items-center justify-center" : "",
+   ].filter(Boolean);
+
+   const contentClasses = [
+      "flex",
+      noFlexZone ? "" : "flex-col",
+      "items-center",
+      icon ? "gap-3" : "",
+   ].filter(Boolean);
+
+   return (
+      <Component
+         href={href}
+         target={isLink && !internal ? target : undefined}
+         rel={isLink && !internal ? rel : undefined}
+         {...restProps}
       >
-        <span
-          className={`${
-            icon ? "pr-6" : "pr-10"
-          } pl-10 group-active:-translate-y-[2px] block py-[18px] group-hover:brightness-110 group-active:brightness-90 transition-transform delay-[250] hover:-translate-y-[6px] -translate-y-[4px] font-medium text-[15px] border rounded-lg border-primary-dark leading-5 ${
-            color === "blue"
-              ? "bg-[#4D62F0] text-clean-white "
-              : "bg-primary-blush text-primary-dark"
-          } ${fullWidth ? "w-full flex items-center justify-center" : ""} `}
-        >
-          <span className={`flex items-center ${icon ? "gap-3" : ""}`}>
-            {children}
-            {icon ? icon : null}
-          </span>
-        </span>
-      </span>
-    </a>
-  );
+         <span className={cn(containerClasses.join(" "), containerClassNames)}>
+            <span className={cn(innerClasses.join(" "), innerClassNames)}>
+               <span className={contentClasses.join(" ")}>
+                  {children}
+                  {icon}
+               </span>
+            </span>
+         </span>
+      </Component>
+   );
 };
+
+export const PrimaryButton = (props: ButtonProps) => (
+   <BaseButton color="blue" {...props} />
+);
+export const SecondaryButton = (props: ButtonProps) => (
+   <BaseButton {...props} color="blush" />
+);
+export const TertiaryButton = (props: ButtonProps) => (
+   <BaseButton {...props} color={props.color} />
+);
