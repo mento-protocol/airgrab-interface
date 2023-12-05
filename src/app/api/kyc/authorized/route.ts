@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "development") {
   BASE_URL = `https://${process.env.VERCEL_BRANCH_URL}`;
 }
 
- const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
+const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -99,7 +99,7 @@ export async function GET(request: Request) {
 
     session.isKycVerified = true;
     await session.save();
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/claim", request.url));
   } catch (error) {
     return NextResponse.redirect(new URL("/", request.url));
   }
