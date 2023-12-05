@@ -1,3 +1,4 @@
+"use client";
 import { MESSAGE } from "@/lib/constants";
 import { useSignMessage } from "wagmi";
 import useSWR from "swr";

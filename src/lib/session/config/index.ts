@@ -1,4 +1,4 @@
-"server only";
+import "server-only";
 import { SessionOptions } from "iron-session";
 
 const SECRET_COOKIE_PASSWORD = process.env.SECRET_COOKIE_PASSWORD;

@@ -1,10 +1,8 @@
 "use client";
-
 import { useClaimMento } from "@/hooks/use-claim-mento";
 import { useKYCProof } from "@/hooks/use-kyc-proof";
 import React from "react";
 import { PrimaryButton } from "./button";
-import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import Link from "next/link";
 import { shortenAddress } from "@/lib/addresses";
 
@@ -77,7 +75,18 @@ export default function VerifyAndClaim({
         </span>
         <span className="text-base sm:text-2xl">{allocation} MENTO</span>
       </h3>
-
+      <p className="flex flex-col gap-8 font-fg">
+        <span className="text-sm sm:text-xl">
+          To claim your MENTO, you are required to lock them as veMENTO for{" "}
+          <br className="hidden sm:block" />
+          24 months. You can&apos;t withdraw, but you can participate in{" "}
+          <br className="hidden sm:block" />
+          governance of the protocol and receiving rewards.
+        </span>
+      </p>
+      <PrimaryButton onClick={() => claim!()}>
+        Claim & Lock {allocation} MENTO
+      </PrimaryButton>
       <LockingFAQLink />
     </div>
   );
