@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
     const siweMessage = new SiweMessage(message);
     const fields = await siweMessage.verify({ signature });
 
+    console.log({ fields, session, signature, message });
     if (fields.data.nonce !== session.nonce) {
       return NextResponse.json({ message: "Invalid nonce." }, { status: 422 });
     }
@@ -55,6 +56,7 @@ export async function DELETE() {
       sessionOptions
     );
 
+    console.log("logging out", session);
     session.destroy();
 
     return NextResponse.json(defaultSession, { status: 200 });

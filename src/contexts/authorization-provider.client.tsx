@@ -4,7 +4,6 @@ import React from "react";
 import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useRedirectWhenUnauthenticated } from "@/hooks/useRedirectWhenUnauthenticated";
-import { TriggerWithoutArgs } from "swr/mutation";
 import { SessionData } from "@/lib/session/types";
 import useOnWalletDisconnect from "@/hooks/use-on-wallet-disconnect";
 import useSession from "@/hooks/use-session";
@@ -12,8 +11,6 @@ import { useRouter } from "next/navigation";
 
 type AllocationsType = {
   allocation: string;
-  login: TriggerWithoutArgs;
-  logout: TriggerWithoutArgs;
   session: SessionData;
   isSessionLoading: boolean;
   isLoggedIn: boolean;
@@ -33,7 +30,7 @@ const AuthorizationProvider = ({
 }) => {
   const { address, isConnected } = useAccount();
   const allocationForConnectedAddress = address && allocations[address];
-  const { login, session, isSessionLoading, logout } = useSession();
+  const { session, isSessionLoading } = useSession();
   const isLoggedIn = (session as SessionData).siwe?.success;
   const router = useRouter();
 
@@ -54,8 +51,6 @@ const AuthorizationProvider = ({
     <AuthorizationContext.Provider
       value={{
         allocation: formatUnits(BigInt(allocationForConnectedAddress ?? 0), 18),
-        login,
-        logout,
         session: session as SessionData,
         isSessionLoading,
         isLoggedIn,
