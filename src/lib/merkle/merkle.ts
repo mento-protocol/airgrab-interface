@@ -71,5 +71,11 @@ export function getProofForAddress(
   }
 }
 
+export const getAllocationForAddress = (
+  address: string
+): string | undefined => {
+  return getAllocationList(getTree())[address];
+};
+
 // Intialize tree - load into memory on import
 loadTree();

@@ -30,8 +30,7 @@ function buildFractalUrl(wallet?: string): string {
   return url.toString();
 }
 
-export const KYCButton = () => {
-  const { address } = useAccount();
+export const KYCButton = ({ address }: { address: string }) => {
   const url = buildFractalUrl(address);
 
   return (
