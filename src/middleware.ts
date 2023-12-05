@@ -3,24 +3,25 @@ import type { NextRequest } from "next/server";
 import { getServerSession } from "./lib/session";
 
 export const config = {
-  matcher: ["/allocation/:path*", "/claim/:path*"],
+  matcher: ["/claim/:path*", "/allocation/:path*", "/"],
 };
 
 export async function middleware(request: NextRequest) {
   const session = await getServerSession();
 
-  if (
-    request.nextUrl.pathname.startsWith("/claim") &&
-    !session?.isKycVerified
-  ) {
+  const isHomePage = request.nextUrl.pathname === "/";
+  const isClaimPage = request.nextUrl.pathname.startsWith("/claim");
+  const hasSession = session?.siwe?.success;
+
+  if (isClaimPage && !session?.isKycVerified) {
     return NextResponse.rewrite(new URL("/", request.url));
   }
 
-  if (request.nextUrl.pathname !== "/" && !session?.siwe?.success) {
-    return NextResponse.rewrite(new URL("/", request.url));
+  if (!isHomePage && !hasSession) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (session?.siwe?.success) {
+  if (isHomePage && hasSession) {
     return NextResponse.rewrite(new URL("/allocation", request.url));
   }
 }
