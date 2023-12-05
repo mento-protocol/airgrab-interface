@@ -44,7 +44,6 @@ const AuthorizationProvider = ({
 
   useOnWalletDisconnect(() => {
     router.replace("/");
-    logout();
   });
 
   return (
