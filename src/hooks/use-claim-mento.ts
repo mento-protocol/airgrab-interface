@@ -5,6 +5,7 @@ import {
 } from "wagmi";
 import type { FractalVerificationDetails } from "./use-kyc-proof";
 import { Airgrab } from "@/abis/Airgrab";
+import { AIRGRAB_CONTRACT_ADDRESS } from "@/lib/constants";
 
 export const useClaimMento = ({
   enabled,
