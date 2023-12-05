@@ -49,7 +49,7 @@ export const useClaimMento = ({
     isLoading: isPrepareLoading,
     isError: isPreparationError,
   } = usePrepareContractWrite({
-    address: "0x",
+    address: AIRGRAB_CONTRACT_ADDRESS,
     abi: Airgrab,
     functionName: "claim",
     enabled: enabled,
