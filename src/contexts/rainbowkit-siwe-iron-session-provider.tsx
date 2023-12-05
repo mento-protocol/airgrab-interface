@@ -79,13 +79,14 @@ export function RainbowKitSiweIronSessionProvider({
       method: "POST",
       body: JSON.stringify({ signature, message }),
     });
-
-    console.log(ok);
-
     return ok;
   }
 
-  const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin);
+  const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
+    onSuccess: async () => {
+      router.push("/allocation");
+    },
+  });
   const { trigger: signOut } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: async () => {
       router.push("/");
@@ -155,8 +156,6 @@ async function fetchJson<JSON = unknown>(
     // Attempt to parse the response as JSON
     const data = await response.json();
     return data;
-
-
   } catch (error) {
     // If JSON parsing fails, return the original response
     return response;
