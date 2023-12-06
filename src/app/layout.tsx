@@ -157,20 +157,15 @@ const LearnMoreSection = () => {
          <div className="max-w-[1120px] items-center flex md:justify-between flex-col lg:flex-row xl:gap-40 lg:px-10 xl:px-0  ">
             <div className="flex-col items-center justify-center pt-16">
                <Heading className="text-clean-white ">Learn more</Heading>
-               <FeatureParagraph className="text-center pb-9 lg:text-left">
+               <FeatureParagraph className="text-center pb-6 lg:text-left">
                   <span className="inline xl:block">
                      If you&apos;re interested in learning more about Mento,
-                     finding out what
+                     finding out what the team is working on now, or would like
+                     to contribute, please join our discord server.
                   </span>
-                  <span className="inline xl:block">
-                     {" "}
-                     the team is working on now, or would like to contribute,
-                     please join
-                  </span>
-                  <span className="inline xl:block"> our discord server.</span>
                </FeatureParagraph>
 
-               <div className="md:w-full flex justify-center lg:justify-start">
+               <div className="md:w-full flex justify-center lg:justify-start sm:mb-[42px]">
                   <PrimaryButton
                      fullWidth
                      href={links.discord}
@@ -216,7 +211,7 @@ const Heading = ({
 }) => {
    return (
       <h2
-         className={`font-fg font-semibold text-[40px] text-center lg:text-left xl:text-[56px] -tracking-[0.01em] lg:whitespace-nowrap leading-[90%] ${className}`}
+         className={`font-fg font-semibold text-[40px] text-center lg:text-left sm:text-[56px] -tracking-[0.01em] lg:whitespace-nowrap leading-[90%] ${className}`}
       >
          {children}
       </h2>
