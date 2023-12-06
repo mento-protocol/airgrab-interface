@@ -22,23 +22,23 @@ export default function VerifyAndClaim({
 
   if (hasClaimed) {
     return (
-      <div className="flex items-center justify-center flex-col gap-8 text-center px-20">
-        <Locked className="h-[248px] w-[251px]" />
-        <span className="font-fg font-normal text-sm sm:text-xl">
-          You claimed and locked <br className="block sm:hidden" />
-          <span className="font-medium font-fg">
-            {allocation} MENTO
-          </span> for <span className="font-medium font-fg">24 months</span>{" "}
-        </span>
-        <div className="flex flex-col gap-[18px]">
-          <PrimaryButton internal href="/" fullWidth>
-            Check another wallet
-          </PrimaryButton>
-          <TertiaryButton href="https://app.mento.org" fullWidth>
-            Go to app
-          </TertiaryButton>
-        </div>
-      </div>
+       <div className="flex items-center justify-center flex-col gap-8 text-center px-20">
+          <Locked className="h-[178px] w-[176px] sm:h-[248px] sm:w-[251px]" />
+          <span className="font-fg font-normal text-sm sm:text-xl">
+             You claimed and locked <br className="block sm:hidden" />
+             <span className="font-medium font-fg">
+                {allocation} MENTO
+             </span> for <span className="font-medium font-fg">24 months</span>{" "}
+          </span>
+          <div className="flex flex-col gap-[18px]">
+             <PrimaryButton internal href="/" fullWidth>
+                Check another wallet
+             </PrimaryButton>
+             <TertiaryButton href="https://app.mento.org" fullWidth>
+                Go to app
+             </TertiaryButton>
+          </div>
+       </div>
     );
   }
 
