@@ -153,7 +153,7 @@ const MaxWidthContainer = ({ children }: { children: ReactNode }) => {
 
 const LearnMoreSection = () => {
    return (
-      <div className="lg:mb-[150px] bg-primary-dark max-w-[1248px] mx-auto px-4 xl:px-16 lg:mt-[46px] dark:bg-[#121316] ">
+      <div className="lg:mb-[112px] bg-primary-dark max-w-[1120px] lg:max-h-[314px] mx-auto px-4 xl:px-16 lg:mt-[46px] dark:bg-[#121316] ">
          <div className="max-w-[1120px] items-center flex md:justify-between flex-col lg:flex-row xl:gap-40 lg:px-10 xl:px-0  ">
             <div className="flex-col items-center justify-center pt-16">
                <Heading className="text-clean-white ">Learn more</Heading>
@@ -182,7 +182,7 @@ const LearnMoreSection = () => {
                   </PrimaryButton>
                </div>
             </div>
-            <LearnMoreImage className="hidden overflow-visible lg:inline w-[444px] h-[352px] dark:hidden" />
+            <LearnMoreImage className="hidden overflow-visible lg:inline w-[396px] h-[314px] dark:hidden" />
             <LearnMoreDark className="hidden overflow-visible w-[444px] h-[352px] dark:lg:inline" />
             <MobileLearnIllustration className="py-8 dark:hidden lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
             <MobileLearnMoreDark className="py-8 hidden dark:lg:hidden dark:inline lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
