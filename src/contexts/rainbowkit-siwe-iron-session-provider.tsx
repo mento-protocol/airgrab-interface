@@ -47,11 +47,13 @@ export function RainbowKitSiweIronSessionProvider({
     fallbackData: defaultSession,
   });
 
-  const status = isSessionLoading
-    ? "loading"
-    : (session as SessionData)?.siwe?.success
-    ? "authenticated"
-    : "unauthenticated";
+  const status = React.useMemo(() => {
+    return isSessionLoading
+      ? "loading"
+      : (session as SessionData)?.siwe?.success
+      ? "authenticated"
+      : "unauthenticated";
+  }, [session, isSessionLoading]);
 
   async function doLogout(url: string) {
     const result = await fetchJson<SessionData>(url, { method: "DELETE" });
@@ -89,7 +91,7 @@ export function RainbowKitSiweIronSessionProvider({
   });
   const { trigger: signOut } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: async () => {
-      router.push("/");
+      router.refresh();
     },
   });
 
