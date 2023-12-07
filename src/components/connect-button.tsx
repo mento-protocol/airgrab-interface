@@ -40,6 +40,7 @@ export function ConnectButton({
     await tryClipboardSet(address);
     toast.success("Address copied to clipboard", {
       unstyled: true,
+      duration: 2000,
       classNames: {
         toast:
           "border font-fg border-primary-dark flex items-center justify-center bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
