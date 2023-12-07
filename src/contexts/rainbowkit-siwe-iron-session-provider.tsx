@@ -100,10 +100,10 @@ export function RainbowKitSiweIronSessionProvider({
       createAuthenticationAdapter({
         createMessage: ({ address, chainId, nonce }) => {
           const defaultConfigurableOptions: ConfigurableMessageOptions = {
-            domain: window.location.host,
-            statement: "Sign in with Ethereum to the app.",
-            uri: window.location.origin,
-            version: "1",
+             domain: window.location.host,
+             statement: `I hereby confirm that the wallet with address ${address} belongs to me`,
+             uri: window.location.origin,
+             version: "1",
           };
 
           const unconfigurableOptions: UnconfigurableMessageOptions = {
