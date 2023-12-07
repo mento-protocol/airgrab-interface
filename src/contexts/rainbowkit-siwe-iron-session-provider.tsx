@@ -1,3 +1,4 @@
+"use client";
 import { defaultSession } from "@/lib/session/constants";
 import { SessionData } from "@/lib/session/types";
 import {
@@ -10,6 +11,8 @@ import React from "react";
 import { SiweMessage } from "siwe";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+import { useAccount } from "wagmi";
+import { disconnect } from "wagmi/actions";
 
 type UnconfigurableMessageOptions = {
   address: string;
@@ -38,7 +41,8 @@ export function RainbowKitSiweIronSessionProvider({
   getSiweMessageOptions,
 }: RainbowKitSiweIronSessionProviderProps) {
   const router = useRouter();
-
+  const { isConnected } = useAccount();
+  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
   const {
     data: session,
     isLoading: isSessionLoading,
@@ -54,6 +58,12 @@ export function RainbowKitSiweIronSessionProvider({
       ? "authenticated"
       : "unauthenticated";
   }, [session, isSessionLoading]);
+
+  React.useEffect(() => {
+    if (!isLoggingIn && status === "unauthenticated" && isConnected) {
+      disconnect();
+    }
+  }, [status, isLoggingIn]);
 
   async function doLogout(url: string) {
     const result = await fetchJson<SessionData>(url, { method: "DELETE" });
@@ -87,8 +97,10 @@ export function RainbowKitSiweIronSessionProvider({
   const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
     onSuccess: async () => {
       router.push("/allocation");
+      setIsLoggingIn(false);
     },
   });
+
   const { trigger: signOut } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: async () => {
       router.refresh();
