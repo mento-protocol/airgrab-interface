@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
   const hasSession = session?.siwe?.success;
 
   if (isClaimPage && !session?.isKycVerified) {
-    return NextResponse.rewrite(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   if (!isHomePage && !hasSession) {
@@ -22,6 +22,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isHomePage && hasSession) {
-    return NextResponse.rewrite(new URL("/allocation", request.url));
+    return NextResponse.redirect(new URL("/allocation", request.url));
   }
 }
