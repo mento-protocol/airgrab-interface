@@ -56,13 +56,14 @@ export function ConnectButton({
     <div className="relative flex justify-end mb-1 min-h-6">
       <ClientOnly
         fallback={
-          <button className={styles.walletButtonDefault}>
+          <button
+            className={
+              styles.walletButtonConnected + " " + styles.walletButtonDefault
+            }
+          >
             <div className="flex items-center">
-              <Identicon
-                address={"0x7c245B77A113cC451a9DbB08971b13e8e1d559B5"}
-                size={26}
-              />
-              <div className="hidden sm:block ml-[12px]">{"Loading..."}</div>
+              <div className="animate-pulse rounded-full bg-gray-300 w-[26px] h-[26px]" />
+              <div className="hidden animate-pulse bg-gray-300 sm:block ml-[12px] w-[106.99px] h-[20px] rounded-md " />
             </div>
           </button>
         }
@@ -72,9 +73,9 @@ export function ConnectButton({
             placement="bottom-end"
             buttonContent={() => (
               <div className="flex items-center">
-                <Identicon address={address ?? ""} size={26} />
+                <Identicon address={address} size={26} />
                 <div className="hidden sm:block ml-[12px]">
-                  {address ? shortenAddress(address) : "Loading..."}
+                  {shortenAddress(address)}
                 </div>
               </div>
             )}
