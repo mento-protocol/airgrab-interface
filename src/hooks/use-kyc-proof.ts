@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { fetchJson } from "@/lib/utils";
 
 export type FractalVerificationDetails = {
-  proof: string | undefined;
+  proof: `0x${string}` | undefined;
   validUntil: number | undefined;
   approvedAt: number | undefined;
   id: string | undefined;
@@ -19,32 +19,37 @@ const fetchProof = async (
   return fetchJson<FractalVerificationDetails>(url, {
     method: "POST",
     body: JSON.stringify({ signature, message }),
-  });
+  }) as any;
 };
 
 export const useKYCProof = () => {
-  const {
-    data: signature,
-    variables,
-    signMessage,
-    isLoading: isLoadingSignature,
-    error: signMessageError,
-  } = useSignMessage({ message: MESSAGE });
+  const signature = useSignMessage({ message: MESSAGE });
+  const { data, variables } = signature;
 
-  const { data, isLoading } = useSWR(
-    signature && variables?.message
-      ? ["api/kyc/proof", signature, variables?.message]
+  const kyc = useSWR(
+    data && variables?.message
+      ? ["api/kyc/proof", data, variables?.message]
       : null,
-    ([url, signature, message]) => fetchProof(url, signature, message)
+    ([url, signature, message]) => fetchProof(url, signature, message),
+    {
+      revalidateOnFocus: false,
+      defaultData: {
+        fractalProof: "0x" as `0x${string}`,
+        fractalProofValidUntil: 0,
+        fractalProofApprovedAt: 0,
+        fractalId: "",
+      },
+    }
   );
 
   return {
-    hasSignedMessage: Boolean(signature),
-    verificationDetails: data,
-    isLoadingProof: isLoading,
-    signMessage,
-    signMessageError,
-    isLoadingSignature,
-    signature,
+    kyc: {
+      isLoadingSignature: signature.isLoading,
+      isLoadingProof: kyc.isLoading,
+      isSuccess: !kyc.error && signature.isSuccess,
+      data: kyc.data,
+      error: kyc.error || signature.error,
+      signMessage: signature.signMessage,
+    },
   };
 };
