@@ -13,8 +13,12 @@ export async function middleware(request: NextRequest) {
   const isClaimPage = request.nextUrl.pathname.startsWith("/claim");
   const hasSession = session?.siwe?.success;
 
+  if (!isClaimPage && session?.isKycVerified) {
+    return NextResponse.redirect(new URL("/claim", request.url));
+  }
+
   if (isClaimPage && !session?.isKycVerified) {
-    return NextResponse.rewrite(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   if (!isHomePage && !hasSession) {
@@ -22,6 +26,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isHomePage && hasSession) {
-    return NextResponse.rewrite(new URL("/allocation", request.url));
+    return NextResponse.redirect(new URL("/allocation", request.url));
   }
 }
