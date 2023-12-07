@@ -10,9 +10,14 @@ export async function POST(request: Request) {
     url.searchParams.append("signature", signature);
 
     const res = await fetch(url);
-    const { proof, error } = await res.json();
+    const resJson = await res.json();
+    const { error } = resJson;
+    if (error) {
+      throw new Error(error);
+    }
     // TODO: handle the next type of error (when  user isnt' found)
-    return NextResponse.json({ proof, error }, { status: 200 });
+
+    return NextResponse.json({ ...resJson, error }, { status: 200 });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
