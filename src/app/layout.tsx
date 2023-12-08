@@ -1,12 +1,14 @@
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ReactNode } from "react";
-import localFont from "next/font/local";
-import { PrimaryButton } from "@/components/button";
-import { links } from "@/lib/constants";
+import Footer from "@/components/footer";
+import ClaimCard from "@/components/claim-card";
+import FAQ from "@/components/faq";
+import { Authorization } from "@/contexts/authorization-provider.server";
+import Spacer from "@/components/spacer";
 import {
-   DiscordIcon,
    ChevronRight,
+   DiscordIcon,
    LearnMoreDark,
    LearnMoreImage,
    MobileLearnIllustration,
@@ -20,14 +22,12 @@ import {
    TokenR3,
    TokenR4,
 } from "@/components/svgs";
-import FAQ from "@/components/faq";
-import ClaimCard from "@/components/claim-card";
-import Footer from "@/components/footer";
-import Header from "@/components/header/header";
-import Spacer from "@/components/spacer";
-import { Authorization } from "@/contexts/authorization-provider.server";
-import { Web3Provider } from "@/components/web3-provider";
+import { PrimaryButton } from "@/components/button";
+import { links } from "@/lib/constants";
 
+import localFont from "next/font/local";
+import { Providers } from "@/components/providers";
+import Header from "@/components/header/header";
 const founders_grotesk = localFont({
    variable: "--font-fg",
    src: [
@@ -65,7 +65,7 @@ export default function RootLayout({
          <body
             className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
          >
-            <Web3Provider>
+            <Providers>
                <div className="relative w-full h-full max-w-[1440px]">
                   <Header />
                   <main className="flex-grow z-30">
@@ -91,7 +91,7 @@ export default function RootLayout({
                   <Footer />
                   <Background />
                </div>
-            </Web3Provider>
+            </Providers>
          </body>
       </html>
    );
@@ -153,24 +153,19 @@ const MaxWidthContainer = ({ children }: { children: ReactNode }) => {
 
 const LearnMoreSection = () => {
    return (
-      <div className="lg:mb-[150px] bg-primary-dark max-w-[1248px] mx-auto px-4 xl:px-16 lg:mt-[46px] dark:bg-[#121316] ">
+      <div className="lg:mb-[112px] bg-primary-dark max-w-[1120px] lg:max-h-[314px] mx-auto px-4 xl:px-16 lg:mt-[46px] dark:bg-[#121316] ">
          <div className="max-w-[1120px] items-center flex md:justify-between flex-col lg:flex-row xl:gap-40 lg:px-10 xl:px-0  ">
             <div className="flex-col items-center justify-center pt-16">
                <Heading className="text-clean-white ">Learn more</Heading>
-               <FeatureParagraph className="text-center pb-9 lg:text-left">
+               <FeatureParagraph className="text-center pb-6 lg:text-left">
                   <span className="inline xl:block">
                      If you&apos;re interested in learning more about Mento,
-                     finding out what
+                     finding out what the team is working on now, or would like
+                     to contribute, please join our discord server.
                   </span>
-                  <span className="inline xl:block">
-                     {" "}
-                     the team is working on now, or would like to contribute,
-                     please join
-                  </span>
-                  <span className="inline xl:block"> our discord server.</span>
                </FeatureParagraph>
 
-               <div className="md:w-full flex justify-center lg:justify-start">
+               <div className="md:w-full flex justify-center lg:justify-start sm:mb-[42px]">
                   <PrimaryButton
                      fullWidth
                      href={links.discord}
@@ -182,7 +177,7 @@ const LearnMoreSection = () => {
                   </PrimaryButton>
                </div>
             </div>
-            <LearnMoreImage className="hidden overflow-visible lg:inline w-[444px] h-[352px] dark:hidden" />
+            <LearnMoreImage className="hidden overflow-visible lg:inline w-[396px] h-[314px] dark:hidden" />
             <LearnMoreDark className="hidden overflow-visible w-[444px] h-[352px] dark:lg:inline" />
             <MobileLearnIllustration className="py-8 dark:hidden lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
             <MobileLearnMoreDark className="py-8 hidden dark:lg:hidden dark:inline lg:hidden h-[209px] w-[264px] md:h-[256px] md:w-[324px]" />
@@ -216,7 +211,7 @@ const Heading = ({
 }) => {
    return (
       <h2
-         className={`font-fg font-semibold text-[40px] text-center lg:text-left xl:text-[56px] -tracking-[0.01em] lg:whitespace-nowrap leading-[90%] ${className}`}
+         className={`font-fg font-semibold text-[40px] text-center lg:text-left sm:text-[56px] -tracking-[0.01em] lg:whitespace-nowrap leading-[90%] ${className}`}
       >
          {children}
       </h2>

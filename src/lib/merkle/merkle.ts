@@ -1,19 +1,21 @@
-import fs from "fs";
+import "server-only";
+
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import treeJson from "./tree.json";
+
+export type AllocationMap = { [key: string]: string };
 
 let tree: StandardMerkleTree<any[]> | null = null;
 
 function loadTree() {
   if (!tree) {
     try {
-      tree = StandardMerkleTree.load(
-        JSON.parse(fs.readFileSync("src/merkle/tree.json", "utf8"))
-      );
+      tree = StandardMerkleTree.load(JSON.parse(JSON.stringify(treeJson)));
     } catch (err) {
       throw new Error(
         `Error loading tree: ${
           (err as Error).message
-        }. Make sure tree.json is present in the src/merkle directory.'`
+        }. Make sure tree.json is present in the src/merkle directory.`
       );
     }
   } else {
@@ -21,19 +23,13 @@ function loadTree() {
   }
 }
 
-function initialize() {
-  loadTree();
+export function getTree(): StandardMerkleTree<any[]> | null {
+  return tree;
 }
 
-export const getTree = (): StandardMerkleTree<any[]> | null => {
-  return tree;
-};
-
-export type AllocationMap = { [key: string]: string };
-
-export const getAllocationList = (
+export function getAllocationList(
   tree: StandardMerkleTree<any[]> | null
-): AllocationMap => {
+): AllocationMap {
   try {
     if (!tree) throw new Error("Tree not found");
 
@@ -47,15 +43,15 @@ export const getAllocationList = (
     throw new Error(
       `Error: merkle tree not found ${
         (err as Error).message
-      }. Make sure tree.json is present in the src/merkle directory.'`
+      }. Make sure tree.json is present in the src/lib/merkle directory.'`
     );
   }
-};
+}
 
-export const getProofForAddress = (
+export function getProofForAddress(
   address: string,
   tree: StandardMerkleTree<any[]> | null
-): string[] | undefined => {
+): string[] | undefined {
   if (!tree) throw new Error("Tree not found");
   try {
     let proof;
@@ -73,6 +69,13 @@ export const getProofForAddress = (
       }. Make sure tree.json is present in the src/merkle directory.'`
     );
   }
+}
+
+export const getAllocationForAddress = (
+  address: string
+): string | undefined => {
+  return getAllocationList(getTree())[address];
 };
 
-initialize();
+// Intialize tree - load into memory on import
+loadTree();

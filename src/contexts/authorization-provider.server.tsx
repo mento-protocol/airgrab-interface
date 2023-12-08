@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import { getAllocationList, getTree } from "@/utils/merkle";
+import { getAllocationList, getTree } from "@/lib/merkle/merkle";
 import AuthorizationProvider from "./authorization-provider.client";
 
 export function Authorization({ children }: { children?: ReactNode }) {

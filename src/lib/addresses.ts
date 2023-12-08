@@ -1,4 +1,4 @@
-import { getAddress, isAddress } from "@ethersproject/address";
+import { getAddress, isAddress } from "viem";
 import { logger } from "@/lib/logger";
 
 export function isValidAddress(address: string) {

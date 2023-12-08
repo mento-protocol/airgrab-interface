@@ -2,10 +2,9 @@ import React from "react";
 import { MobileHeader } from "../mobile-header";
 import { ChevronRight, MentoLogo } from "../svgs";
 import HeaderNav from "./header-nav";
-import { ConnectButton } from "../connect-button";
 
 import Link from "next/link";
-import { Web3Provider } from "../web3-provider";
+import { ConnectButton } from "@/components/connect-button";
 
 const Header = () => {
    return (
@@ -23,15 +22,13 @@ const DesktopHeader = () => {
             <MentoLogo className="w-[108px] h-6" />
          </Link>
          <HeaderNav />
-         <Web3Provider>
-            <ConnectButton
-               icon={<ChevronRight />}
-               color="blush"
-               noFlexZone={true}
-               width="w-[206px]"
-               innerClassNames="pl-10"
-            />
-         </Web3Provider>
+         <ConnectButton
+            icon={<ChevronRight />}
+            color="blush"
+            noFlexZone={true}
+            width="w-[206px]"
+            innerClassNames="pl-10"
+         />
       </header>
    );
 };

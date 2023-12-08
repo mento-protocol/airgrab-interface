@@ -11,3 +11,5 @@ export const buildMerkleTreeFromCSV = () => {
 
   fs.writeFileSync("tree.json", JSON.stringify(tree.dump()));
 };
+
+buildMerkleTreeFromCSV();
