@@ -28,6 +28,9 @@ if (!process.env.NEXT_PUBLIC_FRACTAL_RESOURCE_URL) {
   throw new Error("FRACTAL_CLIENT_ID is not set");
 }
 
+export const AIRGRAB_CONTRACT_ADDRESS =
+  "0xACB838f99078c47F28a0b553c3FD45Be7d79A1A8";
+
 // Exporting the variables
 export const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
 export const FRACTAL_AUTH_URL = process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL;

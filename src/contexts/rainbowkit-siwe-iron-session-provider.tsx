@@ -1,6 +1,7 @@
 "use client";
 import { defaultSession } from "@/lib/session/constants";
 import { SessionData } from "@/lib/session/types";
+import { fetchJson } from "@/lib/utils";
 import {
   RainbowKitAuthenticationProvider,
   createAuthenticationAdapter,
@@ -113,7 +114,7 @@ export function RainbowKitSiweIronSessionProvider({
         createMessage: ({ address, chainId, nonce }) => {
           const defaultConfigurableOptions: ConfigurableMessageOptions = {
             domain: window.location.host,
-            statement: "Sign in with Ethereum to the app.",
+            statement: `I hereby confirm that the wallet with address ${address} belongs to me`,
             uri: window.location.origin,
             version: "1",
           };
@@ -152,28 +153,6 @@ export function RainbowKitSiweIronSessionProvider({
       {children}
     </RainbowKitAuthenticationProvider>
   );
-}
-
-async function fetchJson<JSON = unknown>(
-  input: RequestInfo,
-  init?: RequestInit
-): Promise<JSON | Response> {
-  const response = await fetch(input, {
-    headers: {
-      accept: "application/json",
-      "content-type": "application/json",
-    },
-    ...init,
-  });
-
-  try {
-    // Attempt to parse the response as JSON
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    // If JSON parsing fails, return the original response
-    return response;
-  }
 }
 
 const fetchNonce = async () => {
