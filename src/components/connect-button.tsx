@@ -1,6 +1,6 @@
 "use client";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Identicon } from "@/components/identicon";
 import {
    Clipboard,
@@ -14,6 +14,7 @@ import { useAccount, useDisconnect } from "wagmi";
 import { TertiaryButton } from "./button";
 import React, { ReactNode } from "react";
 import { DropdownModal } from "./dropdown";
+import ClientOnly from "./client-only";
 
 export function ConnectButton({
    containerClassNames,
@@ -37,23 +38,44 @@ export function ConnectButton({
    const onClickCopy = async () => {
       if (!address) return;
       await tryClipboardSet(address);
-      toast.success("Address copied to clipboard", { autoClose: 1200 });
+      toast.success("Address copied to clipboard", {
+      unstyled: true,
+      duration: 2000,
+      classNames: {
+        toast:
+          "border font-fg border-primary-dark flex items-center justify-center bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
+      },
+   });
    };
 
    const onClickDisconnect = () => {
       disconnect();
    };
 
-   return (
+  return (
       <div className="relative flex justify-end mb-1 min-h-6">
+      <ClientOnly
+        fallback={
+          <button
+            className={
+              styles.walletButtonConnected + " " + styles.walletButtonDefault
+            }
+          >
+            <div className="flex items-center">
+              <div className="animate-pulse rounded-full bg-gray-300 w-[26px] h-[26px]" />
+              <div className="hidden animate-pulse bg-gray-300 sm:block ml-[12px] w-[106.99px] h-[20px] rounded-md " />
+            </div>
+          </button>
+        }
+      >
          {address ? (
             <DropdownModal
                placement="bottom-end"
                buttonContent={() => (
                   <div className="flex items-center">
-                     <Identicon address={address ?? ""} size={26} />
+                     <Identicon address={address} size={26} />
                      <div className="hidden sm:block ml-[12px]">
-                        {address ? shortenAddress(address) : "Loading..."}
+                  {shortenAddress(address)}
                      </div>
                   </div>
                )}
@@ -75,7 +97,7 @@ export function ConnectButton({
                         </div>
                      </div>
                      <hr className="mx-5 mt-4 dark:border-[#333336]" />
-                     <div
+                    <div 
                         className={styles.menuOption}
                         onClick={onClickDisconnect}
                      >
@@ -105,6 +127,7 @@ export function ConnectButton({
                Connect Wallet
             </TertiaryButton>
          )}
+      </ClientOnly>
       </div>
    );
 }
