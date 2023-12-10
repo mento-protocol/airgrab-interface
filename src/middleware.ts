@@ -13,6 +13,10 @@ export async function middleware(request: NextRequest) {
   const isClaimPage = request.nextUrl.pathname.startsWith("/claim");
   const hasSession = session?.siwe?.success;
 
+  if (!isClaimPage && session?.isKycVerified) {
+    return NextResponse.redirect(new URL("/claim", request.url));
+  }
+
   if (isClaimPage && !session?.isKycVerified) {
     return NextResponse.redirect(new URL("/", request.url));
   }
