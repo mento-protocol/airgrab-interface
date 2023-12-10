@@ -21,6 +21,7 @@ import { PrimaryButton } from "@/components/button";
 import MobileAccordianMenu from "@/components/mobile-accordian-menu";
 import { DisconnectButton } from "@/components/disconnect-button";
 import { useAccount } from "wagmi";
+import ClientOnly from "./client-only";
 
 const variants = {
    open: { opacity: 1, y: 0 },
@@ -61,6 +62,7 @@ const DropDownMenuOverlay = ({
    address?: string;
 }) => {
    return (
+   <ClientOnly>
       <motion.div
          className="fixed top-0 left-0 z-50 flex flex-col w-full h-full p-4 bg-clean-white dark:bg-primary-dark"
          initial="closed"
@@ -107,6 +109,7 @@ const DropDownMenuOverlay = ({
             </div>
          </div>
       </motion.div>
+   </ClientOnly>
    );
 };
 
