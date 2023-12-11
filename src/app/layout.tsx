@@ -28,6 +28,7 @@ import { links } from "@/lib/constants";
 import localFont from "next/font/local";
 import { Providers } from "@/components/providers";
 import Header from "@/components/header/header";
+import { Toaster } from "sonner";
 const founders_grotesk = localFont({
    variable: "--font-fg",
    src: [
@@ -92,6 +93,17 @@ export default function RootLayout({
                   <Background />
                </div>
             </Providers>
+            <Toaster
+          toastOptions={{
+            duration: 3000,
+            unstyled: true,
+            classNames: {
+              toast:
+                "border font-fg border-primary-dark flex  bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
+              title: "flex flex-col items-center justify-end h-full",
+            },
+          }}
+        />
          </body>
       </html>
    );
