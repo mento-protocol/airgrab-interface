@@ -1,7 +1,10 @@
 "use client";
-import { MESSAGE } from "@/lib/constants";
-import { useSignMessage } from "wagmi";
 import useSWR from "swr";
+import { useSignMessage } from "wagmi";
+import { UserRejectedRequestError } from "viem";
+import { toast } from "sonner";
+
+import { MESSAGE } from "@/lib/constants";
 import { fetchJson } from "@/lib/utils";
 
 export type FractalVerificationDetails = {
@@ -23,7 +26,16 @@ const fetchProof = async (
 };
 
 export const useKYCProof = () => {
-  const signature = useSignMessage({ message: MESSAGE });
+  const signature = useSignMessage({
+    message: MESSAGE,
+    onSettled: (data: `0x${string}` | undefined, e: Error | null) => {
+      if (e instanceof Error) {
+        if (!(e instanceof UserRejectedRequestError)) {
+          toast.error(e.message);
+        }
+      }
+    },
+  });
   const { data, variables } = signature;
 
   const kyc = useSWR(
@@ -32,6 +44,11 @@ export const useKYCProof = () => {
       : null,
     ([url, signature, message]) => fetchProof(url, signature, message),
     {
+      onError: (e) => {
+        if (e instanceof Error) {
+          toast.error(e.message);
+        }
+      },
       revalidateOnFocus: false,
       defaultData: {
         fractalProof: "0x" as `0x${string}`,
@@ -48,7 +65,7 @@ export const useKYCProof = () => {
       isLoadingProof: kyc.isLoading,
       isSuccess: !kyc.error && signature.isSuccess,
       data: kyc.data,
-      error: kyc.error || signature.error,
+      error: signature.error || kyc.error,
       signMessage: signature.signMessage,
     },
   };
