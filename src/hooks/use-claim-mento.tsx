@@ -53,6 +53,7 @@ export const useClaimMento = ({
     ],
     functionName: "checkHasClaimed",
     args: [address!],
+    suspense: true,
   });
 
   const shouldPrepareClaim = Boolean(
