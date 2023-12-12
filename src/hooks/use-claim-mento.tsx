@@ -1,4 +1,5 @@
 import {
+  useContractRead,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
@@ -27,13 +28,42 @@ export const useClaimMento = ({
   const { chain } = useNetwork();
   const { kyc } = useKYCProof();
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
-  const [claimed, setClaimed] = React.useState(false);
+  const { data: hasClaimed, refetch } = useContractRead({
+    address: AIRGRAB_CONTRACT_ADDRESS,
+    abi: [
+      {
+        constant: true,
+        inputs: [
+          {
+            name: "address",
+            type: "address",
+          },
+        ],
+        name: "checkHasClaimed",
+        outputs: [
+          {
+            name: "",
+            type: "bool",
+          },
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    functionName: "checkHasClaimed",
+    args: [address!],
+  });
+
+  const shouldPrepareClaim = Boolean(
+    kyc.data && allocation && merkleProof && !hasClaimed
+  );
 
   const prepare = usePrepareContractWrite({
     address: AIRGRAB_CONTRACT_ADDRESS,
     abi: Airgrab,
     functionName: "claim",
-    enabled: Boolean(kyc.data && allocation && merkleProof),
+    enabled: shouldPrepareClaim,
     args: prepareArgs({
       allocation,
       address,
@@ -66,34 +96,18 @@ export const useClaimMento = ({
 
   const wait = useWaitForTransaction({
     hash: contractWrite?.data?.hash,
-    onSuccess: (data) => {
-      //TODO: update claim status on the server & check has claimed
-      setClaimed(true);
+    onSuccess: async (data) => {
+      await refetch();
 
       if (data) {
-        toast.success(<Message transactionHash={data.transactionHash} />, {
-          unstyled: true,
-          duration: 3000,
-          position: "bottom-center",
-          classNames: {
-            toast:
-              "border font-fg border-primary-dark flex items-center justify-center bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
-          },
-        });
+        toast.success(<Message transactionHash={data.transactionHash} />);
       }
     },
     onError: (e) => {
       if (e instanceof Error) {
         if (!(e instanceof UserRejectedRequestError)) {
           toast.error("Error", {
-            duration: 2000,
-            position: "bottom-center",
             description: "Error claiming MENTO",
-            unstyled: true,
-            classNames: {
-              toast:
-                "border font-fg border-primary-dark flex items-center justify-center bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
-            },
           });
         }
       }
@@ -102,7 +116,12 @@ export const useClaimMento = ({
 
   return {
     prepare,
-    claim: { ...contractWrite, claimed },
+    confirmation: wait,
+    claim: {
+      ...contractWrite,
+      hasClaimed,
+      isConfirmationLoading: wait.isLoading,
+    },
     kyc,
   };
 };
@@ -144,6 +163,16 @@ function prepareArgs({
     });
     return;
   }
+
+  console.log({
+    allocation,
+    address,
+    merkleProof,
+    proof,
+    validUntil,
+    approvedAt,
+    fractalId,
+  });
 
   return [
     BigInt(allocation),

@@ -1,8 +1,8 @@
 "use client";
-import { useClaimMento } from "@/hooks/use-claim-mento";
 import React from "react";
-import { PrimaryButton, TertiaryButton } from "./button";
 import Link from "next/link";
+import { useClaimMento } from "@/hooks/use-claim-mento";
+import { PrimaryButton, TertiaryButton } from "@/components/button";
 import { shortenAddress } from "@/lib/addresses";
 import { Locked } from "./svgs";
 
@@ -38,16 +38,37 @@ export default function VerifyAndClaim({
 }) {
   const shortAddress = address ? shortenAddress(address) : "";
 
-  const { prepare, claim, kyc } = useClaimMento({
+  const { claim, kyc, prepare } = useClaimMento({
     allocation,
     merkleProof,
     address,
   });
+
+  const isPreparingKycOrClaim = prepare.isLoading || kyc.isLoadingProof;
+  const isAwaitingUserSignature = kyc.isLoadingSignature;
+  const isReadyToClaim = kyc.isSuccess && claim.write;
+  const hasClaimed = claim.hasClaimed;
+  const isClaimConfirmationLoading = claim.isConfirmationLoading;
+
+  if (hasClaimed) {
+    return <Claimed allocation={allocation} />;
+  }
+
+  const signMessage = () => {
+    if (!kyc.isLoadingProof && !kyc.isLoadingSignature) {
+      kyc.signMessage();
+    }
+  };
+
+  const claimMento = () => {
+    claim?.write!();
+  };
+
   const renderOverview = () => {
-    if (kyc.isSuccess && claim.write) {
+    if (isReadyToClaim) {
       return <ClaimAndLockOverview />;
     }
-    if (kyc.isLoadingSignature || kyc.isLoadingProof) {
+    if (!isReadyToClaim) {
       return <KYCOverview />;
     }
     return (
@@ -58,9 +79,11 @@ export default function VerifyAndClaim({
   const renderButton = () => {
     if (kyc.isSuccess && claim.write) {
       return (
-        <PrimaryButton onClick={() => claim?.write!()}>
+        <PrimaryButton onClick={claimMento}>
           {claim.isLoading ? (
             <>Continue in wallet</>
+          ) : isClaimConfirmationLoading ? (
+            <>Claiming & Locking MENTO</>
           ) : (
             <>Claim & Lock {allocation} MENTO</>
           )}
@@ -68,29 +91,23 @@ export default function VerifyAndClaim({
       );
     }
     return (
-      <PrimaryButton onClick={() => kyc.signMessage()}>
-        {kyc.isLoadingSignature ? (
+      <PrimaryButton onClick={signMessage}>
+        {isAwaitingUserSignature ? (
           <>Continue in wallet</>
-        ) : kyc.isLoadingProof ? (
+        ) : isPreparingKycOrClaim ? (
           <>Loading...</>
         ) : (
-          <>Claim & Lock {allocation} MENTO</>
+          <>Confirm KYC</>
         )}
       </PrimaryButton>
     );
   };
 
   return (
-    <div className="flex items-center justify-center flex-col gap-8 text-center">
-      {claim.claimed ? (
-        <Claimed allocation={allocation} />
-      ) : (
-        <>
-          {renderOverview()}
-          {renderButton()}
-        </>
-      )}
-    </div>
+    <ClaimWrapper>
+      {renderOverview()}
+      {renderButton()}
+    </ClaimWrapper>
   );
 }
 
@@ -152,7 +169,7 @@ const ClaimAndLockOverview = () => (
 );
 
 const Claimed = ({ allocation }: { allocation: string }) => (
-  <div className="flex items-center justify-center flex-col gap-8 text-center px-20">
+  <ClaimWrapper>
     <Locked className="h-[248px] w-[251px]" />
     <span className="font-fg font-normal text-sm sm:text-xl">
       You claimed and locked <br className="block sm:hidden" />
@@ -167,7 +184,7 @@ const Claimed = ({ allocation }: { allocation: string }) => (
         Go to app
       </TertiaryButton>
     </div>
-  </div>
+  </ClaimWrapper>
 );
 
 const ClaimHeading = ({ children }: { children: React.ReactNode }) => {
@@ -177,6 +194,15 @@ const ClaimHeading = ({ children }: { children: React.ReactNode }) => {
     </h3>
   );
 };
+
 const ClaimDescription = ({ children }: { children: React.ReactNode }) => {
   return <p className="flex flex-col gap-8 font-fg">{children}</p>;
+};
+
+const ClaimWrapper = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex items-center justify-center flex-col gap-8 text-center">
+      {children}
+    </div>
+  );
 };
