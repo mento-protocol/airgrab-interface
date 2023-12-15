@@ -6,19 +6,15 @@ This DApp provides and overview of the Mento airgrab process, lets users check t
 
 ## Architecture
 
-
-
 This project uses Next.js, React, Tailwind, Wagmi, Rainbow Kit.
 
 ## Getting Started
 
 ### Run Locally
 
-Install deps: `pnpm i`
-
-Environment Variables: Copy env.example to env.local
-
-Start server: `pnpm dev`
+1. Install deps: `pnpm i`
+1. Environment Variables: `cp env.example env.local`
+1. Start server: `pnpm dev`
 
 ### Deploy
 
