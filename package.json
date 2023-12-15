@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "PORT=5151 next dev",
     "build": "next build",
+    "build:tree": "node src/lib/merkle/buildTree.mjs",
     "start": "next start",
     "clean": "rm -rf .next",
     "lint": "next lint",
