@@ -22,7 +22,7 @@ const KYCFAQLink = () => {
       className="text-primary-blue underline font-fg text-xl"
       href="#verify"
     >
-      Why is this requird?
+      Why is this required?
     </Link>
   );
 };
