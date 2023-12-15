@@ -9,8 +9,7 @@
     "start": "next start",
     "clean": "rm -rf .next",
     "lint": "next lint",
-    "prettier": "prettier --write \"**/*.{tsx,ts,js,mjd,json,md}\" --list-different",
-    "prettier:check": "prettier --check \"**/*.{tsx,ts,js,mjd,json,md}\"",
+    "prettier": "prettier --write \"**/*.{tsx,ts,js,mjs,json,md}\" --list-different",
     "test": "jest",
     "test:watch": "jest --watch",
     "prepare": "husky install"
@@ -58,6 +57,7 @@
   "devDependencies": {
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-testing-library": "^6.0.2",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0"
   }
 }
