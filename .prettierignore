@@ -1,0 +1,11 @@
+# directories
+**/.next
+**/node_modules
+
+# files
+*.env
+*.log
+.pnp.*
+coverage.json
+pnpm-lock.yaml
+tree.json

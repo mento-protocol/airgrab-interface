@@ -8,8 +8,11 @@
     "start": "next start",
     "clean": "rm -rf .next",
     "lint": "next lint",
+    "prettier": "prettier --write \"**/*.{tsx,ts,js,mjd,json,md}\" --list-different",
+    "prettier:check": "prettier --check \"**/*.{tsx,ts,js,mjd,json,md}\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@celo/rainbowkit-celo": "^1.0.2",
@@ -53,6 +56,7 @@
   },
   "devDependencies": {
     "eslint-plugin-jest-dom": "^5.1.0",
-    "eslint-plugin-testing-library": "^6.0.2"
+    "eslint-plugin-testing-library": "^6.0.2",
+    "husky": "^8.0.0"
   }
 }
