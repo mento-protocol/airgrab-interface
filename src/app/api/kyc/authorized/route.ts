@@ -74,7 +74,7 @@ export async function GET(request: Request) {
       }: {
         journey_completed: boolean;
         level: string;
-      }) => journey_completed && level === "basic+liveness+wallet-eth"
+      }) => journey_completed && level === "basic+liveness+wallet-eth",
     );
 
     if (!validCase) {
@@ -94,7 +94,7 @@ export async function GET(request: Request) {
     }
     const session = await getIronSession<SessionData>(
       cookies(),
-      sessionOptions
+      sessionOptions,
     );
 
     session.isKycVerified = true;

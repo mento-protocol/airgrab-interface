@@ -5,7 +5,7 @@ const SECRET_COOKIE_PASSWORD = process.env.SECRET_COOKIE_PASSWORD;
 
 if (!SECRET_COOKIE_PASSWORD) {
   throw new Error(
-    "SECRET_COOKIE_PASSWORD is not set, please set in environment variables"
+    "SECRET_COOKIE_PASSWORD is not set, please set in environment variables",
   );
 }
 

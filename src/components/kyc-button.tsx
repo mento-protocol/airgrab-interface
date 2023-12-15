@@ -25,7 +25,7 @@ function buildFractalUrl(wallet?: string): string {
   url.searchParams.append("response_type", "code");
   url.searchParams.append(
     "scope",
-    "contact:read verification.basic:read verification.basic.details:read verification.liveness:read verification.liveness.details:read verification.wallet-eth:read"
+    "contact:read verification.basic:read verification.basic.details:read verification.liveness:read verification.liveness.details:read verification.wallet-eth:read",
   );
   return url.toString();
 }

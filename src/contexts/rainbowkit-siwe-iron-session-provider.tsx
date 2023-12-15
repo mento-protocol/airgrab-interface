@@ -56,8 +56,8 @@ export function RainbowKitSiweIronSessionProvider({
     return isSessionLoading
       ? "loading"
       : (session as SessionData)?.siwe?.success
-      ? "authenticated"
-      : "unauthenticated";
+        ? "authenticated"
+        : "unauthenticated";
   }, [session, isSessionLoading]);
 
   React.useEffect(() => {
@@ -85,7 +85,7 @@ export function RainbowKitSiweIronSessionProvider({
       arg: { signature, message },
     }: {
       arg: { signature: string; message: SiweMessage };
-    }
+    },
   ) {
     // Verify signature
     const { ok } = await fetchJson<{ ok: boolean }>(url, {
@@ -145,7 +145,7 @@ export function RainbowKitSiweIronSessionProvider({
           return login(arg);
         },
       }),
-    [getSiweMessageOptions]
+    [getSiweMessageOptions],
   );
 
   return (

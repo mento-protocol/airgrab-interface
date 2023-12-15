@@ -10,7 +10,7 @@ const csvData = parse(
 0x6efD5DBb3E3C96C4c8bc7376AAe263D1C0e7F532,100000000000000000000
 0x70f2Db6D22593a65Dbb848C94eBACDF0344642F7,100000000000000000000`) as
     | string
-    | Buffer
+    | Buffer,
 );
 
 let tree: StandardMerkleTree<any[]> | null;
@@ -30,7 +30,7 @@ describe("getProofForAddress", () => {
   test("should return a valid proof for an address", () => {
     const proofForAddress = getProofForAddress(
       "0xA838E871A02C6d883bF004352Fc7dAc8f781FEd6",
-      tree
+      tree,
     );
     expect(proofForAddress).toBeDefined();
   });

@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const errorMessage = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
       { error: errorMessage },
-      { status: 500, statusText: "Internal Server Error" }
+      { status: 500, statusText: "Internal Server Error" },
     );
   }
 }

@@ -17,7 +17,7 @@ export type FractalVerificationDetails = {
 const fetchProof = async (
   url: string,
   signature: `0x${string}`,
-  message: string | undefined
+  message: string | undefined,
 ) => {
   return fetchJson<FractalVerificationDetails>(url, {
     method: "POST",
@@ -56,7 +56,7 @@ export const useKYCProof = () => {
         fractalProofApprovedAt: 0,
         fractalId: "",
       },
-    }
+    },
   );
 
   return {

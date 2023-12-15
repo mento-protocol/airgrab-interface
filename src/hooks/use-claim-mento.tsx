@@ -57,7 +57,7 @@ export const useClaimMento = ({
   });
 
   const shouldPrepareClaim = Boolean(
-    kyc.data && allocation && merkleProof && !hasClaimed
+    kyc.data && allocation && merkleProof && !hasClaimed,
   );
 
   const prepare = usePrepareContractWrite({

@@ -15,7 +15,7 @@ function loadTree() {
       throw new Error(
         `Error loading tree: ${
           (err as Error).message
-        }. Make sure tree.json is present in the src/merkle directory.`
+        }. Make sure tree.json is present in the src/merkle directory.`,
       );
     }
   } else {
@@ -28,7 +28,7 @@ export function getTree(): StandardMerkleTree<any[]> | null {
 }
 
 export function getAllocationList(
-  tree: StandardMerkleTree<any[]> | null
+  tree: StandardMerkleTree<any[]> | null,
 ): AllocationMap {
   try {
     if (!tree) throw new Error("Tree not found");
@@ -43,14 +43,14 @@ export function getAllocationList(
     throw new Error(
       `Error: merkle tree not found ${
         (err as Error).message
-      }. Make sure tree.json is present in the src/lib/merkle directory.'`
+      }. Make sure tree.json is present in the src/lib/merkle directory.'`,
     );
   }
 }
 
 export function getProofForAddress(
   address: string,
-  tree: StandardMerkleTree<any[]> | null
+  tree: StandardMerkleTree<any[]> | null,
 ): string[] | undefined {
   if (!tree) throw new Error("Tree not found");
   try {
@@ -66,13 +66,13 @@ export function getProofForAddress(
     throw new Error(
       `Error: merkle tree not found  ${
         (err as Error).message
-      }. Make sure tree.json is present in the src/merkle directory.'`
+      }. Make sure tree.json is present in the src/merkle directory.'`,
     );
   }
 }
 
 export const getAllocationForAddress = (
-  address: string
+  address: string,
 ): string | undefined => {
   return getAllocationList(getTree())[address];
 };

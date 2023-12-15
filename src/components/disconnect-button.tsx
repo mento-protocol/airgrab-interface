@@ -5,20 +5,20 @@ import { useDisconnect } from "wagmi";
 import ClientOnly from "./client-only";
 
 export const DisconnectButton = ({
-   width,
-   color,
-   children,
+  width,
+  color,
+  children,
 }: {
-   width?: string;
-   color?: "blush" | "blue";
-   children: React.ReactNode;
+  width?: string;
+  color?: "blush" | "blue";
+  children: React.ReactNode;
 }) => {
-   const { disconnect } = useDisconnect();
-   return (
-  <ClientOnly>
+  const { disconnect } = useDisconnect();
+  return (
+    <ClientOnly>
       <PrimaryButton onClick={() => disconnect()} width={width} color={color}>
-         {children}
+        {children}
       </PrimaryButton>
     </ClientOnly>
-   );
+  );
 };
