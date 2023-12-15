@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
-import Link from "next/link";
-import { useClaimMento } from "@/hooks/use-claim-mento";
 import { PrimaryButton, TertiaryButton } from "@/components/button";
+import { useClaimMento } from "@/hooks/use-claim-mento";
 import { shortenAddress } from "@/lib/addresses";
+import Link from "next/link";
+import React from "react";
 import { Locked } from "./svgs";
 
 const LockingFAQLink = () => {
@@ -122,8 +122,8 @@ const ClaimOverview = ({
     <ClaimHeading>
       <span>
         Congratulations, wallet address{" "}
-        <span className="text-primary-blue">{shortAddress}</span> is elligible
-        to receive
+        <span className="text-primary-blue">{shortAddress}</span> is eligible to
+        receive
       </span>
       <span className="text-base sm:text-2xl">{allocation} MENTO</span>
     </ClaimHeading>
