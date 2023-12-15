@@ -12,12 +12,15 @@ export const buildMerkleTreeFromCSV = () => {
     }),
     {
       columns: false,
-    }
+    },
   );
 
   const tree = StandardMerkleTree.of(values, ["address", "uint256"]);
 
-  fs.writeFileSync("tree.json", JSON.stringify(tree.dump()));
+  fs.writeFileSync(
+    path.resolve(__dirname, "tree.json"),
+    JSON.stringify(tree.dump()),
+  );
 };
 
 buildMerkleTreeFromCSV();
