@@ -29,7 +29,7 @@ if (!process.env.NEXT_PUBLIC_FRACTAL_RESOURCE_URL) {
 }
 
 export const AIRGRAB_CONTRACT_ADDRESS =
-  "0xf68532a3360f24BE32e505B0AF567aA5EAA35c99";
+  "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
 
 // Exporting the variables
 export const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
