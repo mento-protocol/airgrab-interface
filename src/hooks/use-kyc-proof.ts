@@ -11,7 +11,7 @@ export type FractalVerificationDetails = {
   proof: `0x${string}` | undefined;
   validUntil: number | undefined;
   approvedAt: number | undefined;
-  id: string | undefined;
+  fractalId: string | undefined;
 };
 
 const DEFAULT_FRACTAL_VERIFICATION_DETAILS = {

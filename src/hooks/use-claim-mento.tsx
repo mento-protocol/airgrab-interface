@@ -9,7 +9,7 @@ import {
 import { Airgrab, MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airgrab";
 import { AIRGRAB_CONTRACT_ADDRESS } from "@/lib/constants";
 import { PrepareWriteContractConfig } from "wagmi/actions";
-import { UserRejectedRequestError } from "viem";
+import { BaseError, UserRejectedRequestError } from "viem";
 import { toast } from "sonner";
 
 import { useKYCProof } from "./use-kyc-proof";
@@ -56,16 +56,18 @@ export const useClaimMento = ({
     }),
     onError: (e) => {
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
-        toast.error("Error", {
-          description: "Error claiming MENTO",
-        });
+        toast.error(<ErrorMessage error={e} />);
       }
     },
   });
 
   const contractWrite = useContractWrite(prepare.config);
 
-  const Message = ({ transactionHash }: { transactionHash: string }) => {
+  const TransactionSuccessMessage = ({
+    transactionHash,
+  }: {
+    transactionHash: string;
+  }) => {
     return (
       <div className="flex flex-col text-lg">
         Mento claimed successfully!
@@ -81,6 +83,18 @@ export const useClaimMento = ({
       </div>
     );
   };
+  const ErrorMessage = ({ error }: { error: Error }) => {
+    const title = error.name;
+    const description =
+      error instanceof BaseError ? error.shortMessage : error.message;
+
+    return (
+      <div className="flex flex-col text-lg gap-4">
+        <span className="font-bold">{title}</span>
+        <span>{description}</span>
+      </div>
+    );
+  };
 
   const wait = useWaitForTransaction({
     hash: contractWrite?.data?.hash,
@@ -88,14 +102,14 @@ export const useClaimMento = ({
       await refetch();
 
       if (data) {
-        toast.success(<Message transactionHash={data.transactionHash} />);
+        toast.success(
+          <TransactionSuccessMessage transactionHash={data.transactionHash} />,
+        );
       }
     },
     onError: (e) => {
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
-        toast.error("Error", {
-          description: "Error claiming MENTO",
-        });
+        toast.error(<ErrorMessage error={e} />);
       }
     },
   });
@@ -138,7 +152,23 @@ function prepareArgs({
     !approvedAt ||
     !fractalId
   ) {
-    console.log("missing args", {
+    if (process.env.NODE_ENV === "development") {
+      //TODO: Sentry error in production
+      console.log("missing args", {
+        allocation,
+        address,
+        merkleProof,
+        proof,
+        validUntil,
+        approvedAt,
+        fractalId,
+      });
+    }
+    return;
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    console.log({
       allocation,
       address,
       merkleProof,
@@ -147,18 +177,7 @@ function prepareArgs({
       approvedAt,
       fractalId,
     });
-    return;
   }
-
-  console.log({
-    allocation,
-    address,
-    merkleProof,
-    proof,
-    validUntil,
-    approvedAt,
-    fractalId,
-  });
 
   return [
     BigInt(allocation),

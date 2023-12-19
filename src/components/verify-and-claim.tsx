@@ -5,6 +5,8 @@ import { shortenAddress } from "@/lib/addresses";
 import Link from "next/link";
 import React from "react";
 import { Locked } from "./svgs";
+import { useCooldown } from "@/hooks/use-cool-down";
+import { UserRejectedRequestError } from "viem";
 
 const LockingFAQLink = () => {
   return (
@@ -44,11 +46,20 @@ export default function VerifyAndClaim({
     address,
   });
 
+  const claimErrorCooldown = useCooldown(claim.isError, 5000);
+  const kycErrorCooldown = useCooldown(kyc.error, 5000);
+  const preparationErrorCooldown = useCooldown(
+    prepare.isError && !(prepare.error instanceof UserRejectedRequestError),
+    5000,
+  );
+
+  if (prepare.isError) {
+    console.log({ error: prepare.error });
+  }
+
   const isPreparingKycOrClaim = prepare.isLoading || kyc.isLoadingProof;
-  const isAwaitingUserSignature = kyc.isLoadingSignature;
-  const isReadyToClaim = kyc.isSuccess && claim.write;
+  const isAwaitingUserSignature = kyc.isLoadingSignature || claim.isLoading;
   const hasClaimed = claim.hasClaimed;
-  const isClaimConfirmationLoading = claim.isConfirmationLoading;
 
   if (hasClaimed) {
     return <Claimed allocation={allocation} />;
@@ -61,44 +72,71 @@ export default function VerifyAndClaim({
   };
 
   const claimMento = () => {
-    claim?.write!();
+    if (!claim.isLoading && claim.write) {
+      claim.write();
+    }
   };
 
   const renderOverview = () => {
-    if (isReadyToClaim) {
+    if (kyc.isSuccess) {
       return <ClaimAndLockOverview />;
     }
-    if (!isReadyToClaim) {
+
+    if (kyc.isLoadingSignature || kyc.isLoadingProof) {
       return <KYCOverview />;
     }
+
     return (
       <ClaimOverview shortAddress={shortAddress} allocation={allocation} />
     );
   };
 
   const renderButton = () => {
-    if (kyc.isSuccess && claim.write) {
+    if (claimErrorCooldown.isCoolingDown) {
       return (
-        <PrimaryButton onClick={claimMento}>
-          {claim.isLoading ? (
-            <>Continue in wallet</>
-          ) : isClaimConfirmationLoading ? (
-            <>Claiming & Locking MENTO</>
-          ) : (
-            <>Claim & Lock {allocation} MENTO</>
-          )}
+        <PrimaryButton>
+          Try again in {claimErrorCooldown.timeLeft}s
         </PrimaryButton>
       );
     }
+
+    if (kycErrorCooldown.isCoolingDown) {
+      return (
+        <PrimaryButton>Try again in {kycErrorCooldown.timeLeft}s</PrimaryButton>
+      );
+    }
+
+    if (preparationErrorCooldown.isCoolingDown) {
+      return (
+        <PrimaryButton>
+          Try again in {preparationErrorCooldown.timeLeft}s
+        </PrimaryButton>
+      );
+    }
+
+    if (prepare.isError) {
+      return <PrimaryButton onClick={prepare.refetch}>Try again</PrimaryButton>;
+    }
+
+    if (isPreparingKycOrClaim) {
+      return <PrimaryButton>Loading...</PrimaryButton>;
+    }
+
+    if (isAwaitingUserSignature) {
+      return <PrimaryButton>Continue in wallet</PrimaryButton>;
+    }
+
+    if (!kyc.isSuccess) {
+      return (
+        <PrimaryButton onClick={signMessage}>
+          Claim {allocation} MENTO
+        </PrimaryButton>
+      );
+    }
+
     return (
-      <PrimaryButton onClick={signMessage}>
-        {isAwaitingUserSignature ? (
-          <>Continue in wallet</>
-        ) : isPreparingKycOrClaim ? (
-          <>Loading...</>
-        ) : (
-          <>Confirm KYC</>
-        )}
+      <PrimaryButton onClick={claimMento}>
+        <>Claim & Lock {allocation} MENTO</>
       </PrimaryButton>
     );
   };
