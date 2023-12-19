@@ -6,7 +6,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 
-import { Airgrab } from "@/abis/Airgrab";
+import { Airgrab, MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airgrab";
 import { AIRGRAB_CONTRACT_ADDRESS } from "@/lib/constants";
 import { PrepareWriteContractConfig } from "wagmi/actions";
 import { UserRejectedRequestError } from "viem";
@@ -30,27 +30,7 @@ export const useClaimMento = ({
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
   const { data: hasClaimed, refetch } = useContractRead({
     address: AIRGRAB_CONTRACT_ADDRESS,
-    abi: [
-      {
-        constant: true,
-        inputs: [
-          {
-            name: "address",
-            type: "address",
-          },
-        ],
-        name: "checkHasClaimed",
-        outputs: [
-          {
-            name: "",
-            type: "bool",
-          },
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
+    abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
     functionName: "checkHasClaimed",
     args: [address!],
     suspense: true,
@@ -74,6 +54,13 @@ export const useClaimMento = ({
       approvedAt,
       fractalId,
     }),
+    onError: (e) => {
+      if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
+        toast.error("Error", {
+          description: "Error claiming MENTO",
+        });
+      }
+    },
   });
 
   const contractWrite = useContractWrite(prepare.config);
@@ -105,12 +92,10 @@ export const useClaimMento = ({
       }
     },
     onError: (e) => {
-      if (e instanceof Error) {
-        if (!(e instanceof UserRejectedRequestError)) {
-          toast.error("Error", {
-            description: "Error claiming MENTO",
-          });
-        }
+      if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
+        toast.error("Error", {
+          description: "Error claiming MENTO",
+        });
       }
     },
   });
