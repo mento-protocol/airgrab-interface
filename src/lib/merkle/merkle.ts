@@ -7,16 +7,16 @@ export type AllocationMap = { [key: string]: string };
 
 let tree: StandardMerkleTree<any[]> | null = null;
 
+const MerkleTreeError = new Error(
+  `Error: Failed to load merkle tree. Make sure tree.json is present in the src/lib/merkle directory.`,
+);
+
 function loadTree() {
   if (!tree) {
     try {
       tree = StandardMerkleTree.load(JSON.parse(JSON.stringify(treeJson)));
     } catch (err) {
-      throw new Error(
-        `Error loading tree: ${
-          (err as Error).message
-        }. Make sure tree.json is present in the src/merkle directory.`,
-      );
+      throw MerkleTreeError;
     }
   } else {
     return tree;
@@ -40,11 +40,7 @@ export function getAllocationList(
 
     return allocationObject;
   } catch (err) {
-    throw new Error(
-      `Error: merkle tree not found ${
-        (err as Error).message
-      }. Make sure tree.json is present in the src/lib/merkle directory.'`,
-    );
+    throw MerkleTreeError;
   }
 }
 
@@ -63,11 +59,7 @@ export function getProofForAddress(
     }
     return proof;
   } catch (err) {
-    throw new Error(
-      `Error: merkle tree not found  ${
-        (err as Error).message
-      }. Make sure tree.json is present in the src/merkle directory.'`,
-    );
+    throw MerkleTreeError;
   }
 }
 
