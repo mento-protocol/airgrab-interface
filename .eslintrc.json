@@ -1,5 +1,6 @@
 {
   "extends": [
+    "prettier",
     "next/core-web-vitals",
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react"
