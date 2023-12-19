@@ -2,11 +2,15 @@
 
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { WagmiConfig } from "wagmi";
+import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
+import { WagmiConfig, useAccount, useDisconnect } from "wagmi";
 import { chains, config } from "@/lib/wagmi";
 import type { ThemeProviderProps } from "next-themes/dist/types";
-import { RainbowKitSiweIronSessionProvider } from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import {
+  RainbowKitSiweIronSessionProvider,
+  useSession,
+} from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import { useRouter } from "next/navigation";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
@@ -16,11 +20,41 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
           appInfo={{ appName: "Mento Airgrab Interface" }}
           chains={chains}
         >
-          <NextThemesProvider forcedTheme="light" {...props}>
-            {children}
-          </NextThemesProvider>
+          <ConnectionGuard>
+            <NextThemesProvider forcedTheme="light" {...props}>
+              {children}
+            </NextThemesProvider>
+          </ConnectionGuard>
         </RainbowKitProvider>
       </RainbowKitSiweIronSessionProvider>
     </WagmiConfig>
   );
 }
+
+const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
+  const { connectModalOpen } = useConnectModal();
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const router = useRouter();
+  const { status } = useSession();
+  const isConnectedWithNoSession = status === "unauthenticated" && isConnected;
+  const isLoggingInViaModal = connectModalOpen;
+  const hasSessionButNoConnection = status === "authenticated" && !isConnected;
+
+  React.useEffect(() => {
+    if (isConnectedWithNoSession && !isLoggingInViaModal) {
+      disconnect();
+    }
+    if (hasSessionButNoConnection) {
+      disconnect();
+      router.push("/");
+    }
+  }, [
+    isConnectedWithNoSession,
+    isLoggingInViaModal,
+    disconnect,
+    hasSessionButNoConnection,
+    router,
+  ]);
+  return <>{children}</>;
+};

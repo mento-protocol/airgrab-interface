@@ -91,13 +91,15 @@ export default function RootLayout({
           </div>
         </Providers>
         <Toaster
+          position="bottom-center"
           toastOptions={{
             duration: 3000,
             unstyled: true,
             classNames: {
               toast:
-                "border font-fg border-primary-dark flex  bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
+                "border font-fg border-primary-dark flex text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
               title: "flex flex-col items-center justify-end h-full",
+              error: "bg-red-400",
             },
           }}
         />
