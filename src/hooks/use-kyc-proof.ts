@@ -14,6 +14,13 @@ export type FractalVerificationDetails = {
   id: string | undefined;
 };
 
+const DEFAULT_FRACTAL_VERIFICATION_DETAILS = {
+  fractalProof: "0x" as `0x${string}`,
+  fractalProofValidUntil: 0,
+  fractalProofApprovedAt: 0,
+  fractalId: "",
+};
+
 const fetchProof = async (
   url: string,
   signature: `0x${string}`,
@@ -22,17 +29,15 @@ const fetchProof = async (
   return fetchJson<FractalVerificationDetails>(url, {
     method: "POST",
     body: JSON.stringify({ signature, message }),
-  }) as any;
+  }) as Promise<FractalVerificationDetails>;
 };
 
 export const useKYCProof = () => {
   const signature = useSignMessage({
     message: MESSAGE,
     onSettled: (data: `0x${string}` | undefined, e: Error | null) => {
-      if (e instanceof Error) {
-        if (!(e instanceof UserRejectedRequestError)) {
-          toast.error(e.message);
-        }
+      if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
+        toast.error(e.message);
       }
     },
   });
@@ -50,12 +55,7 @@ export const useKYCProof = () => {
         }
       },
       revalidateOnFocus: false,
-      defaultData: {
-        fractalProof: "0x" as `0x${string}`,
-        fractalProofValidUntil: 0,
-        fractalProofApprovedAt: 0,
-        fractalId: "",
-      },
+      defaultData: DEFAULT_FRACTAL_VERIFICATION_DETAILS,
     },
   );
 
