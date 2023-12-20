@@ -3,6 +3,7 @@ import {
   FRACTAL_AUTH_URL,
   FRACTAL_CLIENT_ID,
   FRACTAL_RESOURCE_URL,
+  LAUNCH_DATE,
 } from "@/lib/constants";
 import { sessionOptions } from "@/lib/session/config";
 import { SessionData } from "@/lib/session/types";
@@ -86,9 +87,13 @@ export async function GET(request: Request) {
       sessionOptions,
     );
 
+    const hasLaunchStarted = new Date() > LAUNCH_DATE;
+
+    const redirectUrl = hasLaunchStarted ? "/claim" : "/alloacation";
+
     session.isKycVerified = true;
     await session.save();
-    return NextResponse.redirect(new URL("/claim", request.url));
+    return NextResponse.redirect(new URL(redirectUrl, request.url));
   } catch (error) {
     return NextResponse.redirect(new URL("/", request.url));
   }
