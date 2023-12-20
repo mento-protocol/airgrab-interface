@@ -11,28 +11,39 @@ export const links = {
   mentolabs: "https://www.mentolabs.xyz/team",
 };
 
+//TODO: Update this with the correct date
+export const LAUNCH_DATE = new Date("2024-01-10T00:00:00Z");
+
+export const AIRGRAB_CONTRACT_ADDRESS =
+  "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
+
 export const MESSAGE = `I authorize Airgrab (${process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
 - I passed KYC level basic+liveness`;
 
 // Ensuring the environment variables are set
 if (!process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL) {
-  throw new Error("FRACTAL_AUTH_URL is not set");
+  throw new Error(
+    "FRACTAL_AUTH_URL is not set. Plesae set FRACTAL_AUTH_URL environment variable.",
+  );
 }
 if (!process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID) {
-  throw new Error("FRACTAL_CLIENT_ID is not set");
+  throw new Error(
+    "FRACTAL_CLIENT_ID is not set. Please set FRACTAL_CLIENT_ID environment variable.",
+  );
 }
 if (!process.env.NEXT_PUBLIC_FRACTAL_APP_URL) {
-  throw new Error("FRACTAL_CLIENT_ID is not set");
+  throw new Error(
+    "FRACTAL_CLIENT_ID is not set. Please set FRACTAL_APP_URL environment variable.",
+  );
 }
 if (!process.env.NEXT_PUBLIC_FRACTAL_RESOURCE_URL) {
-  throw new Error("FRACTAL_CLIENT_ID is not set");
+  throw new Error(
+    "FRACTAL_CLIENT_ID is not set. Please set FRACTAL_RESOURCE_URL environment variable.",
+  );
 }
 if (!process.env.NEXT_PUBLIC_BASE_URL) {
   throw new Error("FRACTAL_CLIENT_ID is not set");
 }
-
-export const AIRGRAB_CONTRACT_ADDRESS =
-  "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
 
 // Exporting the variables
 export const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;

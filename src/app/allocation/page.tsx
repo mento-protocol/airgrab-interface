@@ -1,9 +1,11 @@
+import { MentoLaunchCountodwn } from "@/components/MentoLaunchCountdown";
 import { PrimaryButton } from "@/components/button";
 import { DisconnectButton } from "@/components/disconnect-button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import { KYCButton } from "@/components/kyc-button";
 import { FractalIDLogo } from "@/components/svgs";
 import { shortenAddress } from "@/lib/addresses";
+import { LAUNCH_DATE } from "@/lib/constants";
 import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { formatUnits } from "viem";
@@ -14,6 +16,7 @@ export default async function Allocation() {
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
   const allocation = getAllocationForAddress(fullAddress);
   const hasAllocation = allocation && allocation !== "0";
+  const formattedAllocation = formatUnits(BigInt(allocation ?? 0), 18);
 
   if (!hasAllocation) {
     return <NoAllocation address={shortAddress} />;
@@ -22,19 +25,23 @@ export default async function Allocation() {
   if (!session?.isKycVerified) {
     return (
       <NoKYC
-        allocation={formatUnits(BigInt(allocation ?? 0), 18)}
+        allocation={formattedAllocation}
         shortAddress={shortAddress}
         fullAdress={fullAddress}
       />
     );
   }
 
-  return (
-    <HasKYC
-      allocation={formatUnits(BigInt(allocation ?? 0), 18)}
-      address={shortAddress}
-    />
-  );
+  if (new Date() < LAUNCH_DATE) {
+    return (
+      <MentoLaunchCountodwn
+        allocation={formattedAllocation}
+        shortAddress={shortAddress}
+      />
+    );
+  }
+
+  return <HasKYC allocation={formattedAllocation} address={shortAddress} />;
 }
 
 const NoAllocation = ({ address }: { address: string }) => {
@@ -107,9 +114,7 @@ const HasKYC = ({
         We have confirmed your verificaion with Fractal ID, please continue to
         claim your MENTO
       </p>
-      <PrimaryButton internal href={"/claim"}>
-        Claim Your MENTO
-      </PrimaryButton>
+      <PrimaryButton href={"/claim"}>Claim Your MENTO</PrimaryButton>
       <EligibilityFAQLink />
     </div>
   );

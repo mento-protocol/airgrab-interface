@@ -19,6 +19,8 @@
     "@ethersproject/address": "^5.7.0",
     "@headlessui-float/react": "^0.11.4",
     "@headlessui/react": "^1.7.17",
+    "@hookform/resolvers": "^3.3.2",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@metamask/jazzicon": "^2.0.0",
     "@openzeppelin/merkle-tree": "^1.0.5",
     "@rainbow-me/rainbowkit": "^1.0.11",
@@ -44,6 +46,7 @@
     "postcss": "8.4.30",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.49.2",
     "server-only": "^0.0.1",
     "siwe": "^2.1.4",
     "sonner": "^1.2.4",
@@ -52,9 +55,11 @@
     "ts-jest": "^29.1.1",
     "typescript": "5.2.2",
     "viem": "^1.10.14",
-    "wagmi": "^1.4.2"
+    "wagmi": "^1.4.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/mailchimp__mailchimp_marketing": "^3.0.17",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-testing-library": "^6.0.2",

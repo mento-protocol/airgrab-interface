@@ -17,6 +17,12 @@ dependencies:
   '@headlessui/react':
     specifier: ^1.7.17
     version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
+  '@hookform/resolvers':
+    specifier: ^3.3.2
+    version: 3.3.2(react-hook-form@7.49.2)
+  '@mailchimp/mailchimp_marketing':
+    specifier: ^3.0.80
+    version: 3.0.80
   '@metamask/jazzicon':
     specifier: ^2.0.0
     version: 2.0.0
@@ -92,6 +98,9 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  react-hook-form:
+    specifier: ^7.49.2
+    version: 7.49.2(react@18.2.0)
   server-only:
     specifier: ^0.0.1
     version: 0.0.1
@@ -115,12 +124,18 @@ dependencies:
     version: 5.2.2
   viem:
     specifier: ^1.10.14
-    version: 1.10.14(typescript@5.2.2)
+    version: 1.10.14(typescript@5.2.2)(zod@3.22.4)
   wagmi:
     specifier: ^1.4.2
-    version: 1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)
+    version: 1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4)
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
 
 devDependencies:
+  '@types/mailchimp__mailchimp_marketing':
+    specifier: ^3.0.17
+    version: 3.0.17
   eslint-config-prettier:
     specifier: ^9.1.0
     version: 9.1.0(eslint@8.49.0)
@@ -513,8 +528,8 @@ packages:
     dependencies:
       '@rainbow-me/rainbowkit': 1.0.11(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(viem@1.10.14)(wagmi@1.4.2)
       '@wagmi/chains': 1.8.0(typescript@5.2.2)
-      viem: 1.10.14(typescript@5.2.2)
-      wagmi: 1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)
+      viem: 1.10.14(typescript@5.2.2)(zod@3.22.4)
+      wagmi: 1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4)
     dev: false
 
   /@coinbase/wallet-sdk@3.7.2:
@@ -823,6 +838,14 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@hookform/resolvers@3.3.2(react-hook-form@7.49.2):
+    resolution: {integrity: sha512-Tw+GGPnBp+5DOsSg4ek3LCPgkBOuOgS5DsDV7qsWNH9LZc433kgsWICjlsh2J9p04H2K66hsXPPb9qn9ILdUtA==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.49.2(react@18.2.0)
+    dev: false
+
   /@humanwhocodes/config-array@0.11.11:
     resolution: {integrity: sha512-N2brEuAadi0CcdeMXUkhbZB84eskAc8MEX1By6qEchoVywSgXPIjou4rYsl0V3Hj0ZnuGycGCjdNgockbzeWNA==}
     engines: {node: '>=10.10.0'}
@@ -1114,6 +1137,16 @@ packages:
       '@lit-labs/ssr-dom-shim': 1.1.1
     dev: false
 
+  /@mailchimp/mailchimp_marketing@3.0.80:
+    resolution: {integrity: sha512-Cgz0xPb+1DUjmrl5whAsmqfAChBko+Wf4/PLQE4RvwfPlcq2agfHr1QFiXEhZ8e+GQwQ3hZQn9iLGXwIXwxUCg==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      dotenv: 8.6.0
+      superagent: 3.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@metamask/jazzicon@2.0.0:
     resolution: {integrity: sha512-7M+WSZWKcQAo0LEhErKf1z+D3YX0tEDAcGvcKbDyvDg34uvgeKR00mFNIYwAhdAS9t8YXxhxZgsrRBBg6X8UQg==}
     dependencies:
@@ -1350,8 +1383,8 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-remove-scroll: 2.5.4(@types/react@18.2.22)(react@18.2.0)
-      viem: 1.10.14(typescript@5.2.2)
-      wagmi: 1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)
+      viem: 1.10.14(typescript@5.2.2)(zod@3.22.4)
+      wagmi: 1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -1360,10 +1393,10 @@ packages:
     resolution: {integrity: sha512-cEjvTPU32OM9lUFegJagO0mRnIn+rbqrG89vV8/xLnLFX0DoR0r1oy5IlTga71Q7uT3Qus7qm7wgeiMT/+Irlg==}
     dev: false
 
-  /@safe-global/safe-apps-provider@0.17.1(typescript@5.2.2):
+  /@safe-global/safe-apps-provider@0.17.1(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-lYfRqrbbK1aKU1/UGkYWc/X7PgySYcumXKc5FB2uuwAs2Ghj8uETuW5BrwPqyjBknRxutFbTv+gth/JzjxAhdQ==}
     dependencies:
-      '@safe-global/safe-apps-sdk': 8.0.0(typescript@5.2.2)
+      '@safe-global/safe-apps-sdk': 8.0.0(typescript@5.2.2)(zod@3.22.4)
       events: 3.3.0
     transitivePeerDependencies:
       - bufferutil
@@ -1372,11 +1405,11 @@ packages:
       - zod
     dev: false
 
-  /@safe-global/safe-apps-sdk@8.0.0(typescript@5.2.2):
+  /@safe-global/safe-apps-sdk@8.0.0(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-gYw0ki/EAuV1oSyMxpqandHjnthZjYYy+YWpTAzf8BqfXM3ItcZLpjxfg+3+mXW8HIO+3jw6T9iiqEXsqHaMMw==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.12.0
-      viem: 1.10.14(typescript@5.2.2)
+      viem: 1.10.14(typescript@5.2.2)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -1384,11 +1417,11 @@ packages:
       - zod
     dev: false
 
-  /@safe-global/safe-apps-sdk@8.1.0(typescript@5.2.2):
+  /@safe-global/safe-apps-sdk@8.1.0(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-XJbEPuaVc7b9n23MqlF6c+ToYIS3f7P2Sel8f3cSBQ9WORE4xrSuvhMpK9fDSFqJ7by/brc+rmJR/5HViRr0/w==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.12.0
-      viem: 1.10.14(typescript@5.2.2)
+      viem: 1.10.14(typescript@5.2.2)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -1816,6 +1849,10 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: false
 
+  /@types/mailchimp__mailchimp_marketing@3.0.17:
+    resolution: {integrity: sha512-j0rZvpHMhIBzzvvnc4aPeqffgN1enw7gSthEX6Bc9I+GLhuSiU07TCuftbL4FhMqRvSxFSWn9OhHGDtV5z6UCg==}
+    dev: true
+
   /@types/ms@0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: false
@@ -2062,7 +2099,7 @@ packages:
       typescript: 5.2.2
     dev: false
 
-  /@wagmi/connectors@3.1.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14):
+  /@wagmi/connectors@3.1.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4):
     resolution: {integrity: sha512-IlLKErqCzQRBUcCvXGPowcczbWcvJtEG006gPsAoePNJEXCHEWoKASghgu+L/bqD7006Z6mW6zlTNjcSQJvFAg==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -2073,16 +2110,16 @@ packages:
     dependencies:
       '@coinbase/wallet-sdk': 3.7.2
       '@ledgerhq/connect-kit-loader': 1.1.2
-      '@safe-global/safe-apps-provider': 0.17.1(typescript@5.2.2)
-      '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.2.2)
+      '@safe-global/safe-apps-provider': 0.17.1(typescript@5.2.2)(zod@3.22.4)
+      '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.2.2)(zod@3.22.4)
       '@walletconnect/ethereum-provider': 2.10.1(@walletconnect/modal@2.6.2)
       '@walletconnect/legacy-provider': 2.0.0
       '@walletconnect/modal': 2.6.2(@types/react@18.2.22)(react@18.2.0)
       '@walletconnect/utils': 2.10.1
-      abitype: 0.8.7(typescript@5.2.2)
+      abitype: 0.8.7(typescript@5.2.2)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.2.2
-      viem: 1.10.14(typescript@5.2.2)
+      viem: 1.10.14(typescript@5.2.2)(zod@3.22.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
@@ -2095,7 +2132,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14):
+  /@wagmi/core@1.4.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4):
     resolution: {integrity: sha512-szgNs2DCbBXKsq3wdm/YD8FWkg7lfmTRAv25b2nJYJUTQN59pVXznlWfq8VCJLamhKOYjeYHlTQxXkAeUAJdhw==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -2104,11 +2141,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)
-      abitype: 0.8.7(typescript@5.2.2)
+      '@wagmi/connectors': 3.1.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4)
+      abitype: 0.8.7(typescript@5.2.2)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.2.2
-      viem: 1.10.14(typescript@5.2.2)
+      viem: 1.10.14(typescript@5.2.2)(zod@3.22.4)
       zustand: 4.4.1(@types/react@18.2.22)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -2511,7 +2548,7 @@ packages:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
     dev: false
 
-  /abitype@0.8.7(typescript@5.2.2):
+  /abitype@0.8.7(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -2521,9 +2558,10 @@ packages:
         optional: true
     dependencies:
       typescript: 5.2.2
+      zod: 3.22.4
     dev: false
 
-  /abitype@0.9.8(typescript@5.2.2):
+  /abitype@0.9.8(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -2535,6 +2573,7 @@ packages:
         optional: true
     dependencies:
       typescript: 5.2.2
+      zod: 3.22.4
     dev: false
 
   /acorn-globals@7.0.1:
@@ -3221,6 +3260,10 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
+  /component-emitter@1.3.1:
+    resolution: {integrity: sha512-T0+barUSQRTUQASh8bx02dl+DhF54GtIDY13Y3m9oWTklKbb3Wv974meRpeZ3lp1JpLVECWWNHC4vaG2XHXouQ==}
+    dev: false
+
   /concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
@@ -3233,10 +3276,18 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /cookiejar@2.1.4:
+    resolution: {integrity: sha512-LDx6oHrK+PhzLKJU9j5S7/Y3jM/mUHvD/DeI1WQmJn652iPC5Y4TBzC9l+5OMOXlyTTA+SmVUPm0HQUwpD5Jqw==}
+    dev: false
+
   /copy-to-clipboard@3.3.3:
     resolution: {integrity: sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==}
     dependencies:
       toggle-selection: 1.0.6
+    dev: false
+
+  /core-util-is@1.0.3:
+    resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: false
 
   /create-jest@29.7.0(@types/node@20.6.2):
@@ -3492,6 +3543,11 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       webidl-conversions: 7.0.0
+    dev: false
+
+  /dotenv@8.6.0:
+    resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
+    engines: {node: '>=10'}
     dev: false
 
   /duplexify@4.1.2:
@@ -4149,6 +4205,10 @@ packages:
       jest-util: 29.7.0
     dev: false
 
+  /extend@3.0.2:
+    resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
+    dev: false
+
   /eyes@0.1.8:
     resolution: {integrity: sha512-GipyPsXO1anza0AOZdy69Im7hGFCNB7Y/NGjDlZGJ3GJJLtwNSb2vrzYrTYJRrRloVx7pl+bhUaTB8yiccPvFQ==}
     engines: {node: '> 0.1.90'}
@@ -4249,6 +4309,15 @@ packages:
     dependencies:
       is-callable: 1.2.7
 
+  /form-data@2.5.1:
+    resolution: {integrity: sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==}
+    engines: {node: '>= 0.12'}
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
+    dev: false
+
   /form-data@4.0.0:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
     engines: {node: '>= 6'}
@@ -4256,6 +4325,11 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
+
+  /formidable@1.2.6:
+    resolution: {integrity: sha512-KcpbcpuLNOwrEjnbpMC0gS+X8ciDoZE1kkqzat4a8vrprf+s9pKNQ/QIwWfbfs4ltgmFl3MD177SNTkve3BwGQ==}
+    deprecated: 'Please upgrade to latest, formidable@v2 or formidable@v3! Check these notes: https://bit.ly/2ZEqIau'
     dev: false
 
   /fraction.js@4.3.6:
@@ -4829,6 +4903,10 @@ packages:
     dependencies:
       call-bind: 1.0.2
       get-intrinsic: 1.2.1
+
+  /isarray@1.0.0:
+    resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+    dev: false
 
   /isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
@@ -5715,6 +5793,11 @@ packages:
     resolution: {integrity: sha512-mUYWsMKNrm4lfygPkL3OfGzOPTR2DBlTkBNHM//F6hGp8cLThY897crAlk3/Jo17LEOOjQUrNAx6DvgO77QJkA==}
     dev: false
 
+  /methods@1.1.2:
+    resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
+    engines: {node: '>= 0.6'}
+    dev: false
+
   /micromatch@4.0.5:
     resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==}
     engines: {node: '>=8.6'}
@@ -5732,6 +5815,12 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
+    dev: false
+
+  /mime@1.6.0:
+    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
+    engines: {node: '>=4'}
+    hasBin: true
     dev: false
 
   /mimic-fn@2.1.0:
@@ -6287,6 +6376,10 @@ packages:
       react-is: 18.2.0
     dev: false
 
+  /process-nextick-args@2.0.1:
+    resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
+    dev: false
+
   /process-warning@1.0.0:
     resolution: {integrity: sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q==}
     dev: false
@@ -6399,6 +6492,15 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-hook-form@7.49.2(react@18.2.0):
+    resolution: {integrity: sha512-TZcnSc17+LPPVpMRIDNVITY6w20deMdNi6iehTFLV1x8SqThXGwu93HjlUVU09pzFgZH7qZOvLMM7UYf2ShAHA==}
+    engines: {node: '>=18', pnpm: '8'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -6473,6 +6575,18 @@ packages:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
     dependencies:
       pify: 2.3.0
+    dev: false
+
+  /readable-stream@2.3.8:
+    resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==}
+    dependencies:
+      core-util-is: 1.0.3
+      inherits: 2.0.4
+      isarray: 1.0.0
+      process-nextick-args: 2.0.1
+      safe-buffer: 5.1.2
+      string_decoder: 1.1.1
+      util-deprecate: 1.0.2
     dev: false
 
   /readable-stream@3.6.2:
@@ -6642,6 +6756,10 @@ packages:
       get-intrinsic: 1.2.1
       has-symbols: 1.0.3
       isarray: 2.0.5
+    dev: false
+
+  /safe-buffer@5.1.2:
+    resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
     dev: false
 
   /safe-buffer@5.2.1:
@@ -6930,6 +7048,12 @@ packages:
       es-abstract: 1.22.2
     dev: false
 
+  /string_decoder@1.1.1:
+    resolution: {integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==}
+    dependencies:
+      safe-buffer: 5.1.2
+    dev: false
+
   /string_decoder@1.3.0:
     resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
     dependencies:
@@ -7010,6 +7134,25 @@ packages:
       mz: 2.7.0
       pirates: 4.0.6
       ts-interface-checker: 0.1.13
+    dev: false
+
+  /superagent@3.8.1:
+    resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
+    engines: {node: '>= 4.0'}
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    dependencies:
+      component-emitter: 1.3.1
+      cookiejar: 2.1.4
+      debug: 3.2.7
+      extend: 3.0.2
+      form-data: 2.5.1
+      formidable: 1.2.6
+      methods: 1.1.2
+      mime: 1.6.0
+      qs: 6.11.2
+      readable-stream: 2.3.8
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /superstruct@0.14.2:
@@ -7473,7 +7616,7 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /viem@1.10.14(typescript@5.2.2):
+  /viem@1.10.14(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-GRwFXLFr+/7+7nYYkABgHom3zMIE3DdxZ/DP78QlYWUanpjUV5IebxMOm6pfKD+ZAj3vf9YPAmz+WogjiUgDWw==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -7487,7 +7630,7 @@ packages:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       '@types/ws': 8.5.5
-      abitype: 0.9.8(typescript@5.2.2)
+      abitype: 0.9.8(typescript@5.2.2)(zod@3.22.4)
       isomorphic-ws: 5.0.0(ws@8.13.0)
       typescript: 5.2.2
       ws: 8.13.0
@@ -7504,7 +7647,7 @@ packages:
       xml-name-validator: 4.0.0
     dev: false
 
-  /wagmi@1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14):
+  /wagmi@1.4.2(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4):
     resolution: {integrity: sha512-Cxu0LatB44stqHoqdc6dgsTb9woYH1bEquJFq9PbTkePmnRCvceAD4aFUREUTaBWzIBcouhFlanWweDzEnb3mg==}
     peerDependencies:
       react: '>=17.0.0'
@@ -7517,12 +7660,12 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.35.3
       '@tanstack/react-query': 4.35.3(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.35.5(@tanstack/react-query@4.35.3)
-      '@wagmi/core': 1.4.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)
-      abitype: 0.8.7(typescript@5.2.2)
+      '@wagmi/core': 1.4.2(@types/react@18.2.22)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)(zod@3.22.4)
+      abitype: 0.8.7(typescript@5.2.2)(zod@3.22.4)
       react: 18.2.0
       typescript: 5.2.2
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 1.10.14(typescript@5.2.2)
+      viem: 1.10.14(typescript@5.2.2)(zod@3.22.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
@@ -7822,6 +7965,10 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
 
   /zustand@4.4.1(@types/react@18.2.22)(react@18.2.0):
     resolution: {integrity: sha512-QCPfstAS4EBiTQzlaGP1gmorkh/UL1Leaj2tdj+zZCZ/9bm0WS7sI2wnfD5lpOszFqWJ1DcPnGoY8RDL61uokw==}
