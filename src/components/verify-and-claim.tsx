@@ -115,7 +115,11 @@ export default function VerifyAndClaim({
     }
 
     if (prepare.isError) {
-      return <PrimaryButton onClick={prepare.refetch}>Try again</PrimaryButton>;
+      return (
+        <PrimaryButton onClick={() => prepare.refetch()}>
+          Try again
+        </PrimaryButton>
+      );
     }
 
     if (isPreparingKycOrClaim) {
