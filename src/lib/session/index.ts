@@ -1,3 +1,5 @@
+import "server-only";
+
 import { getIronSession } from "iron-session";
 import { SessionData } from "@/lib/session/types";
 import { cookies } from "next/headers";

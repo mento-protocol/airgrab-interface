@@ -1,6 +1,7 @@
 "use client";
 import { defaultSession } from "@/lib/session/constants";
 import { SessionData } from "@/lib/session/types";
+import { fetchJson } from "@/lib/utils";
 import {
   RainbowKitAuthenticationProvider,
   createAuthenticationAdapter,
@@ -11,8 +12,6 @@ import React from "react";
 import { SiweMessage } from "siwe";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
-import { useAccount } from "wagmi";
-import { disconnect } from "wagmi/actions";
 
 type UnconfigurableMessageOptions = {
   address: string;
@@ -41,40 +40,13 @@ export function RainbowKitSiweIronSessionProvider({
   getSiweMessageOptions,
 }: RainbowKitSiweIronSessionProviderProps) {
   const router = useRouter();
-  const { isConnected } = useAccount();
-  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
-  const {
-    data: session,
-    isLoading: isSessionLoading,
-    mutate: mutateSession,
-  } = useSWR(sessionApiRoute, fetchJson<SessionData>, {
-    fallbackData: defaultSession,
-  });
 
-  const status = React.useMemo(() => {
-    return isSessionLoading
-      ? "loading"
-      : (session as SessionData)?.siwe?.success
-      ? "authenticated"
-      : "unauthenticated";
-  }, [session, isSessionLoading]);
-
-  React.useEffect(() => {
-    if (!isLoggingIn && status === "unauthenticated" && isConnected) {
-      disconnect();
-    }
-  }, [status, isLoggingIn]);
+  const { status, mutate: mutateSession } = useSession();
 
   async function doLogout(url: string) {
     const result = await fetchJson<SessionData>(url, { method: "DELETE" });
-
     if (!(result instanceof Response)) {
-      // Now TypeScript knows result is of type SessionData
       mutateSession(result);
-    } else {
-      // Handle the response case, if needed
-      // For example, you might want to check response.status
-      // to determine if the request was successful
     }
   }
 
@@ -84,7 +56,7 @@ export function RainbowKitSiweIronSessionProvider({
       arg: { signature, message },
     }: {
       arg: { signature: string; message: SiweMessage };
-    }
+    },
   ) {
     // Verify signature
     const { ok } = await fetchJson<{ ok: boolean }>(url, {
@@ -97,7 +69,6 @@ export function RainbowKitSiweIronSessionProvider({
   const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
     onSuccess: async () => {
       router.push("/allocation");
-      setIsLoggingIn(false);
     },
   });
 
@@ -113,7 +84,7 @@ export function RainbowKitSiweIronSessionProvider({
         createMessage: ({ address, chainId, nonce }) => {
           const defaultConfigurableOptions: ConfigurableMessageOptions = {
             domain: window.location.host,
-            statement: "Sign in with Ethereum to the app.",
+            statement: `I hereby confirm that the wallet with address ${address} belongs to me`,
             uri: window.location.origin,
             version: "1",
           };
@@ -144,7 +115,7 @@ export function RainbowKitSiweIronSessionProvider({
           return login(arg);
         },
       }),
-    [getSiweMessageOptions]
+    [getSiweMessageOptions, signOut, login],
   );
 
   return (
@@ -152,28 +123,6 @@ export function RainbowKitSiweIronSessionProvider({
       {children}
     </RainbowKitAuthenticationProvider>
   );
-}
-
-async function fetchJson<JSON = unknown>(
-  input: RequestInfo,
-  init?: RequestInit
-): Promise<JSON | Response> {
-  const response = await fetch(input, {
-    headers: {
-      accept: "application/json",
-      "content-type": "application/json",
-    },
-    ...init,
-  });
-
-  try {
-    // Attempt to parse the response as JSON
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    // If JSON parsing fails, return the original response
-    return response;
-  }
 }
 
 const fetchNonce = async () => {
@@ -184,4 +133,24 @@ const fetchNonce = async () => {
   });
   const data = await response.json();
   return data.nonce;
+};
+
+export const useSession = () => {
+  const sessionResponse = useSWR(sessionApiRoute, fetchJson<SessionData>, {
+    fallbackData: defaultSession,
+    refreshInterval: 3000,
+  });
+
+  const { data: session, isLoading: isSessionLoading } = sessionResponse;
+
+  const status: "loading" | "authenticated" | "unauthenticated" =
+    React.useMemo(() => {
+      return isSessionLoading
+        ? "loading"
+        : (session as SessionData)?.siwe?.success
+          ? "authenticated"
+          : "unauthenticated";
+    }, [session, isSessionLoading]);
+
+  return { status, ...sessionResponse };
 };

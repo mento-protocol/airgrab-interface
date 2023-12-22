@@ -21,7 +21,7 @@ const { chains, publicClient } = configureChains(
     jsonRpcProvider({
       rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
     }),
-  ]
+  ],
 );
 
 const connectors = connectorsForWallets([

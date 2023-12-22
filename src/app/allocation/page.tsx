@@ -1,11 +1,11 @@
+import { PrimaryButton } from "@/components/button";
+import { DisconnectButton } from "@/components/disconnect-button";
+import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import { KYCButton } from "@/components/kyc-button";
 import { FractalIDLogo } from "@/components/svgs";
-import { PrimaryButton } from "@/components/button";
-import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
-import { DisconnectButton } from "@/components/disconnect-button";
+import { shortenAddress } from "@/lib/addresses";
 import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
-import { shortenAddress } from "@/lib/addresses";
 import { formatUnits } from "viem";
 
 export default async function Allocation() {
@@ -42,7 +42,7 @@ const NoAllocation = ({ address }: { address: string }) => {
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <p className="font-fg font-regular text-sm sm:text-base font-medium">
         Sorry, the wallet address{" "}
-        <span className="text-primary-blue">{address}</span> is not elligible
+        <span className="text-primary-blue">{address}</span> is not eligible
         {" :("}
       </p>
       <DisconnectButton color="blue">
