@@ -82,7 +82,7 @@ const HasKYC = () => {
   );
 };
 
-export const LaunchForm = () => {
+const LaunchForm = () => {
   const defaultMessage = (
     <>
       <CongratulationsHeading />
