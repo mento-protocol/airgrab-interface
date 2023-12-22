@@ -87,7 +87,7 @@ export async function GET(request: Request) {
       sessionOptions,
     );
 
-    const hasLaunchStarted = new Date() > LAUNCH_DATE;
+    const hasLaunchStarted = new Date() > new Date(LAUNCH_DATE);
 
     const redirectUrl = hasLaunchStarted ? "/claim" : "/alloacation";
 

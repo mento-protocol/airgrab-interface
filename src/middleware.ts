@@ -9,7 +9,7 @@ export const config = {
 
 export async function middleware(request: NextRequest) {
   const session = await getServerSession();
-  const hasLaunchStarted = LAUNCH_DATE.getTime() > Date.now();
+  const hasLaunchStarted = new Date(LAUNCH_DATE).getTime() > Date.now();
   const redirectUrl = hasLaunchStarted ? "/claim" : "/alloacation";
   const isHomePage = request.nextUrl.pathname === "/";
   const isClaimPage = request.nextUrl.pathname.startsWith("/claim");

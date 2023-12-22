@@ -11,9 +11,6 @@ export const links = {
   mentolabs: "https://www.mentolabs.xyz/team",
 };
 
-//TODO: Update this with the correct date
-export const LAUNCH_DATE = new Date("2024-01-10T00:00:00Z");
-
 export const AIRGRAB_CONTRACT_ADDRESS =
   "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
 
@@ -44,6 +41,9 @@ if (!process.env.NEXT_PUBLIC_FRACTAL_RESOURCE_URL) {
 if (!process.env.NEXT_PUBLIC_BASE_URL) {
   throw new Error("NEXT_PUBLIC_BASE_URL is not set");
 }
+if (!process.env.NEXT_PUBLIC_LAUNCH_DATE) {
+  throw new Error("NEXT_PUBLIC_LAUNCH_DATE is not set");
+}
 
 // Exporting the variables
 export const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
@@ -53,3 +53,5 @@ export const FRACTAL_RESOURCE_URL =
 export const FRACTAL_CLIENT_ID = process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID;
 export const FRACTAL_CRED_URL = process.env.NEXT_PUBLIC_FRACTAL_CRED_URL;
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+//TODO: Update this with the correct date
+export const LAUNCH_DATE = process.env.NEXT_PUBLIC_LAUNCH_DATE;
