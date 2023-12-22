@@ -1,4 +1,5 @@
 import {
+  BASE_URL,
   FRACTAL_AUTH_URL,
   FRACTAL_CLIENT_ID,
   FRACTAL_RESOURCE_URL,
@@ -12,18 +13,6 @@ import { NextResponse } from "next/server";
 const FRACTAL_CLIENT_SECRET = process.env.FRACTAL_CLIENT_SECRET;
 
 if (!FRACTAL_CLIENT_SECRET) throw new Error("FRACTAL_CLIENT_SECRET is not set");
-
-let BASE_URL: string | undefined;
-
-if (process.env.NODE_ENV === "development") {
-  BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  if (!BASE_URL) throw new Error("BASE_URL is not set");
-} else {
-  // preview & production
-  if (!process.env.VERCEL_BRANCH_URL)
-    throw new Error("VERCEL_BRANCH_URL is not set");
-  BASE_URL = `https://${process.env.VERCEL_BRANCH_URL}`;
-}
 
 const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
 

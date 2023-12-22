@@ -1,19 +1,6 @@
 import React from "react";
-import { useAccount } from "wagmi";
 import { PrimaryButton } from "./button";
-import { FRACTAL_CLIENT_ID, FRACTAL_APP_URL } from "@/lib/constants";
-
-let BASE_URL: string | undefined;
-
-if (process.env.NODE_ENV === "development") {
-  BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  if (!BASE_URL) throw new Error("BASE_URL is not set");
-} else {
-  // preview & production
-  if (!process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL)
-    throw new Error("VERCEL_BRANCH_URL is not set");
-  BASE_URL = `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`;
-}
+import { FRACTAL_CLIENT_ID, FRACTAL_APP_URL, BASE_URL } from "@/lib/constants";
 
 const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
 
