@@ -85,8 +85,11 @@ export const useClaimMento = ({
   };
   const ErrorMessage = ({ error }: { error: Error }) => {
     const title = error.name;
-    const description =
+    let description =
       error instanceof BaseError ? error.shortMessage : error.message;
+
+    description +=
+      "\r\n Please try again, if the issue persists please send a message in the Mento discord support channel.";
 
     return (
       <div className="flex flex-col text-lg gap-4">
