@@ -23,26 +23,26 @@ export const MESSAGE = `I authorize Airgrab (${process.env.NEXT_PUBLIC_FRACTAL_C
 // Ensuring the environment variables are set
 if (!process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL) {
   throw new Error(
-    "FRACTAL_AUTH_URL is not set. Plesae set FRACTAL_AUTH_URL environment variable.",
+    "NEXT_PUBLIC_FRACTAL_AUTH_URL is not set. Plesae set FRACTAL_AUTH_URL environment variable.",
   );
 }
 if (!process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID) {
   throw new Error(
-    "FRACTAL_CLIENT_ID is not set. Please set FRACTAL_CLIENT_ID environment variable.",
+    "NEXT_PUBLIC_FRACTAL_CLIENT_ID is not set. Please set FRACTAL_CLIENT_ID environment variable.",
   );
 }
 if (!process.env.NEXT_PUBLIC_FRACTAL_APP_URL) {
   throw new Error(
-    "FRACTAL_CLIENT_ID is not set. Please set FRACTAL_APP_URL environment variable.",
+    "NEXT_PUBLIC_FRACTAL_APP_URL is not set. Please set FRACTAL_APP_URL environment variable.",
   );
 }
 if (!process.env.NEXT_PUBLIC_FRACTAL_RESOURCE_URL) {
   throw new Error(
-    "FRACTAL_CLIENT_ID is not set. Please set FRACTAL_RESOURCE_URL environment variable.",
+    "NEXT_PUBLIC_FRACTAL_RESOURCE_URL is not set. Please set FRACTAL_RESOURCE_URL environment variable.",
   );
 }
 if (!process.env.NEXT_PUBLIC_BASE_URL) {
-  throw new Error("FRACTAL_CLIENT_ID is not set");
+  throw new Error("NEXT_PUBLIC_BASE_URL is not set");
 }
 
 // Exporting the variables
