@@ -2,13 +2,12 @@
 import React from "react";
 import { toast } from "sonner";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { PrimaryButton } from "@/components/button";
-import { LaunchNotificationInputSchema } from "@/lib/schema";
 import { processEmailInput } from "@/lib/actions";
 
-type LaunchNotificationInput = z.infer<typeof LaunchNotificationInputSchema>;
+type LaunchNotificationInput = {
+  email_address: string;
+};
 
 export const NotificationEmailForm = ({
   defaultMessage,
@@ -22,35 +21,32 @@ export const NotificationEmailForm = ({
     handleSubmit,
     setError,
     formState: { errors, isSubmitSuccessful, isSubmitting },
-  } = useForm<LaunchNotificationInput>({
-    resolver: zodResolver(LaunchNotificationInputSchema),
-  });
+  } = useForm<LaunchNotificationInput>();
 
   const processForm: SubmitHandler<LaunchNotificationInput> = async (data) => {
     const result = await processEmailInput(data);
+    let error;
 
-    if (result?.type === "Success") {
-      toast.success("Success!");
-      return;
+    switch (result.type) {
+      case "Success":
+        toast.success("Success!");
+        return;
+      case "ValidationError":
+        error = result?.error?.message ?? error;
+        break;
+      case "APIError":
+        if (result.error.type === "MailchimpAPIMemberExists") {
+          // Handle specific API error subtype without setting an error message
+          return;
+        }
+        error = result.error.message ?? error;
+        break;
+      default:
+        error = "Unkonwn";
+        break;
     }
 
-    if (
-      "type" in result?.error &&
-      result?.error?.type === "MailchimpAPIMemberExists"
-    ) {
-      return;
-    }
-
-    let message;
-
-    if (result.type === "ZodError") {
-      result?.error?.toString() ?? "Something went wrong";
-    }
-
-    if (result.type === "APIError") {
-      message = result.error.message;
-    }
-
+    const message = `An error occurred adding the email to the notification list. Please try again, if the problem persists contact the team. Error: ${error}`;
     setError("email_address", {
       type: "manual",
       message,
@@ -69,10 +65,14 @@ export const NotificationEmailForm = ({
           >
             <input
               {...register("email_address", {
-                required: true,
+                required: "required",
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: "Please enter a valid email addresss",
+                },
               })}
               placeholder="Enter your email"
-              className="placeholder:text-md placeholder:text-center text-xl font-fg w-full border border-primary-dark rounded-lg px-8 py-4 text-primary-dark"
+              className="placeholder:text-md text-center text-xl font-fg w-full border border-primary-dark rounded-lg px-8 py-4 text-primary-dark"
             />
             {errors.email_address && (
               <span className="text-red-400">

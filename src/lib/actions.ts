@@ -1,22 +1,22 @@
 "use server";
 
-import { z } from "zod";
 import client from "@mailchimp/mailchimp_marketing";
 import {
   MAILCHIMP_API_KEY,
   MAILCHIMP_AUDIENCE_ID,
   MAILCHIMP_SERVER_PREFIX,
 } from "./server-constants";
-import { LaunchNotificationInputSchema } from "./schema";
 
-type LaunchNotificationInput = z.infer<typeof LaunchNotificationInputSchema>;
-type ZodError = {
-  error: z.inferFormattedError<typeof LaunchNotificationInputSchema>;
-  type: "ZodError";
+type LaunchNotificationInput = {
+  email_address: string;
+};
+type ValidationError = {
+  error?: { message: string; type: string };
+  type: "ValidationError";
 };
 type APIError = { error: { message: string; type: string }; type: "APIError" };
 type Success = { success: true; type: "Success" };
-type ProcessEmailInputResult = Success | APIError | ZodError;
+type ProcessEmailInputResult = Success | APIError | ValidationError;
 
 class MailchimpAPIError extends Error {
   response: any;
@@ -41,19 +41,26 @@ const MAILCHIMP_AUDIENCE_TAG_AIRGRAB_NOTIFICATION =
 export async function processEmailInput(
   data: LaunchNotificationInput,
 ): Promise<ProcessEmailInputResult> {
-  const result = LaunchNotificationInputSchema.safeParse(data);
+  const result = validateEmail(data.email_address);
 
-  if (!result.success) {
-    return { error: result.error.format(), type: "ZodError" };
+  if (result.error) {
+    return { error: result.error, type: "ValidationError" };
   }
 
   try {
     const { email_address } = result.data;
-    await client.lists.addListMember(MAILCHIMP_AUDIENCE_ID, {
-      email_address,
-      status: MAILCHIMP_AUDIENCE_MEMBER_STATUS_SUBSCRIBED,
-      tags: [MAILCHIMP_AUDIENCE_TAG_AIRGRAB_NOTIFICATION],
-    });
+
+    const mailChimpResult = await client.lists.addListMember(
+      MAILCHIMP_AUDIENCE_ID,
+      {
+        email_address,
+        status: MAILCHIMP_AUDIENCE_MEMBER_STATUS_SUBSCRIBED,
+        tags: [MAILCHIMP_AUDIENCE_TAG_AIRGRAB_NOTIFICATION],
+      },
+    );
+
+    console.log({ mailChimpResult });
+
     return { success: true, type: "Success" };
   } catch (e) {
     const error = parseError(e);
@@ -93,3 +100,10 @@ const parseError = (e: unknown): APIError => {
 
   return { error: { message: e.message, type: "Generic" }, type: "APIError" };
 };
+
+const validateEmail = (email_address: string) =>
+  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email_address)
+    ? { success: true, data: { email_address } }
+    : {
+        error: { message: "email address not valid", type: "Invalid Email" },
+      };
