@@ -29,18 +29,33 @@ export const NotificationEmailForm = ({
   const processForm: SubmitHandler<LaunchNotificationInput> = async (data) => {
     const result = await processEmailInput(data);
 
-    if (!result?.success) {
-      let message = result?.error?.toString() ?? "Something went wrong";
-
-      setError("email_address", {
-        type: "manual",
-        message,
-      });
-      toast.error(message);
+    if (result?.type === "Success") {
+      toast.success("Success!");
       return;
     }
 
-    toast.success("Success!");
+    if (
+      "type" in result?.error &&
+      result?.error?.type === "MailchimpAPIMemberExists"
+    ) {
+      return;
+    }
+
+    let message;
+
+    if (result.type === "ZodError") {
+      result?.error?.toString() ?? "Something went wrong";
+    }
+
+    if (result.type === "APIError") {
+      message = result.error.message;
+    }
+
+    setError("email_address", {
+      type: "manual",
+      message,
+    });
+    toast.error(message);
   };
 
   return (

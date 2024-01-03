@@ -10,8 +10,15 @@ import {
 import { LaunchNotificationInputSchema } from "./schema";
 
 type LaunchNotificationInput = z.infer<typeof LaunchNotificationInputSchema>;
+type ZodError = {
+  error: z.inferFormattedError<typeof LaunchNotificationInputSchema>;
+  type: "ZodError";
+};
+type APIError = { error: { message: string; type: string }; type: "APIError" };
+type Success = { success: true; type: "Success" };
+type ProcessEmailInputResult = Success | APIError | ZodError;
 
-class APIError extends Error {
+class MailchimpAPIError extends Error {
   response: any;
 
   constructor(message: string, response: any) {
@@ -31,11 +38,13 @@ const MAILCHIMP_AUDIENCE_MEMBER_STATUS_SUBSCRIBED = "subscribed";
 const MAILCHIMP_AUDIENCE_TAG_AIRGRAB_NOTIFICATION =
   "airgrab_launch_notification";
 
-export async function processEmailInput(data: LaunchNotificationInput) {
+export async function processEmailInput(
+  data: LaunchNotificationInput,
+): Promise<ProcessEmailInputResult> {
   const result = LaunchNotificationInputSchema.safeParse(data);
 
   if (!result.success) {
-    return { error: result.error.format() };
+    return { error: result.error.format(), type: "ZodError" };
   }
 
   try {
@@ -45,30 +54,42 @@ export async function processEmailInput(data: LaunchNotificationInput) {
       status: MAILCHIMP_AUDIENCE_MEMBER_STATUS_SUBSCRIBED,
       tags: [MAILCHIMP_AUDIENCE_TAG_AIRGRAB_NOTIFICATION],
     });
-    return { success: true };
+    return { success: true, type: "Success" };
   } catch (e) {
-    const error = parseErrorToMessage(e);
-    return { error };
+    const error = parseError(e);
+    return error;
   }
 }
 
-const parseErrorToMessage = (e: unknown): string => {
+const parseError = (e: unknown): APIError => {
   if (!(e instanceof Error)) {
-    return "An unknown error occurred.";
+    return {
+      error: { message: "An unknown error occurred.", type: "Unknown" },
+      type: "APIError",
+    };
   }
 
-  if ((e as APIError).response?.text) {
-    const responseText = JSON.parse((e as APIError).response.text);
+  if ((e as MailchimpAPIError).response?.text) {
+    const responseText = JSON.parse((e as MailchimpAPIError).response.text);
 
     switch (responseText.title) {
       case "Member Exists": {
-        return "Email already subscribed";
+        return {
+          error: {
+            message: "Email already subscribed",
+            type: "MailchimpAPIMemberExists",
+          },
+          type: "APIError",
+        };
       }
       default: {
-        return responseText.title;
+        return {
+          error: { message: responseText.title, type: "MailchimpAPI" },
+          type: "APIError",
+        };
       }
     }
   }
 
-  return e.message;
+  return { error: { message: e.message, type: "Generic" }, type: "APIError" };
 };
