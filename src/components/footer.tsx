@@ -78,13 +78,14 @@ const FooterNav = () => {
               {heading}
             </h3>
             <ul className="flex flex-col gap-3">
-              {links.map(({ title, href }) => {
+              {links.map(({ title, href, isDownload }) => {
                 return (
                   <Link
                     key={title}
                     target="_blank"
                     rel="noopener noreferrer"
                     href={href}
+                    download={isDownload}
                   >
                     {title}
                   </Link>
@@ -131,13 +132,16 @@ const SocialLinks = ({}) => {
 
 const footerMenuItems = {
   Developers: [
-    { title: "Docs", href: links.docs },
-    { title: "Github", href: links.github },
+    { title: "Docs", href: links.docs, isDownload: false },
+    { title: "Github", href: links.github, isDownload: false },
   ],
   Community: [
-    { title: "Forum", href: links.forum },
-    { title: "Discord", href: links.discord },
-    { title: "Twitter", href: links.twitter },
+    { title: "Forum", href: links.forum, isDownload: false },
+    { title: "Discord", href: links.discord, isDownload: false },
+    { title: "Twitter", href: links.twitter, isDownload: false },
   ],
-  Other: [{ title: "Team", href: links.mentolabs }],
+  Other: [
+    { title: "Team", href: links.mentolabs, isDownload: false },
+    { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
+  ],
 };
