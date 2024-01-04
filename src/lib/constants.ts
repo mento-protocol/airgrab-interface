@@ -9,6 +9,7 @@ export const links = {
   roadmap: "https://mento.canny.io/",
   forum: "https://forum.celo.org/c/mento/33",
   mentolabs: "https://www.mentolabs.xyz/team",
+  cookiePolicy:  "/files/cookie-policy.pdf",
 };
 
 export const MESSAGE = `I authorize Airgrab (${process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
