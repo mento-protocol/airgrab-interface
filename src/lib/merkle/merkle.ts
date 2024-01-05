@@ -2,6 +2,7 @@ import "server-only";
 
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import treeJson from "./tree.json";
+import * as Sentry from "@sentry/nextjs";
 
 export type AllocationMap = { [key: string]: string };
 
@@ -59,6 +60,7 @@ export function getProofForAddress(
     }
     return proof;
   } catch (err) {
+    Sentry.captureException(err);
     throw MerkleTreeError;
   }
 }

@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useKYCProof } from "./use-kyc-proof";
 import Link from "next/link";
 import React from "react";
+import * as Sentry from "@sentry/nextjs";
 
 export const useClaimMento = ({
   address,
@@ -55,6 +56,7 @@ export const useClaimMento = ({
       fractalId,
     }),
     onError: (e) => {
+      Sentry.captureException(e);
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
         toast.error(<ErrorMessage error={e} />);
       }
