@@ -1,27 +1,17 @@
-import { ReactNode } from "react";
+import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import cn from "classnames";
-import { color } from "framer-motion";
 
 type BaseProps = {
-  children: ReactNode;
   icon?: ReactNode;
-  target?: string;
-  rel?: string;
   fullWidth?: boolean;
   className?: string;
-  internal?: boolean;
   innerClassNames?: string;
   containerClassNames?: string;
   color?: "blush" | "blue";
   noFlexZone?: boolean;
   width?: string;
-};
-
-type ButtonActionProps =
-  | { href?: string; onClick?: () => void }
-  | { href?: undefined; onClick?: (() => void) | undefined };
-
-type ButtonProps = BaseProps & ButtonActionProps;
+} & ButtonHTMLAttributes<HTMLButtonElement> &
+  AnchorHTMLAttributes<HTMLAnchorElement>;
 
 type ColorProps = {
   color: "blush" | "blue";
@@ -30,19 +20,15 @@ type ColorProps = {
 const BaseButton = ({
   children,
   icon,
-  href,
-  target = "_blank",
-  rel = "noopener noreferrer",
   color,
   fullWidth,
-  internal,
-  className,
   innerClassNames,
   containerClassNames,
   noFlexZone,
   width,
   ...restProps
-}: ButtonProps & Partial<ColorProps>) => {
+}: BaseProps & Partial<ColorProps>) => {
+  const { href } = restProps;
   const isLink = Boolean(href);
   const Component: any = isLink ? "a" : "button";
 
@@ -60,7 +46,7 @@ const BaseButton = ({
     "select-none",
     "inline-block",
     href ? "inline-block" : "",
-    isBlue ? "bg-[#2A326A]" : "bg-[#845F84]",
+    color === "blue" ? "bg-[#2A326A]" : "bg-[#845F84]",
     width ? width : "w-[298px] sm:w-[260px] md:w-[260px]",
   ].filter(Boolean);
 
@@ -95,12 +81,7 @@ const BaseButton = ({
   ].filter(Boolean);
 
   return (
-    <Component
-      href={href}
-      target={isLink && !internal ? target : undefined}
-      rel={isLink && !internal ? rel : undefined}
-      {...restProps}
-    >
+    <Component {...restProps}>
       <span className={cn(containerClasses.join(" "), containerClassNames)}>
         <span className={cn(innerClasses.join(" "), innerClassNames)}>
           <span className={contentClasses.join(" ")}>
@@ -113,12 +94,12 @@ const BaseButton = ({
   );
 };
 
-export const PrimaryButton = (props: ButtonProps) => (
-  <BaseButton color="blue" {...props} />
+export const PrimaryButton = (props: BaseProps) => (
+  <BaseButton {...props} color="blue" />
 );
-export const SecondaryButton = (props: ButtonProps) => (
+export const SecondaryButton = (props: BaseProps) => (
   <BaseButton {...props} color="blush" />
 );
-export const TertiaryButton = (props: ButtonProps) => (
+export const TertiaryButton = (props: BaseProps) => (
   <BaseButton {...props} color={props.color} />
 );
