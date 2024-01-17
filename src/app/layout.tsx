@@ -100,6 +100,7 @@ export default function RootLayout({
                 "border font-fg border-primary-dark flex text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
               title: "flex flex-col items-center justify-end h-full",
               error: "bg-red-400",
+              success: "bg-white",
             },
           }}
         />

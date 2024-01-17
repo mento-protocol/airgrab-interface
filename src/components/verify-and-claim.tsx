@@ -115,7 +115,11 @@ export default function VerifyAndClaim({
     }
 
     if (prepare.isError) {
-      return <PrimaryButton onClick={prepare.refetch}>Try again</PrimaryButton>;
+      return (
+        <PrimaryButton onClick={() => prepare.refetch()}>
+          Try again
+        </PrimaryButton>
+      );
     }
 
     if (isPreparingKycOrClaim) {
@@ -215,7 +219,7 @@ const Claimed = ({ allocation }: { allocation: string }) => (
       <span className="font-medium font-fg">24 months</span>{" "}
     </span>
     <div className="flex flex-col gap-[18px]">
-      <PrimaryButton internal href="/" fullWidth>
+      <PrimaryButton href="/" fullWidth>
         Check another wallet
       </PrimaryButton>
       <TertiaryButton href="https://app.mento.org" fullWidth>

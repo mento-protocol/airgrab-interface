@@ -21,7 +21,7 @@ export const KYCButton = ({ address }: { address: string }) => {
   const url = buildFractalUrl(address);
 
   return (
-    <PrimaryButton internal fullWidth href={url}>
+    <PrimaryButton fullWidth href={url}>
       Verify via Fractal ID
     </PrimaryButton>
   );

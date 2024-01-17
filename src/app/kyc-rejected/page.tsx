@@ -1,5 +1,5 @@
 import { PrimaryButton } from "@/components/button";
-import Link from "next/link";
+import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 
 const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
 
@@ -9,22 +9,17 @@ if (!FRACTAL_APP_URL) {
 
 export default function KYCRejected() {
   return (
-    <div className="flex flex-col items-center gap-6">
-      <h3 className="font-fg font-medium text-2xl">
-        KYC Verification Rejected
+    <div className="flex text-center text-base font-fg flex-col items-center gap-6">
+      <h3 className="font-medium">
+        Unfortunately, you didn&apos;t meet the criteria
       </h3>
       <div className="flex flex-col items-center gap-6">
-        <span className="text-lg">
-          Your KYC Verification been rejected visit your
-        </span>{" "}
-        <Link className="text-primary-blue" href={FRACTAL_APP_URL!}>
-          Fractal ID dashboard
-        </Link>{" "}
-        for more details
+        <span>Please see the FAQ section to learn more about the criteria</span>
       </div>
-      <PrimaryButton internal href="/">
-        Return to Home
+      <PrimaryButton href={FRACTAL_APP_URL}>
+        Go to Fractal ID dashboard
       </PrimaryButton>
+      <EligibilityFAQLink />
     </div>
   );
 }
