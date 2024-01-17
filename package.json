@@ -12,7 +12,8 @@
     "prettier": "prettier --write \"**/*.{tsx,ts,js,mjs,json,md}\" --list-different",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "gen-tree": "tsc --skipLibCheck src/lib/merkle/buildTree.ts || tsx --no-cache src/lib/merkle/buildTree.ts"
   },
   "dependencies": {
     "@celo/rainbowkit-celo": "^1.0.2",
@@ -66,6 +67,7 @@
     "eslint-plugin-testing-library": "^6.0.2",
     "husky": "^8.0.0",
     "lint-staged": "^15.2.0",
-    "prettier": "^3.1.1"
+    "prettier": "^3.1.1",
+    "tsx": "^4.7.0"
   }
 }
