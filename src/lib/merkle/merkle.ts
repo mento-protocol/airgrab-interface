@@ -3,6 +3,7 @@ import "server-only";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import treeJson from "./tree.json";
 import * as Sentry from "@sentry/nextjs";
+import { SeverityLevel } from "@sentry/nextjs";
 
 export type AllocationMap = { [key: string]: string };
 
@@ -68,7 +69,16 @@ export function getProofForAddress(
 export const getAllocationForAddress = (
   address: string,
 ): string | undefined => {
-  return getAllocationList(getTree())[address];
+  const allocation = getAllocationList(getTree())[address];
+  Sentry.captureEvent({
+    message: "Allocation for address",
+    level: "info",
+    extra: {
+      address,
+      allocation,
+    },
+  });
+  return allocation;
 };
 
 // Intialize tree - load into memory on import
