@@ -1,13 +1,10 @@
-// @ts-nocheck
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import fs from "fs";
 import { parse } from "csv-parse/sync";
 import path from "path";
-import url from "url";
 import { getAddress } from "viem";
 
 export function buildMerkleTreeFromCSV() {
-  const dirNamr = path.dirname(url.fileURLToPath(import.meta.url));
   const rawValues = parse(
     fs.readFileSync(path.resolve(__dirname, "./list.csv"), {
       encoding: "utf8",
