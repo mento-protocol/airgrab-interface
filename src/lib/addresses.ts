@@ -1,5 +1,6 @@
 import { getAddress, isAddress } from "viem";
 import { logger } from "@/lib/logger";
+import * as Sentry from "@sentry/nextjs";
 
 export function isValidAddress(address: string) {
   // Need to catch because ethers' isAddress throws in some cases (bad checksum)
@@ -7,6 +8,7 @@ export function isValidAddress(address: string) {
     const isValid = address && isAddress(address);
     return !!isValid;
   } catch (error) {
+    Sentry.captureException(error);
     logger.warn("Invalid address", error, address);
     return false;
   }

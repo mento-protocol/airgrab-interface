@@ -9,6 +9,7 @@ export const links = {
   roadmap: "https://mento.canny.io/",
   forum: "https://forum.celo.org/c/mento/33",
   mentolabs: "https://www.mentolabs.xyz/team",
+  cookiePolicy:  "/files/cookie-policy.pdf",
 };
 
 export const AIRGRAB_CONTRACT_ADDRESS =
