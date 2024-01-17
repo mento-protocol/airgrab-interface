@@ -4,6 +4,7 @@ import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import treeJson from "./tree.json";
 import * as Sentry from "@sentry/nextjs";
 export type AllocationMap = { [key: string]: string };
+import { getAddress } from "viem";
 
 let tree: StandardMerkleTree<any[]> | null = null;
 
@@ -67,13 +68,17 @@ export function getProofForAddress(
 export const getAllocationForAddress = (
   address: string,
 ): string | undefined => {
-  const allocation = getAllocationList(getTree())[address];
+  // Get the checksummed address
+  const searchAddress = getAddress(address);
+
+  // Get the allocation for the address
+  const allocation = getAllocationList(getTree())[searchAddress];
 
   Sentry.captureEvent({
-    message: `Got allocation for address ${address} from merkle tree`,
+    message: `Got allocation for address from merkle tree`,
     level: "info",
     extra: {
-      Account: address,
+      Account: searchAddress,
       Allocation: !allocation ? "0" : allocation,
     },
   });
