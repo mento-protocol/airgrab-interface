@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
       fields.data.address,
     );
 
-    console.log({ hasClaimed });
     session.hasClaimed = hasClaimed;
 
     session.siwe = fields;
@@ -38,7 +37,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ ok: false });
   }
 }

@@ -74,7 +74,7 @@ export function RainbowKitSiweIronSessionProvider({
 
   const { trigger: signOut } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: async () => {
-      router.refresh();
+      router.push("/");
     },
   });
 
