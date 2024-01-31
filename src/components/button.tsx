@@ -7,14 +7,14 @@ type BaseProps = {
   className?: string;
   innerClassNames?: string;
   containerClassNames?: string;
-  color?: "blush" | "blue";
+  color: "blush" | "blue" | "white";
   noFlexZone?: boolean;
   width?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement> &
   AnchorHTMLAttributes<HTMLAnchorElement>;
 
 type ColorProps = {
-  color: "blush" | "blue";
+  color: "blush" | "blue" | "white";
 };
 
 const BaseButton = ({
@@ -34,6 +34,24 @@ const BaseButton = ({
 
   const isBlue = color === "blue";
 
+  const colorClasses = {
+    blue: {
+      accent: "bg-[#2A326A]",
+      primary: "bg-[#4D62F0]",
+      text: "text-clean-white",
+    },
+    blush: {
+      accent: "bg-[#845F84]",
+      primary: "bg-primary-blush",
+      text: "text-primary-dark",
+    },
+    white: {
+      accent: "bg-[#B3B3B3]",
+      primary: "bg-clean-white",
+      text: "text-primay-dark",
+    },
+  };
+
   const containerClasses = [
     "group",
     "font-inter",
@@ -46,7 +64,7 @@ const BaseButton = ({
     "select-none",
     "inline-block",
     href ? "inline-block" : "",
-    color === "blue" ? "bg-[#2A326A]" : "bg-[#845F84]",
+    colorClasses[color].accent,
     width ? width : "w-[298px] sm:w-[260px] md:w-[260px]",
   ].filter(Boolean);
 
@@ -67,9 +85,8 @@ const BaseButton = ({
     "rounded-lg",
     "border-primary-dark",
     "leading-5",
-    isBlue
-      ? "bg-[#4D62F0] text-clean-white"
-      : "bg-primary-blush text-primary-dark",
+    colorClasses[color].text,
+    colorClasses[color].primary,
     fullWidth ? "w-full flex items-center justify-center" : "",
   ].filter(Boolean);
 

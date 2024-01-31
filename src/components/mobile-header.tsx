@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 import {
   ChevronRight,
+  Clipboard,
   DiscordIcon,
   GithubIcon,
   MentoLogo,
@@ -16,12 +17,16 @@ import {
 import { links } from "@/lib/constants";
 import Link from "next/link";
 
-// import ThemeSwitch from "./ThemeSwitch";
-import { PrimaryButton } from "@/components/button";
 import MobileAccordianMenu from "@/components/mobile-accordian-menu";
 import { DisconnectButton } from "@/components/disconnect-button";
 import { useAccount } from "wagmi";
 import ClientOnly from "./client-only";
+import { ConnectButton } from "./connect-button";
+import { shortenAddress } from "@/lib/addresses";
+import { Identicon } from "./identicon";
+import { toast } from "sonner";
+import { tryClipboardSet } from "@/lib/clipboard";
+import Spacer from "./spacer";
 
 const variants = {
   open: { opacity: 1, y: 0 },
@@ -70,42 +75,39 @@ const DropDownMenuOverlay = ({
         variants={variants}
         transition={{ duration: 0.8 }}
       >
-        <div className="flex justify-between mb-12">
+        <div className="flex justify-between">
           <MentoLogo className="h-5 w-[90px]" />
           <button onClick={() => setIsOpen(false)}>
             <MobileMenuX className="w-5 h-5" />
           </button>
         </div>
+        {address ? (
+          <>
+            <Spacer className="h-[43px]" />
+            <div className="flex items-center justify-between mx-auto">
+              <CopyableWalletAddress />
+            </div>
+            <Spacer className="h-[43px]" />{" "}
+          </>
+        ) : (
+          <Spacer className="h-[48px]" />
+        )}
         <MobileAccordianMenu />
         <div className="flex flex-col w-full justify-center items-center">
-          <PrimaryButton
-            icon={<ChevronRight />}
-            href={links.app}
-            fullWidth
-            noFlexZone={true}
-            width="w-[340px] sm:w-[260px] md:w-[260px]"
-          >
-            Open app
-          </PrimaryButton>
-
           {address ? (
             <div className="flex flex-col w-full justify-center items-center mt-5">
               <DisconnectButton
                 width="w-[340px] sm:w-[260px] md:w-[260px]"
-                color="blush"
+                color="white"
               >
                 Disconnect Wallet
               </DisconnectButton>
             </div>
-          ) : null}
-
+          ) : (
+            <ConnectButton color="blue" />
+          )}
           <div className="flex flex-col items-center ">
             <SocialLinks className="mt-[20%]" />
-            <div className="grow"> </div>
-            <div>
-              <span className="dark:text-body-dark text-[15px]">Theme</span>
-              {/* <ThemeSwitch /> */}
-            </div>
           </div>
         </div>
       </motion.div>
@@ -141,5 +143,37 @@ const SocialLinks = ({ className = "" }: { className?: string }) => {
         <DiscordIcon />
       </Link>
     </nav>
+  );
+};
+
+const CopyableWalletAddress = () => {
+  const { address } = useAccount();
+
+  if (!address) return null;
+
+  const onClickCopy = async () => {
+    if (!address) return;
+    await tryClipboardSet(address);
+    toast.success("Address copied to clipboard", {
+      unstyled: true,
+      duration: 2000,
+      classNames: {
+        toast:
+          "border font-fg border-primary-dark flex items-center justify-center bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
+      },
+    });
+  };
+
+  return (
+    <div
+      className="flex items-center justify-center cursor-pointer gap-4"
+      onClick={onClickCopy}
+    >
+      <div className="flex gap-2 justify-center">
+        <Identicon address={address} size={26} />
+        <span className=""> {shortenAddress(address)}</span>
+      </div>
+      <Clipboard color="#636768" />
+    </div>
   );
 };

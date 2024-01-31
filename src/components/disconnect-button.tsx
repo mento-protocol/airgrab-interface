@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { PrimaryButton } from "./button";
+import { TertiaryButton } from "./button";
 import { useDisconnect } from "wagmi";
 import ClientOnly from "./client-only";
 
@@ -10,15 +10,15 @@ export const DisconnectButton = ({
   children,
 }: {
   width?: string;
-  color?: "blush" | "blue";
+  color: "blush" | "blue" | "white";
   children: React.ReactNode;
 }) => {
   const { disconnect } = useDisconnect();
   return (
     <ClientOnly>
-      <PrimaryButton onClick={() => disconnect()} width={width} color={color}>
+      <TertiaryButton onClick={() => disconnect()} width={width} color={color}>
         {children}
-      </PrimaryButton>
+      </TertiaryButton>
     </ClientOnly>
   );
 };
