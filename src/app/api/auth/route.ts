@@ -1,6 +1,4 @@
-import { Baklava } from "@celo/rainbowkit-celo/chains";
-import { Alfajores } from "@celo/rainbowkit-celo/chains";
-import { Celo } from "@celo/rainbowkit-celo/chains";
+import { Alfajores, Celo, Baklava } from "@celo/rainbowkit-celo/chains";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getIronSession } from "iron-session";
