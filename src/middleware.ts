@@ -9,17 +9,18 @@ export const config = {
 
 export async function middleware(request: NextRequest) {
   const session = await getServerSession();
-  const hasLaunchStarted = new Date(LAUNCH_DATE).getTime() > Date.now();
+  const hasLaunchStarted = new Date(LAUNCH_DATE).getTime() < Date.now();
   const redirectUrl = hasLaunchStarted ? "/claim" : "/allocation";
   const isHomePage = request.nextUrl.pathname === "/";
   const isClaimPage = request.nextUrl.pathname.startsWith("/claim");
   const hasSession = session?.siwe?.success;
+  const isRedirectUrl = request.nextUrl.pathname === redirectUrl;
 
   if (!isClaimPage && session.hasClaimed) {
     return NextResponse.redirect(new URL("/claim", request.url));
   }
 
-  if (!redirectUrl && session?.isKycVerified) {
+  if (!isRedirectUrl && session?.isKycVerified) {
     return NextResponse.redirect(new URL(redirectUrl, request.url));
   }
 
