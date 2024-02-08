@@ -1,3 +1,5 @@
+import ClientOnly from "@/components/client-only";
+import Loading from "@/components/loading";
 import VerifyAndClaim from "@/components/verify-and-claim";
 import {
   getAllocationForAddress,
@@ -14,10 +16,12 @@ export default async function Claim() {
   const merkleProof = getProofForAddress(fullAddress, getTree());
 
   return (
-    <VerifyAndClaim
-      allocation={formatUnits(BigInt(allocation ?? 0), 18)}
-      address={fullAddress}
-      merkleProof={merkleProof}
-    />
+    <ClientOnly fallback={<Loading />}>
+      <VerifyAndClaim
+        allocation={formatUnits(BigInt(allocation ?? 0), 18)}
+        address={fullAddress}
+        merkleProof={merkleProof}
+      />
+    </ClientOnly>
   );
 }

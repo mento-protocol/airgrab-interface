@@ -1,3 +1,4 @@
+"use client";
 import {
   useContractRead,
   useContractWrite,
@@ -29,14 +30,15 @@ export const useClaimMento = ({
   const { chain } = useNetwork();
   const { kyc } = useKYCProof();
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
-  const { data: hasClaimed, refetch } = useContractRead({
+
+  const claimStatus = useContractRead({
     address: AIRGRAB_CONTRACT_ADDRESS,
     abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
     functionName: "checkHasClaimed",
     args: [address!],
-    suspense: true,
   });
 
+  const hasClaimed = claimStatus.data === true;
   const shouldPrepareClaim = Boolean(
     kyc.data && allocation && merkleProof && !hasClaimed,
   );
@@ -80,11 +82,12 @@ export const useClaimMento = ({
           rel="noopener noreferrer"
           href={`${chain?.blockExplorers?.default?.url}/tx/${transactionHash}`}
         >
-          view the trasnasction here
+          view the transaction here
         </Link>
       </div>
     );
   };
+
   const ErrorMessage = ({ error }: { error: Error }) => {
     const title = error.name;
     let description =
@@ -104,7 +107,7 @@ export const useClaimMento = ({
   const wait = useWaitForTransaction({
     hash: contractWrite?.data?.hash,
     onSuccess: async (data) => {
-      await refetch();
+      await claimStatus.refetch();
 
       if (data) {
         toast.success(
@@ -120,14 +123,25 @@ export const useClaimMento = ({
   });
 
   return {
-    prepare,
+    prepare: {
+      ...prepare,
+      isError:
+        prepare.isError && !(prepare.error instanceof UserRejectedRequestError),
+    },
     confirmation: wait,
     claim: {
       ...contractWrite,
       hasClaimed,
       isConfirmationLoading: wait.isLoading,
+      isError:
+        contractWrite.isError &&
+        !(contractWrite.error instanceof UserRejectedRequestError),
     },
-    kyc,
+    kyc: {
+      ...kyc,
+      error: kyc.error && !(kyc.error instanceof UserRejectedRequestError),
+    },
+    claimStatus,
   };
 };
 

@@ -66,6 +66,7 @@ export const useKYCProof = () => {
       isSuccess: !kyc.error && signature.isSuccess,
       data: kyc.data,
       error: signature.error || kyc.error,
+      isError: signature.isError || kyc.error,
       signMessage: signature.signMessage,
     },
   };
