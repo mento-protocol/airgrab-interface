@@ -4,4 +4,5 @@ export interface SessionData {
   siwe: any;
   success: boolean;
   isKycVerified: boolean;
+  hasClaimed: boolean;
 }

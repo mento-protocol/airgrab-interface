@@ -1,3 +1,4 @@
+import { Alfajores, Celo, Baklava } from "@celo/rainbowkit-celo/chains";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getIronSession } from "iron-session";
@@ -5,6 +6,9 @@ import { SessionData } from "@/lib/session/types";
 import { sessionOptions } from "@/lib/session/config";
 import { defaultSession } from "@/lib/session/constants";
 import { SiweMessage, generateNonce } from "siwe";
+import { AIRGRAB_CONTRACT_ADDRESS } from "@/lib/constants";
+import { MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airgrab";
+import { createPublicClient, http } from "viem";
 
 // /api/auth
 export async function POST(request: NextRequest) {
@@ -18,6 +22,13 @@ export async function POST(request: NextRequest) {
     if (fields.data.nonce !== session.nonce) {
       return NextResponse.json({ message: "Invalid nonce." }, { status: 422 });
     }
+
+    const hasClaimed = await checkHasClaimedForWallet(
+      fields.data.chainId,
+      fields.data.address,
+    );
+
+    session.hasClaimed = hasClaimed;
 
     session.siwe = fields;
     await session.save();
@@ -61,5 +72,33 @@ export async function DELETE() {
   } catch (error) {
     // Session deletion error
     return NextResponse.json({ ok: false });
+  }
+}
+
+async function checkHasClaimedForWallet(chainId: number, address: string) {
+  try {
+    const chains = { Celo, Alfajores, Baklava };
+
+    let chain;
+    for (const [chainName, chainInfo] of Object.entries(chains)) {
+      if (chainInfo.id === chainId) {
+        chain = chainInfo;
+        break;
+      }
+    }
+
+    const publicClient = createPublicClient({
+      chain,
+      transport: http(),
+    });
+
+    return await publicClient.readContract({
+      address: AIRGRAB_CONTRACT_ADDRESS,
+      abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
+      functionName: "checkHasClaimed",
+      args: [address as `0x${string}`],
+    });
+  } catch (error) {
+    return false;
   }
 }

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
-import { WagmiConfig, useAccount, useDisconnect } from "wagmi";
+import { WagmiConfig, useAccount, useDisconnect, useNetwork } from "wagmi";
 import { chains, config } from "@/lib/wagmi";
 import type { ThemeProviderProps } from "next-themes/dist/types";
 import {
@@ -40,6 +40,8 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   const isConnectedWithNoSession = status === "unauthenticated" && isConnected;
   const isLoggingInViaModal = connectModalOpen;
   const hasSessionButNoConnection = status === "authenticated" && !isConnected;
+  const isConnectedWithSession = status === "authenticated" && isConnected;
+  const { chain } = useNetwork();
 
   React.useEffect(() => {
     if (isConnectedWithNoSession && !isLoggingInViaModal) {
@@ -47,7 +49,11 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
     }
     if (hasSessionButNoConnection) {
       disconnect();
-      router.push("/");
+    }
+    const isOnCelo = chains.some((chn) => chn.id === chain?.id);
+
+    if (Boolean(!isOnCelo && isConnectedWithSession)) {
+      disconnect();
     }
   }, [
     isConnectedWithNoSession,
@@ -55,6 +61,8 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
     disconnect,
     hasSessionButNoConnection,
     router,
+    isConnectedWithSession,
+    chain,
   ]);
   return <>{children}</>;
 };

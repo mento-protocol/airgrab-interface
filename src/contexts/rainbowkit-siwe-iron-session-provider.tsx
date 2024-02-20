@@ -39,44 +39,7 @@ export function RainbowKitSiweIronSessionProvider({
   children,
   getSiweMessageOptions,
 }: RainbowKitSiweIronSessionProviderProps) {
-  const router = useRouter();
-
-  const { status, mutate: mutateSession } = useSession();
-
-  async function doLogout(url: string) {
-    const result = await fetchJson<SessionData>(url, { method: "DELETE" });
-    if (!(result instanceof Response)) {
-      mutateSession(result);
-    }
-  }
-
-  async function doLogin(
-    url: string,
-    {
-      arg: { signature, message },
-    }: {
-      arg: { signature: string; message: SiweMessage };
-    },
-  ) {
-    // Verify signature
-    const { ok } = await fetchJson<{ ok: boolean }>(url, {
-      method: "POST",
-      body: JSON.stringify({ signature, message }),
-    });
-    return ok;
-  }
-
-  const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
-    onSuccess: async () => {
-      router.push("/allocation");
-    },
-  });
-
-  const { trigger: signOut } = useSWRMutation(sessionApiRoute, doLogout, {
-    onSuccess: async () => {
-      router.refresh();
-    },
-  });
+  const { status, logout, login } = useSession();
 
   const adapter = React.useMemo(
     () =>
@@ -110,12 +73,12 @@ export function RainbowKitSiweIronSessionProvider({
 
         getNonce: fetchNonce,
 
-        signOut: signOut,
+        signOut: logout,
         verify: async (arg: { message: SiweMessage; signature: string }) => {
           return login(arg);
         },
       }),
-    [getSiweMessageOptions, signOut, login],
+    [getSiweMessageOptions, logout, login],
   );
 
   return (
@@ -138,7 +101,43 @@ const fetchNonce = async () => {
 export const useSession = () => {
   const sessionResponse = useSWR(sessionApiRoute, fetchJson<SessionData>, {
     fallbackData: defaultSession,
-    refreshInterval: 3000,
+  });
+
+  const router = useRouter();
+
+  async function doLogout(url: string) {
+    const result = await fetchJson<SessionData>(url, { method: "DELETE" });
+    if (!(result instanceof Response)) {
+      sessionResponse.mutate(result);
+    }
+  }
+
+  async function doLogin(
+    url: string,
+    {
+      arg: { signature, message },
+    }: {
+      arg: { signature: string; message: SiweMessage };
+    },
+  ) {
+    // Verify signature
+    const { ok } = await fetchJson<{ ok: boolean }>(url, {
+      method: "POST",
+      body: JSON.stringify({ signature, message }),
+    });
+    return ok;
+  }
+
+  const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
+    onSuccess: async () => {
+      router.push("/allocation");
+    },
+  });
+
+  const { trigger: logout } = useSWRMutation(sessionApiRoute, doLogout, {
+    onSuccess: async () => {
+      router.push("/");
+    },
   });
 
   const { data: session, isLoading: isSessionLoading } = sessionResponse;
@@ -152,5 +151,5 @@ export const useSession = () => {
           : "unauthenticated";
     }, [session, isSessionLoading]);
 
-  return { status, ...sessionResponse };
+  return { login, logout, status, ...sessionResponse };
 };
