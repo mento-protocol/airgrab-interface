@@ -17,8 +17,8 @@ export default function KYCPending({
       </h3>
       <span className="text-lg text-center flex flex-col">
         {contacted
-          ? "Your KYC Verification is pending, you have been contacted by Fractal ID for more information. For an update please check your email or visits your"
-          : "Your KYC Verification is pending, for an update on your verification status visit your"}{" "}
+          ? "Your KYC Verification is pending, you have been contacted by Fractal ID for more information. For an update please check your email or visit your"
+          : "Your KYC Verification is pending; for an update on your verification status, visit your"}{" "}
         <Link className="text-primary-blue" href={FRACTAL_APP_URL}>
           Fractal ID Dashboard
         </Link>
