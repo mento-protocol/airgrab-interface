@@ -48,15 +48,17 @@ export const useClaimMento = ({
     abi: Airgrab,
     functionName: "claim",
     enabled: shouldPrepareClaim,
-    args: prepareArgs({
-      allocation,
-      address,
-      merkleProof,
-      proof,
-      validUntil,
-      approvedAt,
-      fractalId,
-    }),
+    args: shouldPrepareClaim
+      ? prepareArgs({
+          allocation,
+          address,
+          merkleProof,
+          proof,
+          validUntil,
+          approvedAt,
+          fractalId,
+        })
+      : undefined,
     onError: (e) => {
       Sentry.captureException(e);
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {

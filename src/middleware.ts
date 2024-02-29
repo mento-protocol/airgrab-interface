@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getServerSession } from "./lib/session";
-import { LAUNCH_DATE } from "./lib/constants";
+import { getServerSession } from "@/lib/session";
+import { LAUNCH_DATE } from "@/lib/constants";
 
 export const config = {
   matcher: ["/claim/:path*", "/allocation/:path*", "/"],
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   const isAllocationPage = request.nextUrl.pathname.startsWith("/allocation");
   const hasSession = session?.siwe?.success;
 
-  // every route excpet home requires a session
+  // every route except home requires a session
   if (!isHomePage && !hasSession) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -35,7 +35,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isClaimPage && !session?.isKycVerified && !session.hasClaimed) {
-    console.log({ session: session.hasClaimed });
     return NextResponse.redirect(new URL("/", request.url));
   }
 }

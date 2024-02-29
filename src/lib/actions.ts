@@ -5,7 +5,7 @@ import {
   MAILCHIMP_API_KEY,
   MAILCHIMP_AUDIENCE_ID,
   MAILCHIMP_SERVER_PREFIX,
-} from "./server-constants";
+} from "./constants.server";
 
 type LaunchNotificationInput = {
   email_address: string;

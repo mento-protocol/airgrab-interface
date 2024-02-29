@@ -11,6 +11,7 @@ import {
   useSession,
 } from "@/contexts/rainbowkit-siwe-iron-session-provider";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
@@ -36,12 +37,41 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const router = useRouter();
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const isConnectedWithNoSession = status === "unauthenticated" && isConnected;
   const isLoggingInViaModal = connectModalOpen;
   const hasSessionButNoConnection = status === "authenticated" && !isConnected;
   const isConnectedWithSession = status === "authenticated" && isConnected;
   const { chain } = useNetwork();
+
+  // Refresh KYC every 15 minutes if the user is authenticated and not kyc verified
+  useSWR("refresh-kyc", () => fetch("/api/kyc/refresh"), {
+    onSuccess: async (data) => {
+      const verificationCaseStatus = await data.json();
+      switch (verificationCaseStatus?.status) {
+        case "contacted":
+          return router.push("/?kyc_status=contacted");
+        case "pending":
+          return router.push("/kyc-pending");
+        case "done":
+          switch (verificationCaseStatus.credential) {
+            case "approved":
+              return router.push("/allocation");
+            case "pending":
+              return router.push("/kyc-pending");
+            case "rejected":
+              return router.push("/kyc-rejected");
+          }
+        default:
+          return router.push("/");
+      }
+    },
+    isPaused: () =>
+      status !== "authenticated" &&
+      !(session instanceof Response) &&
+      !session.isKycVerified,
+    refreshInterval: 900,
+  });
 
   React.useEffect(() => {
     if (isConnectedWithNoSession && !isLoggingInViaModal) {

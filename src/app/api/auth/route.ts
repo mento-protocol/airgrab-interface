@@ -9,10 +9,12 @@ import { SiweMessage, generateNonce } from "siwe";
 import { AIRGRAB_CONTRACT_ADDRESS } from "@/lib/constants";
 import { MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airgrab";
 import { createPublicClient, http } from "viem";
+import { refetchKycStatus } from "@/lib/fractal";
+import { getAddressForSession, getServerSession } from "@/lib/session";
 
-// /api/auth
+// POST /api/auth
 export async function POST(request: NextRequest) {
-  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+  const session = await getServerSession();
 
   try {
     const { message, signature } = await request.json();
@@ -23,14 +25,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Invalid nonce." }, { status: 422 });
     }
 
+    session.siwe = fields;
+
     const hasClaimed = await checkHasClaimedForWallet(
       fields.data.chainId,
       fields.data.address,
     );
-
     session.hasClaimed = hasClaimed;
 
-    session.siwe = fields;
+    const kycStatus = await refetchKycStatus(getAddressForSession(session));
+    if (kycStatus?.status === "done" && kycStatus?.credential === "approved") {
+      session.isKycVerified = true;
+    }
+
     await session.save();
 
     return NextResponse.json({ ok: true });

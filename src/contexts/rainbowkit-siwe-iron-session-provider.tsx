@@ -135,8 +135,9 @@ export const useSession = () => {
   });
 
   const { trigger: logout } = useSWRMutation(sessionApiRoute, doLogout, {
-    onSuccess: async () => {
-      router.push("/");
+    onSuccess: () => {
+      window.history.pushState({}, new URL("/").pathname);
+      router.refresh();
     },
   });
 
