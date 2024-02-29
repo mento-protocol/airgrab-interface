@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     session.hasClaimed = hasClaimed;
 
     const kycStatus = await refetchKycStatus(getAddressForSession(session));
-    if (kycStatus?.status === "done" && kycStatus.credential === "approved") {
+    if (kycStatus?.status === "done" && kycStatus?.credential === "approved") {
       session.isKycVerified = true;
     }
 
