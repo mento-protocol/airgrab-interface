@@ -1,5 +1,5 @@
 "use client";
-import { PrimaryButton, TertiaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { useClaimMento } from "@/hooks/use-claim-mento";
 import { shortenAddress } from "@/lib/addresses";
 import Link from "next/link";
@@ -92,63 +92,54 @@ export default function VerifyAndClaim({
   const renderButton = () => {
     if (claimErrorCooldown.isCoolingDown) {
       return (
-        <PrimaryButton>
+        <Button color="blue">
           Try again in {claimErrorCooldown.timeLeft}s
-        </PrimaryButton>
+        </Button>
       );
     }
 
     if (kycErrorCooldown.isCoolingDown) {
       return (
-        <PrimaryButton>Try again in {kycErrorCooldown.timeLeft}s</PrimaryButton>
+        <Button color="blue">Try again in {kycErrorCooldown.timeLeft}s</Button>
       );
     }
 
     if (preparationErrorCooldown.isCoolingDown) {
       return (
-        <PrimaryButton>
+        <Button color="blue">
           Try again in {preparationErrorCooldown.timeLeft}s
-        </PrimaryButton>
+        </Button>
       );
     }
 
     if (prepare.isError) {
       return (
-        <PrimaryButton onClick={() => prepare.refetch()}>
+        <Button color="blue" onClick={() => prepare.refetch()}>
           Try again
-        </PrimaryButton>
-      );
-    }
-
-    if (claimStatus.isError) {
-      return (
-        <span className="text-red-500">
-          Error Fetching Claim status, ensure you are connected to the correct
-          network{" "}
-        </span>
+        </Button>
       );
     }
 
     if (isPreparingKycOrClaim) {
-      return <PrimaryButton>Loading...</PrimaryButton>;
+      return <Button color="blue">Loading...</Button>;
     }
 
     if (isAwaitingUserSignature) {
-      return <PrimaryButton>Continue in wallet</PrimaryButton>;
-    }
-
-    if (claim.isConfirmationLoading) {
-      return <PrimaryButton>Awaiting confirmation...</PrimaryButton>;
+      return <Button color="blue">Continue in wallet</Button>;
     }
 
     if (!kyc.isSuccess) {
-      return <PrimaryButton onClick={signMessage}>Start Claim</PrimaryButton>;
+      return (
+        <Button color="blue" onClick={signMessage}>
+          Claim {allocation} MENTO
+        </Button>
+      );
     }
 
     return (
-      <PrimaryButton onClick={claimMento}>
+      <Button color="blue" onClick={claimMento}>
         <>Claim & Lock {allocation} MENTO</>
-      </PrimaryButton>
+      </Button>
     );
   };
 
@@ -227,12 +218,12 @@ const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
       <span className="font-medium font-fg">24 months</span>{" "}
     </span>
     <div className="flex flex-col gap-[18px]">
-      <PrimaryButton onClick={disconnect} fullWidth>
+      <Button color="blue" href="/" fullWidth>
         Check another wallet
-      </PrimaryButton>
-      <TertiaryButton href="https://app.mento.org" fullWidth>
+      </Button>
+      <Button color="blush" href="https://app.mento.org" fullWidth>
         Go to app
-      </TertiaryButton>
+      </Button>
     </div>
   </ClaimWrapper>
 );

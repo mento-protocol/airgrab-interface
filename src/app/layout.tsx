@@ -22,7 +22,7 @@ import {
   TokenR3,
   TokenR4,
 } from "@/components/svgs";
-import { PrimaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { links } from "@/lib/constants";
 
 import localFont from "next/font/local";
@@ -179,14 +179,15 @@ const LearnMoreSection = () => {
           </FeatureParagraph>
 
           <div className="md:w-full flex justify-center lg:justify-start sm:mb-[42px]">
-            <PrimaryButton
+            <Button
+              color="blue"
               fullWidth
               href={links.discord}
               icon={<ChevronRight />}
               noFlexZone={true}
             >
               <DiscordIcon className="text-clean-white" /> Join the community
-            </PrimaryButton>
+            </Button>
           </div>
         </div>
         <LearnMoreImage className="hidden overflow-visible lg:inline w-[396px] h-[314px] dark:hidden" />

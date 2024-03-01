@@ -11,21 +11,21 @@ import {
 import { shortenAddress } from "@/lib/addresses";
 import { tryClipboardSet } from "@/lib/clipboard";
 import { useAccount, useDisconnect } from "wagmi";
-import { TertiaryButton } from "./button";
+import { Button, type ButtonColor } from "./button";
 import React, { ReactNode } from "react";
 import { DropdownModal } from "./dropdown";
 import ClientOnly from "./client-only";
 
 export function ConnectButton({
   containerClassNames,
-  color,
+  color = "blue",
   icon,
   noFlexZone,
   width,
   innerClassNames,
 }: {
   containerClassNames?: string;
-  color?: "blush" | "blue";
+  color?: ButtonColor;
   icon?: ReactNode;
   noFlexZone?: boolean;
   width?: string;
@@ -110,7 +110,7 @@ export function ConnectButton({
             modalClasses="right-px min-w-[272px] border border-solid border-black dark:border-[#333336] text-sm !rounded-[16px] !shadow-lg2 dark:bg-[#1D1D20]/[1]"
           />
         ) : (
-          <TertiaryButton
+          <Button
             onClick={openConnectModal}
             containerClassNames={containerClassNames}
             color={color}
@@ -120,7 +120,7 @@ export function ConnectButton({
             innerClassNames={innerClassNames}
           >
             Connect Wallet
-          </TertiaryButton>
+          </Button>
         )}
       </ClientOnly>
     </div>

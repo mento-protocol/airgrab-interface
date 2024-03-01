@@ -5,7 +5,6 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import {
-  ChevronRight,
   Clipboard,
   DiscordIcon,
   GithubIcon,
@@ -27,7 +26,7 @@ import { Identicon } from "./identicon";
 import { toast } from "sonner";
 import { tryClipboardSet } from "@/lib/clipboard";
 import Spacer from "./spacer";
-import { SecondaryButton } from "./button";
+import { Button } from "./button";
 
 const variants = {
   open: { opacity: 1, y: 0 },
@@ -92,9 +91,9 @@ const DropDownMenuOverlay = ({
         <div className="flex flex-col w-full justify-center items-center gap-8">
           <div className="flex flex-col w-full justify-center items-center gap-[18px]">
             <ConnectionButtons isConnected={isConnected} />
-            <SecondaryButton href="/" color="blush">
+            <Button color="blush" href="/">
               Homepage
-            </SecondaryButton>
+            </Button>
           </div>
           <div className="flex flex-col items-center">
             <SocialLinks />
@@ -112,9 +111,9 @@ const ConnectionButtons = ({ isConnected }: { isConnected: boolean }) => {
     <ConnectButton color="blue" />
   );
 };
-<SecondaryButton href="/" color="blush">
+<Button color="blush" href="/">
   Homepage
-</SecondaryButton>;
+</Button>;
 
 const SocialLinks = ({ className = "" }: { className?: string }) => {
   return (
