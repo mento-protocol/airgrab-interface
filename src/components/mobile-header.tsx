@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 import {
   ChevronRight,
+  Clipboard,
   DiscordIcon,
   GithubIcon,
   MentoLogo,
@@ -16,12 +17,17 @@ import {
 import { links } from "@/lib/constants";
 import Link from "next/link";
 
-// import ThemeSwitch from "./ThemeSwitch";
-import { PrimaryButton } from "@/components/button";
 import MobileAccordianMenu from "@/components/mobile-accordian-menu";
 import { DisconnectButton } from "@/components/disconnect-button";
 import { useAccount } from "wagmi";
 import ClientOnly from "./client-only";
+import { ConnectButton } from "./connect-button";
+import { shortenAddress } from "@/lib/addresses";
+import { Identicon } from "./identicon";
+import { toast } from "sonner";
+import { tryClipboardSet } from "@/lib/clipboard";
+import Spacer from "./spacer";
+import { SecondaryButton } from "./button";
 
 const variants = {
   open: { opacity: 1, y: 0 },
@@ -30,7 +36,6 @@ const variants = {
 
 export const MobileHeader = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { address } = useAccount();
 
   return (
     <header className="px-4 lg:hidden">
@@ -42,11 +47,7 @@ export const MobileHeader = () => {
         >
           <MobileMenuHamburger className="text-primary-dark dark:text-clean-white" />
         </button>
-        <DropDownMenuOverlay
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          address={address}
-        />
+        <DropDownMenuOverlay isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
     </header>
   );
@@ -55,12 +56,12 @@ export const MobileHeader = () => {
 const DropDownMenuOverlay = ({
   isOpen,
   setIsOpen,
-  address,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  address?: string;
 }) => {
+  const { isConnected } = useAccount();
+
   return (
     <ClientOnly>
       <motion.div
@@ -70,48 +71,50 @@ const DropDownMenuOverlay = ({
         variants={variants}
         transition={{ duration: 0.8 }}
       >
-        <div className="flex justify-between mb-12">
+        <div className="flex justify-between">
           <MentoLogo className="h-5 w-[90px]" />
           <button onClick={() => setIsOpen(false)}>
             <MobileMenuX className="w-5 h-5" />
           </button>
         </div>
+        {isConnected ? (
+          <>
+            <Spacer className="h-[43px]" />
+            <div className="flex items-center justify-between mx-auto">
+              <CopyableWalletAddress />
+            </div>
+            <Spacer className="h-[43px]" />{" "}
+          </>
+        ) : (
+          <Spacer className="h-[48px]" />
+        )}
         <MobileAccordianMenu />
-        <div className="flex flex-col w-full justify-center items-center">
-          <PrimaryButton
-            icon={<ChevronRight />}
-            href={links.app}
-            fullWidth
-            noFlexZone={true}
-            width="w-[340px] sm:w-[260px] md:w-[260px]"
-          >
-            Open app
-          </PrimaryButton>
-
-          {address ? (
-            <div className="flex flex-col w-full justify-center items-center mt-5">
-              <DisconnectButton
-                width="w-[340px] sm:w-[260px] md:w-[260px]"
-                color="blush"
-              >
-                Disconnect Wallet
-              </DisconnectButton>
-            </div>
-          ) : null}
-
-          <div className="flex flex-col items-center ">
-            <SocialLinks className="mt-[20%]" />
-            <div className="grow"> </div>
-            <div>
-              <span className="dark:text-body-dark text-[15px]">Theme</span>
-              {/* <ThemeSwitch /> */}
-            </div>
+        <div className="flex flex-col w-full justify-center items-center gap-8">
+          <div className="flex flex-col w-full justify-center items-center gap-[18px]">
+            <ConnectionButtons isConnected={isConnected} />
+            <SecondaryButton href="/" color="blush">
+              Homepage
+            </SecondaryButton>
+          </div>
+          <div className="flex flex-col items-center">
+            <SocialLinks />
           </div>
         </div>
       </motion.div>
     </ClientOnly>
   );
 };
+
+const ConnectionButtons = ({ isConnected }: { isConnected: boolean }) => {
+  return isConnected ? (
+    <DisconnectButton color="white">Disconnect Wallet</DisconnectButton>
+  ) : (
+    <ConnectButton color="blue" />
+  );
+};
+<SecondaryButton href="/" color="blush">
+  Homepage
+</SecondaryButton>;
 
 const SocialLinks = ({ className = "" }: { className?: string }) => {
   return (
@@ -141,5 +144,37 @@ const SocialLinks = ({ className = "" }: { className?: string }) => {
         <DiscordIcon />
       </Link>
     </nav>
+  );
+};
+
+const CopyableWalletAddress = () => {
+  const { address } = useAccount();
+
+  if (!address) return null;
+
+  const onClickCopy = async () => {
+    if (!address) return;
+    await tryClipboardSet(address);
+    toast.success("Address copied to clipboard", {
+      unstyled: true,
+      duration: 2000,
+      classNames: {
+        toast:
+          "border font-fg border-primary-dark flex items-center justify-center bg-white text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
+      },
+    });
+  };
+
+  return (
+    <div
+      className="flex items-center justify-center cursor-pointer gap-4"
+      onClick={onClickCopy}
+    >
+      <div className="flex gap-2 justify-center">
+        <Identicon address={address} size={26} />
+        <span className=""> {shortenAddress(address)}</span>
+      </div>
+      <Clipboard color="#636768" />
+    </div>
   );
 };
