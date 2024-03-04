@@ -120,12 +120,25 @@ export default function VerifyAndClaim({
       );
     }
 
+    if (claimStatus.isError) {
+      return (
+        <span className="text-red-500">
+          Error Fetching Claim status, ensure you are connected to the correct
+          network{" "}
+        </span>
+      );
+    }
+
     if (isPreparingKycOrClaim) {
       return <Button color="blue">Loading...</Button>;
     }
 
     if (isAwaitingUserSignature) {
       return <Button color="blue">Continue in wallet</Button>;
+    }
+
+    if (claim.isConfirmationLoading) {
+      return <Button color="blue">Awaiting confirmation...</Button>;
     }
 
     if (!kyc.isSuccess) {
@@ -218,7 +231,7 @@ const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
       <span className="font-medium font-fg">24 months</span>{" "}
     </span>
     <div className="flex flex-col gap-[18px]">
-      <Button color="blue" href="/" fullWidth>
+      <Button color="blue" onClick={disconnect} fullWidth>
         Check another wallet
       </Button>
       <Button color="blush" href="https://app.mento.org" fullWidth>
