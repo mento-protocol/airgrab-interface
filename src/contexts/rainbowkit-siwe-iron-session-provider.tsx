@@ -74,7 +74,7 @@ export function RainbowKitSiweIronSessionProvider({
         getNonce: fetchNonce,
 
         signOut: logout,
-        verify: async (arg: { message: SiweMessage; signature: string }) => {
+        verify: (arg: { message: SiweMessage; signature: string }) => {
           return login(arg);
         },
       }),
@@ -120,6 +120,7 @@ export const useSession = () => {
       arg: { signature: string; message: SiweMessage };
     },
   ) {
+    router.prefetch("/allocation");
     // Verify signature
     const { ok } = await fetchJson<{ ok: boolean }>(url, {
       method: "POST",
@@ -129,14 +130,14 @@ export const useSession = () => {
   }
 
   const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
+    optimisticData: true,
     onSuccess: async () => {
-      router.push("/allocation");
+      router.refresh();
     },
   });
 
   const { trigger: logout } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: () => {
-      window.history.pushState({}, new URL("/").pathname);
       router.refresh();
     },
   });

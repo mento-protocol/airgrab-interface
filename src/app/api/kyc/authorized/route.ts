@@ -43,7 +43,7 @@ export async function GET(request: Request) {
             return NextResponse.redirect(new URL("/kyc-rejected", request.url));
         }
       default:
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/allocation", request.url));
     }
   } catch (error) {
     return NextResponse.redirect(new URL("/", request.url));

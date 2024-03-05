@@ -94,17 +94,25 @@ export async function processFractalAuthCode(
 export async function refetchKycStatus(
   address: string,
 ): Promise<VerificationCase | undefined> {
-  const fractalTokenCookie = await getFractalTokenCookie();
-  const hasKycCookies = fractalTokenCookie[address];
+  try {
+    const fractalTokenCookie = await getFractalTokenCookie();
+    const hasKycCookies = fractalTokenCookie[address];
 
-  if (!hasKycCookies) {
+    if (!hasKycCookies) {
+      return;
+    }
+    const tokens = await getOrRefreshFractalTokens(address);
+    if (!tokens) {
+      return;
+    }
+    const kycStatus = await processFractalUser(
+      tokens.accessToken.token,
+      address,
+    );
+    return kycStatus;
+  } catch (error) {
     return;
   }
-  const tokens = await getOrRefreshFractalTokens(address);
-  if (!tokens) {
-    return;
-  }
-  return processFractalUser(tokens.accessToken.token, address);
 }
 
 async function processFractalUser(accessToken: string, address: string) {
@@ -117,6 +125,7 @@ async function processFractalUser(accessToken: string, address: string) {
     (wallet) =>
       wallet.address.toLocaleLowerCase() === address.toLocaleLowerCase(),
   );
+
   if (!doesFractalUserIncludeConnectedAddress) {
     throw new Error("No wallet found for connected address");
   }
