@@ -29,7 +29,6 @@ export const NotificationEmailForm = ({
 
     switch (result.type) {
       case "Success":
-        toast.success("Success!");
         return;
       case "ValidationError":
         error = result?.error?.message ?? error;
