@@ -12,10 +12,10 @@ export const links = {
   cookiePolicy: "/files/cookie-policy.pdf",
 };
 
-export const AIRGRAB_CONTRACT_ADDRESS =
+export const AIRDROP_CONTRACT_ADDRESS =
   "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
 
-export const MESSAGE = `I authorize Airgrab (${process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
+export const MESSAGE = `I authorize Airdrop (${process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
 - I passed KYC level basic+liveness`;
 
 // Ensuring the environment variables are set

@@ -21,7 +21,7 @@ module.exports = withSentryConfig(
     // Suppresses source map uploading logs during build
     silent: true,
     org: "mento-labs",
-    project: "airgrab-interface",
+    project: "airdrop-interface",
   },
   {
     // For all available options, see:

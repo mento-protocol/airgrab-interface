@@ -35,8 +35,8 @@ client.setConfig({
 
 const MAILCHIMP_AUDIENCE_MEMBER_STATUS_SUBSCRIBED = "subscribed";
 //TODO: Update this with the correct tag
-const MAILCHIMP_AUDIENCE_TAG_AIRGRAB_NOTIFICATION =
-  "airgrab_launch_notification";
+const MAILCHIMP_AUDIENCE_TAG_AIRDROP_NOTIFICATION =
+  "airdrop_launch_notification";
 
 export async function processEmailInput(
   data: LaunchNotificationInput,
@@ -55,7 +55,7 @@ export async function processEmailInput(
       {
         email_address,
         status: MAILCHIMP_AUDIENCE_MEMBER_STATUS_SUBSCRIBED,
-        tags: [MAILCHIMP_AUDIENCE_TAG_AIRGRAB_NOTIFICATION],
+        tags: [MAILCHIMP_AUDIENCE_TAG_AIRDROP_NOTIFICATION],
       },
     );
 

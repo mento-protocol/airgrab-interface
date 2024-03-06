@@ -1,23 +1,26 @@
-# Mento Airgrab Interface
+# Mento Airdrop UI
 
-This is the home for the Mento Airgrab Interface
+This DApp lets users:
 
-This DApp provides and overview of the Mento airgrab process, lets users check their allocation based on a snapshot of predetermined metrics, KYC to further confirm eligibility, list various claiming methods and allows users to claim their allocation with one of the claiming options.
-
+- Check their airdrop eligibility and allocation based on [the snapshot repo](https://github.com/mento-protocol/airgrab-snapshot)
+- KYC to further confirm eligibility
+- Claim their allocation via various claiming options
 
 ## Architecture
 
-This project uses Next.js, React, Tailwind, Wagmi, Rainbow Kit.
+- Next.js
+- React
+- Tailwind CSS
+- Wagmi
+- Rainbow Kit
 
-## Getting Started
-
-### Run Locally
+## Run Locally
 
 1. Install deps: `pnpm i`
-1. Environment Variables: `cp env.example env.local`
+1. Set Environment Variables: `cp env.example env.local`
 1. Start server: `pnpm dev`
 
-### Deploy
+## Deploy
 
 Deployments happen automatically via Vercel's Github app after pushing branch updates.
 
@@ -25,7 +28,3 @@ Deployments happen automatically via Vercel's Github app after pushing branch up
 
 - Author - [Mento Labs](https://mentolabs.xyz)
 - Twitter - [@mentolabs](https://twitter.com/mentolabs)
-
-## License
-
-TBD

@@ -1,4 +1,4 @@
-export const Airgrab = [
+export const Airdrop = [
   {
     inputs: [
       {

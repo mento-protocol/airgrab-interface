@@ -1,16 +1,16 @@
-import { Alfajores, Celo, Baklava } from "@celo/rainbowkit-celo/chains";
-import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { getIronSession } from "iron-session";
-import { SessionData } from "@/lib/session/types";
-import { sessionOptions } from "@/lib/session/config";
-import { defaultSession } from "@/lib/session/constants";
-import { SiweMessage, generateNonce } from "siwe";
-import { AIRGRAB_CONTRACT_ADDRESS } from "@/lib/constants";
-import { MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airgrab";
-import { createPublicClient, http } from "viem";
+import { MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airdrop";
+import { AIRDROP_CONTRACT_ADDRESS } from "@/lib/constants";
 import { refetchKycStatus } from "@/lib/fractal";
 import { getAddressForSession, getServerSession } from "@/lib/session";
+import { sessionOptions } from "@/lib/session/config";
+import { defaultSession } from "@/lib/session/constants";
+import { SessionData } from "@/lib/session/types";
+import { Alfajores, Baklava, Celo } from "@celo/rainbowkit-celo/chains";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+import { SiweMessage, generateNonce } from "siwe";
+import { createPublicClient, http } from "viem";
 
 // POST /api/auth
 export async function POST(request: NextRequest) {
@@ -100,7 +100,7 @@ async function checkHasClaimedForWallet(chainId: number, address: string) {
     });
 
     return await publicClient.readContract({
-      address: AIRGRAB_CONTRACT_ADDRESS,
+      address: AIRDROP_CONTRACT_ADDRESS,
       abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
       functionName: "checkHasClaimed",
       args: [address as `0x${string}`],
