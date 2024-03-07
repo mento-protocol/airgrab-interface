@@ -7,16 +7,15 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 
-import { Airgrab, MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airgrab";
-import { AIRGRAB_CONTRACT_ADDRESS } from "@/lib/constants";
-import { PrepareWriteContractConfig } from "wagmi/actions";
-import { BaseError, UserRejectedRequestError } from "viem";
+import { Airdrop, MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airdrop";
+import { AIRDROP_CONTRACT_ADDRESS } from "@/lib/constants";
 import { toast } from "sonner";
+import { BaseError, UserRejectedRequestError } from "viem";
+import { PrepareWriteContractConfig } from "wagmi/actions";
 
-import { useKYCProof } from "./use-kyc-proof";
-import Link from "next/link";
-import React from "react";
 import * as Sentry from "@sentry/nextjs";
+import Link from "next/link";
+import { useKYCProof } from "./use-kyc-proof";
 
 export const useClaimMento = ({
   address,
@@ -32,7 +31,7 @@ export const useClaimMento = ({
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
 
   const claimStatus = useContractRead({
-    address: AIRGRAB_CONTRACT_ADDRESS,
+    address: AIRDROP_CONTRACT_ADDRESS,
     abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
     functionName: "checkHasClaimed",
     args: [address!],
@@ -44,8 +43,8 @@ export const useClaimMento = ({
   );
 
   const prepare = usePrepareContractWrite({
-    address: AIRGRAB_CONTRACT_ADDRESS,
-    abi: Airgrab,
+    address: AIRDROP_CONTRACT_ADDRESS,
+    abi: Airdrop,
     functionName: "claim",
     enabled: shouldPrepareClaim,
     args: shouldPrepareClaim
@@ -163,7 +162,7 @@ function prepareArgs({
   validUntil: number | undefined;
   approvedAt: number | undefined;
   fractalId: string | undefined;
-}): PrepareWriteContractConfig<typeof Airgrab, "claim">["args"] | undefined {
+}): PrepareWriteContractConfig<typeof Airdrop, "claim">["args"] | undefined {
   if (
     !allocation ||
     !address ||

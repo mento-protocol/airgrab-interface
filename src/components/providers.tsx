@@ -1,24 +1,24 @@
 "use client";
 
-import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
-import { WagmiConfig, useAccount, useDisconnect, useNetwork } from "wagmi";
-import { chains, config } from "@/lib/wagmi";
-import type { ThemeProviderProps } from "next-themes/dist/types";
 import {
   RainbowKitSiweIronSessionProvider,
   useSession,
 } from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import { chains, config } from "@/lib/wagmi";
+import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import type { ThemeProviderProps } from "next-themes/dist/types";
 import { useRouter } from "next/navigation";
+import * as React from "react";
 import useSWR from "swr";
+import { WagmiConfig, useAccount, useDisconnect, useNetwork } from "wagmi";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
     <WagmiConfig config={config}>
       <RainbowKitSiweIronSessionProvider>
         <RainbowKitProvider
-          appInfo={{ appName: "Mento Airgrab Interface" }}
+          appInfo={{ appName: "Mento Airdrop UI" }}
           chains={chains}
         >
           <ConnectionGuard>

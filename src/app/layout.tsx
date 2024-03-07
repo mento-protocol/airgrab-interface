@@ -1,10 +1,9 @@
-import "./globals.css";
-import "@rainbow-me/rainbowkit/styles.css";
-import { ReactNode } from "react";
-import Footer from "@/components/footer";
 import ClaimCard from "@/components/claim-card";
 import FAQ from "@/components/faq";
-
+import Footer from "@/components/footer";
+import "@rainbow-me/rainbowkit/styles.css";
+import { ReactNode } from "react";
+import "./globals.css";
 import Spacer from "@/components/spacer";
 import {
   ChevronRight,
@@ -25,9 +24,9 @@ import {
 import { Button } from "@/components/button";
 import { links } from "@/lib/constants";
 
-import localFont from "next/font/local";
-import { Providers } from "@/components/providers";
 import Header from "@/components/header/header";
+import { Providers } from "@/components/providers";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 const founders_grotesk = localFont({
   variable: "--font-fg",
@@ -51,8 +50,8 @@ const founders_grotesk = localFont({
 });
 
 export const metadata = {
-  title: "Mento | Airgrab",
-  description: "Over-Collateralized, Decentralized & Transparent stable assets",
+  title: "Mento | Airdrop",
+  description: "Over-Collateralized, Decentralized & Transparent Stable Assets",
 };
 
 export default function RootLayout({
@@ -150,7 +149,7 @@ const MainHeading = () => {
         style={{ WebkitTextStroke: "1.2px black" }}
         className="text-transparent"
       >
-        AIRGRAB
+        AIRDROP
       </span>
     </h1>
   );
