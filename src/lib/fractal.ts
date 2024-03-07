@@ -111,6 +111,7 @@ export async function refetchKycStatus(
     );
     return kycStatus;
   } catch (error) {
+    // TODO: sentrify
     return;
   }
 }
