@@ -2,7 +2,7 @@
 import React from "react";
 import { toast } from "sonner";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { PrimaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { processEmailInput } from "@/lib/actions";
 
 type LaunchNotificationInput = {
@@ -78,9 +78,9 @@ export const NotificationEmailForm = ({
                 {errors.email_address.message}
               </span>
             )}
-            <PrimaryButton type="submit" disabled={isSubmitting}>
+            <Button color="blue" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Notify me"}
-            </PrimaryButton>
+            </Button>
           </form>
         </>
       ) : (

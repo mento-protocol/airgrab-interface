@@ -1,4 +1,4 @@
-import { PrimaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { FRACTAL_APP_URL } from "@/lib/constants";
 import Link from "next/link";
 
@@ -23,7 +23,10 @@ export default function KYCPending({
           Fractal ID Dashboard
         </Link>
       </span>
-      <PrimaryButton href="/">Return to Home</PrimaryButton>
+
+      <Button color="blue" href="/">
+        Return to Home
+      </Button>
     </div>
   );
 }

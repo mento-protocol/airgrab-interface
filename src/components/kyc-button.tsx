@@ -1,5 +1,5 @@
 import React from "react";
-import { PrimaryButton } from "./button";
+import { Button } from "./button";
 import { FRACTAL_CLIENT_ID, FRACTAL_APP_URL, BASE_URL } from "@/lib/constants";
 
 const REDIRECT_URL = `${BASE_URL}/api/kyc/authorized`;
@@ -21,9 +21,9 @@ export const KYCButton = ({ address }: { address: string }) => {
   const url = buildFractalUrl(address);
 
   return (
-    <PrimaryButton fullWidth href={url}>
+    <Button color="blue" fullWidth href={url}>
       Verify via Fractal ID
-    </PrimaryButton>
+    </Button>
   );
 };
 
