@@ -1,4 +1,4 @@
-import { PrimaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { DisconnectButton } from "@/components/disconnect-button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import { KYCButton } from "@/components/kyc-button";
@@ -76,7 +76,9 @@ const HasKYC = () => {
         We have confirmed your verificaion with Fractal ID, please continue to
         claim your MENTO
       </p>
-      <PrimaryButton href={"/claim"}>Claim Your MENTO</PrimaryButton>
+      <Button color="blue" href={"/claim"}>
+        Claim Your MENTO
+      </Button>
       <EligibilityFAQLink />
     </div>
   );

@@ -26,14 +26,24 @@ export async function POST(request: NextRequest) {
     }
 
     session.siwe = fields;
+    session.isKycVerified = false;
 
     const hasClaimed = await checkHasClaimedForWallet(
       fields.data.chainId,
       fields.data.address,
     );
-    session.hasClaimed = hasClaimed;
+    if (hasClaimed) {
+      session.hasClaimed = hasClaimed;
+      await session.save();
+      return NextResponse.json({ ok: true });
+    }
 
     const kycStatus = await refetchKycStatus(getAddressForSession(session));
+    if (!kycStatus) {
+      await session.save();
+      return NextResponse.json({ ok: true });
+    }
+
     if (kycStatus?.status === "done" && kycStatus?.credential === "approved") {
       session.isKycVerified = true;
     }
