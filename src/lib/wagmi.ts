@@ -2,45 +2,38 @@ import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   metaMaskWallet,
   omniWallet,
+  trustWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { configureChains, createConfig } from "wagmi";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { createConfig, http } from "wagmi";
+import { valora } from "@/lib/wagmi/wallets/valora";
+import { celo, celoAlfajores } from "viem/chains";
 
-// Import known recommended wallets
-import { Valora, CeloWallet } from "@celo/rainbowkit-celo/wallets";
-
-// Import CELO chain information
-import { Alfajores, Baklava, Celo } from "@celo/rainbowkit-celo/chains";
-
-const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? "";
-
-const { chains, publicClient } = configureChains(
-  [Alfajores, Celo, Baklava],
+const connectors = connectorsForWallets(
   [
-    jsonRpcProvider({
-      rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
-    }),
+    {
+      groupName: "Recommended for Celo chains",
+      wallets: [
+        metaMaskWallet,
+        walletConnectWallet,
+        valora,
+        omniWallet,
+        trustWallet,
+      ],
+    },
   ],
+  {
+    appName: "Mento Airdrop",
+    projectId:
+      process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "123123123123123123",
+  },
 );
 
-const connectors = connectorsForWallets([
-  {
-    groupName: "Recommended with CELO",
-    wallets: [
-      Valora({ chains, projectId }),
-      CeloWallet({ chains, projectId }),
-      metaMaskWallet({ chains, projectId }),
-      omniWallet({ chains, projectId }),
-      walletConnectWallet({ chains, projectId }),
-    ],
+export const wagmiConfig = createConfig({
+  chains: [celo, celoAlfajores],
+  transports: {
+    [celo.id]: http(celo.rpcUrls.default.http[0]),
+    [celoAlfajores.id]: http(celoAlfajores.rpcUrls.default.http[0]),
   },
-]);
-
-const config = createConfig({
-  autoConnect: true,
   connectors,
-  publicClient,
 });
-
-export { config, chains };

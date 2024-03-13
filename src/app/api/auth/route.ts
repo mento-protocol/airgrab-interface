@@ -4,13 +4,13 @@ import { getAddressForSession, getServerSession } from "@/lib/session";
 import { sessionOptions } from "@/lib/session/config";
 import { defaultSession } from "@/lib/session/constants";
 import { SessionData } from "@/lib/session/types";
-import { Alfajores, Baklava, Celo } from "@celo/rainbowkit-celo/chains";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { SiweMessage, generateNonce } from "siwe";
 import { createPublicClient, http } from "viem";
 import * as mento from "@mento-protocol/mento-sdk";
+import { celo, celoAlfajores } from "viem/chains";
 
 // POST /api/auth
 export async function POST(request: NextRequest) {
@@ -94,7 +94,7 @@ export async function DELETE() {
 
 async function checkHasClaimedForWallet(chainId: number, address: string) {
   try {
-    const chains = { Celo, Alfajores, Baklava };
+    const chains = { celo, celoAlfajores };
 
     let chain;
     for (const [chainName, chainInfo] of Object.entries(chains)) {

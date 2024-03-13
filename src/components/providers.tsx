@@ -4,37 +4,41 @@ import {
   RainbowKitSiweIronSessionProvider,
   useSession,
 } from "@/contexts/rainbowkit-siwe-iron-session-provider";
-import { chains, config } from "@/lib/wagmi";
+import { WagmiProvider, useConfig } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { wagmiConfig } from "@/lib/wagmi";
 import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import useSWR from "swr";
-import { WagmiConfig, useAccount, useDisconnect, useNetwork } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
+
+const queryClient = new QueryClient();
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
-    <WagmiConfig config={config}>
-      <RainbowKitSiweIronSessionProvider>
-        <RainbowKitProvider
-          appInfo={{ appName: "Mento Airdrop UI" }}
-          chains={chains}
-        >
-          <ConnectionGuard>
-            <NextThemesProvider forcedTheme="light" {...props}>
-              {children}
-            </NextThemesProvider>
-          </ConnectionGuard>
-        </RainbowKitProvider>
-      </RainbowKitSiweIronSessionProvider>
-    </WagmiConfig>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitSiweIronSessionProvider>
+          <RainbowKitProvider>
+            <ConnectionGuard>
+              <NextThemesProvider forcedTheme="light" {...props}>
+                {children}
+              </NextThemesProvider>
+            </ConnectionGuard>
+          </RainbowKitProvider>
+        </RainbowKitSiweIronSessionProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 
 const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   const { connectModalOpen } = useConnectModal();
-  const { isConnected } = useAccount();
+  const { isConnected, chain } = useAccount();
+  const { chains } = useConfig();
   const { disconnect } = useDisconnect();
   const router = useRouter();
   const { status, data: session } = useSession();
@@ -42,7 +46,6 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   const isLoggingInViaModal = connectModalOpen;
   const hasSessionButNoConnection = status === "authenticated" && !isConnected;
   const isConnectedWithSession = status === "authenticated" && isConnected;
-  const { chain } = useNetwork();
 
   // Refresh KYC every 15 minutes if the user is authenticated and not kyc verified
   useSWR("refresh-kyc", () => fetch("/api/kyc/refresh"), {
@@ -74,9 +77,9 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   });
 
   React.useEffect(() => {
-    if (isConnectedWithNoSession && !isLoggingInViaModal) {
-      disconnect();
-    }
+    // if (isConnectedWithNoSession && !isLoggingInViaModal) {
+    //   disconnect();
+    // }
     if (hasSessionButNoConnection) {
       disconnect();
     }
@@ -93,6 +96,7 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
     router,
     isConnectedWithSession,
     chain,
+    chains,
   ]);
   return <>{children}</>;
 };
