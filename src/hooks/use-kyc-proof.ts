@@ -34,18 +34,19 @@ const fetchProof = async (
 
 export const useKYCProof = () => {
   const signature = useSignMessage({
-    message: createFractalAuthMessage(),
-    onSettled: (data: `0x${string}` | undefined, e: Error | null) => {
-      if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
-        toast.error(e.message);
-      }
+    mutation: {
+      onSettled: (data: `0x${string}` | undefined, e: Error | null) => {
+        if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
+          toast.error(e.message);
+        }
+      },
     },
   });
   const { data, variables } = signature;
 
   const kyc = useSWR(
     data && variables?.message
-      ? ["api/kyc/proof", data, variables?.message]
+      ? ["api/kyc/proof", data, variables?.message.toString()]
       : null,
     ([url, signature, message]) => fetchProof(url, signature, message),
     {
@@ -59,15 +60,17 @@ export const useKYCProof = () => {
     },
   );
 
+  const signMessage = () => {
+    signature.signMessage({ message: createFractalAuthMessage() });
+  };
+
   return {
-    kyc: {
-      isLoadingSignature: signature.isLoading,
-      isLoadingProof: kyc.isLoading,
-      isSuccess: !kyc.error && signature.isSuccess,
-      data: kyc.data,
-      error: signature.error || kyc.error,
-      isError: signature.isError || kyc.error,
-      signMessage: signature.signMessage,
-    },
+    isAwaitingUserSignature: signature.isPending,
+    isLoadingProof: kyc.isLoading,
+    isSuccess: !kyc.error && signature.isSuccess,
+    data: kyc.data,
+    error: signature.error || kyc.error,
+    isError: signature.isError || kyc.error,
+    signMessage,
   };
 };

@@ -1,16 +1,18 @@
 "use client";
 import {
-  useContractRead,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
+  useAccount,
+  useReadContract,
+  useSimulateContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
 } from "wagmi";
 import { Airdrop } from "@/abis/Airdrop";
-import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import { toast } from "sonner";
-import { BaseError, UserRejectedRequestError, parseEther } from "viem";
-import { PrepareWriteContractConfig } from "wagmi/actions";
+import {
+  BaseError,
+  UserRejectedRequestError,
+  type SimulateContractParameters,
+} from "viem";
 
 import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
@@ -26,22 +28,14 @@ export const useClaimMento = ({
   merkleProof: string[] | undefined;
   address: `0x${string}` | undefined;
 }) => {
-  const { chain } = useNetwork();
-  const { kyc } = useKYCProof();
+  const { chain } = useAccount();
+  const kyc = useKYCProof();
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
 
-  let chainId = Alfajores.id;
-
-  if (chain && chain.id === Celo.id) {
-    chainId = Celo.id;
-  }
-
-  const addresses = mento.addresses[chainId];
-
-  const claimStatus = useContractRead({
-    address: addresses.Airgrab as `0x${string}`,
-    abi: Airdrop,
-    functionName: "claimed",
+  const claimStatus = useReadContract({
+    address: AIRDROP_CONTRACT_ADDRESS,
+    abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
+    functionName: "checkHasClaimed",
     args: [address!],
   });
 
@@ -50,11 +44,11 @@ export const useClaimMento = ({
     kyc.data && allocation && merkleProof && !hasClaimed,
   );
 
-  const prepare = usePrepareContractWrite({
-    address: addresses.Airgrab as `0x${string}`,
+  const simulation = useSimulateContract({
+    address: AIRDROP_CONTRACT_ADDRESS,
     abi: Airdrop,
     functionName: "claim",
-    enabled: shouldPrepareClaim,
+    query: { enabled: shouldPrepareClaim },
     args: shouldPrepareClaim
       ? prepareArgs({
           allocation,
@@ -66,15 +60,36 @@ export const useClaimMento = ({
           fractalId,
         })
       : undefined,
-    onError: (e) => {
-      Sentry.captureException(e);
-      if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
-        toast.error(<ErrorMessage error={e} />);
-      }
-    },
   });
 
-  const contractWrite = useContractWrite(prepare.config);
+  const {
+    data,
+    error,
+    isError,
+    refetch: refetchSimulation,
+    isLoading,
+  } = simulation;
+
+  const {
+    writeContract,
+    data: hash,
+    isPending: isAwaitingUserSignature,
+  } = useWriteContract({
+    mutation: {
+      onSuccess: async (hash) => {
+        await claimStatus.refetch();
+
+        if (hash) {
+          toast.success(<TransactionSuccessMessage transactionHash={hash} />);
+        }
+      },
+      onError: (e) => {
+        if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
+          toast.error(<ErrorMessage error={e} />);
+        }
+      },
+    },
+  });
 
   const TransactionSuccessMessage = ({
     transactionHash,
@@ -113,39 +128,28 @@ export const useClaimMento = ({
     );
   };
 
-  const wait = useWaitForTransaction({
-    hash: contractWrite?.data?.hash,
-    onSuccess: async (data) => {
-      await claimStatus.refetch();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+      query: {},
+    });
 
-      if (data) {
-        toast.success(
-          <TransactionSuccessMessage transactionHash={data.transactionHash} />,
-        );
-      }
-    },
-    onError: (e) => {
-      if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
-        toast.error(<ErrorMessage error={e} />);
-      }
-    },
-  });
+  const claim = () => {
+    if (data?.request) {
+      writeContract(data.request);
+    }
+  };
 
   return {
-    prepare: {
-      ...prepare,
-      isError:
-        prepare.isError && !(prepare.error instanceof UserRejectedRequestError),
-    },
-    confirmation: wait,
-    claim: {
-      ...contractWrite,
-      hasClaimed,
-      isConfirmationLoading: wait.isLoading,
-      isError:
-        contractWrite.isError &&
-        !(contractWrite.error instanceof UserRejectedRequestError),
-    },
+    hasClaimed,
+    error,
+    isError,
+    claim,
+    isConfirmed,
+    isConfirming,
+    isAwaitingUserSignature,
+    refetchSimulation,
+    simulation,
     kyc: {
       ...kyc,
       error: kyc.error && !(kyc.error instanceof UserRejectedRequestError),
@@ -170,7 +174,7 @@ function prepareArgs({
   validUntil: number | undefined;
   approvedAt: number | undefined;
   fractalId: string | undefined;
-}): PrepareWriteContractConfig<typeof Airdrop, "claim">["args"] | undefined {
+}): SimulateContractParameters<typeof Airdrop, "claim">["args"] | undefined {
   if (
     !allocation ||
     !address ||

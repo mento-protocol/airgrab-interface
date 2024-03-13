@@ -6,8 +6,8 @@ import Link from "next/link";
 import React from "react";
 import { Locked } from "./svgs";
 import { useCooldown } from "@/hooks/use-cool-down";
-import { disconnect } from "wagmi/actions";
 import Loading from "./loading";
+import { useDisconnect } from "wagmi";
 
 const LockingFAQLink = () => {
   return (
@@ -40,20 +40,30 @@ export default function VerifyAndClaim({
   merkleProof: string[] | undefined;
 }) {
   const shortAddress = address ? shortenAddress(address) : "";
-
-  const { claim, kyc, prepare, claimStatus } = useClaimMento({
+  const { disconnect } = useDisconnect();
+  const {
+    claim,
+    kyc,
+    simulation,
+    isError,
+    isConfirmed,
+    isConfirming,
+    isAwaitingUserSignature,
+    refetchSimulation,
+    claimStatus,
+    hasClaimed,
+  } = useClaimMento({
     allocation,
     merkleProof,
     address,
   });
 
-  const claimErrorCooldown = useCooldown(claim.isError, 5000);
+  const claimErrorCooldown = useCooldown(isError, 5000);
   const kycErrorCooldown = useCooldown(kyc.error, 5000);
-  const preparationErrorCooldown = useCooldown(prepare.isError, 5000);
+  const preparationErrorCooldown = useCooldown(isError, 5000);
 
-  const isPreparingKycOrClaim = prepare.isLoading || kyc.isLoadingProof;
-  const isAwaitingUserSignature = kyc.isLoadingSignature || claim.isLoading;
-  const hasClaimed = claim.hasClaimed;
+  const isPreparingKycOrClaim = simulation.isLoading || kyc.isLoadingProof;
+  // const isAwaitingUserSignature = kyc.isLoadingSignature || claim.;
 
   if (claimStatus.isRefetching) {
     <Loading />;
@@ -63,24 +73,12 @@ export default function VerifyAndClaim({
     return <ClaimConfirmation allocation={allocation} />;
   }
 
-  const signMessage = () => {
-    if (!kyc.isLoadingProof && !kyc.isLoadingSignature) {
-      kyc.signMessage();
-    }
-  };
-
-  const claimMento = () => {
-    if (!claim.isLoading && claim.write) {
-      claim.write();
-    }
-  };
-
   const renderOverview = () => {
     if (kyc.isSuccess) {
       return <ClaimAndLockOverview />;
     }
 
-    if (kyc.isLoadingSignature || kyc.isLoadingProof) {
+    if (!kyc.isSuccess) {
       return <KYCOverview />;
     }
 
@@ -112,9 +110,9 @@ export default function VerifyAndClaim({
       );
     }
 
-    if (prepare.isError) {
+    if (isError) {
       return (
-        <Button color="blue" onClick={() => prepare.refetch()}>
+        <Button color="blue" onClick={() => refetchSimulation()}>
           Try again
         </Button>
       );
@@ -137,20 +135,20 @@ export default function VerifyAndClaim({
       return <Button color="blue">Continue in wallet</Button>;
     }
 
-    if (claim.isConfirmationLoading) {
+    if (isConfirming) {
       return <Button color="blue">Awaiting confirmation...</Button>;
     }
 
     if (!kyc.isSuccess) {
       return (
-        <Button color="blue" onClick={signMessage}>
+        <Button color="blue" onClick={kyc.signMessage}>
           Claim {allocation} MENTO
         </Button>
       );
     }
 
     return (
-      <Button color="blue" onClick={claimMento}>
+      <Button color="blue" onClick={claim}>
         <>Claim & Lock {allocation} MENTO</>
       </Button>
     );
@@ -222,24 +220,27 @@ const ClaimAndLockOverview = () => (
   </>
 );
 
-const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
-  <ClaimWrapper>
-    <Locked className="h-[248px] w-[251px]" />
-    <span className="font-fg font-normal text-sm sm:text-xl">
-      You claimed and locked <br className="block sm:hidden" />
-      <span className="font-medium font-fg">{allocation} MENTO</span> for{" "}
-      <span className="font-medium font-fg">24 months</span>{" "}
-    </span>
-    <div className="flex flex-col gap-[18px]">
-      <Button color="blue" onClick={disconnect} fullWidth>
-        Check another wallet
-      </Button>
-      <Button color="blush" href="https://app.mento.org" fullWidth>
-        Go to app
-      </Button>
-    </div>
-  </ClaimWrapper>
-);
+const ClaimConfirmation = ({ allocation }: { allocation: string }) => {
+  const { disconnect } = useDisconnect();
+  return (
+    <ClaimWrapper>
+      <Locked className="h-[248px] w-[251px]" />
+      <span className="font-fg font-normal text-sm sm:text-xl">
+        You claimed and locked <br className="block sm:hidden" />
+        <span className="font-medium font-fg">{allocation} MENTO</span> for{" "}
+        <span className="font-medium font-fg">24 months</span>{" "}
+      </span>
+      <div className="flex flex-col gap-[18px]">
+        <Button color="blue" onClick={() => disconnect()} fullWidth>
+          Check another wallet
+        </Button>
+        <Button color="blush" href="https://app.mento.org" fullWidth>
+          Go to app
+        </Button>
+      </div>
+    </ClaimWrapper>
+  );
+};
 
 const ClaimHeading = ({ children }: { children: React.ReactNode }) => {
   return (
