@@ -16,10 +16,11 @@ export default async function Allocation() {
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
   const allocation = getAllocationForAddress(fullAddress);
   const hasAllocation = allocation && allocation !== "0";
+  const isSanctionedAddress = await isSanctioned(fullAddress);
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
-  if (!hasAllocation) {
+  if (!hasAllocation || isSanctionedAddress) {
     return <NoAllocation address={shortAddress} />;
   }
 
@@ -178,4 +179,17 @@ const getDaysAndHoursUntilLaunch = () => {
   );
 
   return { days, hours };
+};
+
+const isSanctioned = async (address: string) => {
+  const apiURL = `https://public.chainalysis.com/api/v1/address/${address}`;
+  const apiKey = process.env.CHAINALYSIS_API_KEY;
+  let header = new Headers({
+    "X-API-KEY": apiKey!,
+  });
+
+  const response = await fetch(apiURL, { headers: header });
+  const data = await response.json();
+
+  return data.identifications.length > 0;
 };
