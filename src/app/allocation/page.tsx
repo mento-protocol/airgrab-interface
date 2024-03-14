@@ -16,9 +16,14 @@ export default async function Allocation() {
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
   const allocation = getAllocationForAddress(fullAddress);
   const hasAllocation = allocation && allocation !== "0";
-  const isSanctionedAddress = await isSanctioned(fullAddress);
-
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
+  let isSanctionedAddress;
+
+  try {
+    isSanctionedAddress = await isSanctioned(fullAddress);
+  } catch (error) {
+    return <TryAgain address={shortAddress} />;
+  }
 
   if (!hasAllocation || isSanctionedAddress) {
     return <NoAllocation address={shortAddress} />;
@@ -34,6 +39,22 @@ export default async function Allocation() {
 
   return <HasKYC />;
 }
+
+const TryAgain = ({ address }: { address: string }) => {
+  return (
+    <div className="flex flex-col items-center justify-center gap-8 text-center">
+      <p className="font-fg font-regular text-sm sm:text-base font-medium">
+        Sorry, we are unable to verify the wallet address{" "}
+        <span className="text-primary-blue">{address}</span> at this time.
+        Please try again later.
+      </p>
+      <DisconnectButton color="blue">
+        Disconnect & try another wallet
+      </DisconnectButton>
+      <EligibilityFAQLink />
+    </div>
+  );
+};
 
 const NoAllocation = ({ address }: { address: string }) => {
   return (
@@ -188,8 +209,11 @@ const isSanctioned = async (address: string) => {
     "X-API-KEY": apiKey!,
   });
 
-  const response = await fetch(apiURL, { headers: header });
-  const data = await response.json();
-
-  return data.identifications.length > 0;
+  try {
+    const response = await fetch(apiURL, { headers: header });
+    const data = await response.json();
+    return data!.identifications.length > 0;
+  } catch (error) {
+    throw new Error("Error fetching Chainalysis API");
+  }
 };
