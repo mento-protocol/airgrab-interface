@@ -15,10 +15,6 @@ export const links = {
 export const AIRDROP_CONTRACT_ADDRESS =
   "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
 
-export const MESSAGE = `I authorize Airdrop (${process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
-- I passed KYC level plus+liveness
-- I am not a resident of the following countries: Democratic Republic of the Congo (CD), Cuba (CU), United Kingdom (GB), Iran (IR), Democratic People's Republic of Korea (KP), Mali (ML), Myanmar (MM), South Sudan (SS), Syria (SY), United States of America (US), Yemen (YE)`;
-
 // Ensuring the environment variables are set
 if (!process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL) {
   throw new Error(

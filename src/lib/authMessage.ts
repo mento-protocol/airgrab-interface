@@ -3,6 +3,7 @@ import {
   RESTRICTED_COUNTRIES,
   COUNTRY_NAMES,
 } from "@/lib/constants";
+
 function countryList(countryCodes: string[]): string {
   if (countryCodes.length === 0) return "";
 

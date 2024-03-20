@@ -47,8 +47,6 @@ export default function VerifyAndClaim({
     address,
   });
 
-  console.log({ kyc });
-
   const claimErrorCooldown = useCooldown(claim.isError, 5000);
   const kycErrorCooldown = useCooldown(kyc.error, 5000);
   const preparationErrorCooldown = useCooldown(prepare.isError, 5000);
