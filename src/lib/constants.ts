@@ -46,9 +46,8 @@ if (!process.env.NEXT_PUBLIC_BASE_URL) {
 if (!process.env.NEXT_PUBLIC_LAUNCH_DATE) {
   throw new Error("NEXT_PUBLIC_LAUNCH_DATE is undefined");
 }
-
-if (!process.env.NEXT_RESTRICTED_COUNTRIES) {
-  throw new Error("NEXT_RESTRICTED_COUNTRIES is undefined");
+if (!process.env.NEXT_PUBLIC_RESTRICTED_COUNTRIES) {
+  throw new Error("NEXT_PUBLIC_RESTRICTED_COUNTRIES is undefined");
 }
 
 // Exporting the variables
@@ -62,7 +61,8 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 //TODO: Update this with the correct date
 export const LAUNCH_DATE = process.env.NEXT_PUBLIC_LAUNCH_DATE;
 
-export const RESTRICTED_COUNTRIES = process.env.NEXT_RESTRICTED_COUNTRIES;
+export const RESTRICTED_COUNTRIES =
+  process.env.NEXT_PUBLIC_RESTRICTED_COUNTRIES;
 
 export const COUNTRY_NAMES: Record<string, string> = {
   AD: "Andorra",

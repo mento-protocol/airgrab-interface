@@ -4,7 +4,6 @@ import { useSignMessage } from "wagmi";
 import { UserRejectedRequestError } from "viem";
 import { toast } from "sonner";
 
-import { MESSAGE } from "@/lib/constants";
 import { fetchJson } from "@/lib/utils";
 import { createFractalAuthMessage } from "@/lib/authMessage";
 

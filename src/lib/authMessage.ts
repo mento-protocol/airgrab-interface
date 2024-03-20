@@ -23,6 +23,6 @@ export function createFractalAuthMessage(): string {
   const countriesString = countryList(RESTRICTED_COUNTRIES.split(","));
 
   return `I authorize Airdrop (${FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
-  - I passed KYC level plus+liveness
-  - I am not a resident of the following countries: ${countriesString}`;
+- I passed KYC level plus+liveness
+- I am not a resident of the following countries: ${countriesString}`;
 }
