@@ -11,7 +11,7 @@ function countryList(countryCodes: string[]): string {
     .map((code) => {
       const name = COUNTRY_NAMES[code];
       if (!name) {
-        console.log("invalid country code:", code);
+        console.error("invalid country code:", code);
         throw new Error("invalid country");
       }
       return `${name} (${code})`;
