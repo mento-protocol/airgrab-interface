@@ -8,7 +8,9 @@
     "build:tree": "node src/lib/merkle/buildTree.mjs",
     "start": "next start",
     "clean": "rm -rf .next",
-    "lint": "next lint",
+    "lint": "pnpm lint:js && pnpm lint:secrets",
+    "lint:js": "next lint",
+    "lint:secrets": "npx secretlint \"**/*\"",
     "prettier": "prettier --write \"**/*.{tsx,ts,js,mjs,json,md}\" --list-different",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -61,6 +63,12 @@
     "wagmi": "^1.4.2"
   },
   "devDependencies": {
+    "@secretlint/secretlint-rule-no-homedir": "^8.1.2",
+    "@secretlint/secretlint-rule-no-k8s-kind-secret": "^8.1.2",
+    "@secretlint/secretlint-rule-npm": "^8.1.2",
+    "@secretlint/secretlint-rule-pattern": "^8.1.2",
+    "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
+    "@secretlint/secretlint-rule-secp256k1-privatekey": "^8.1.2",
     "@types/mailchimp__mailchimp_marketing": "^3.0.17",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest-dom": "^5.1.0",
@@ -68,6 +76,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
+    "secretlint": "^8.1.2",
     "tsx": "^4.7.0"
   }
 }
