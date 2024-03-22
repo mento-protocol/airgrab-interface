@@ -139,9 +139,6 @@ devDependencies:
   '@secretlint/secretlint-rule-no-homedir':
     specifier: ^8.1.2
     version: 8.1.2
-  '@secretlint/secretlint-rule-no-k8s-kind-secret':
-    specifier: ^8.1.2
-    version: 8.1.2
   '@secretlint/secretlint-rule-npm':
     specifier: ^8.1.2
     version: 8.1.2
@@ -1842,14 +1839,6 @@ packages:
       '@secretlint/types': 8.1.2
       '@textlint/regexp-string-matcher': 2.0.2
       escape-string-regexp: 4.0.0
-    dev: true
-
-  /@secretlint/secretlint-rule-no-k8s-kind-secret@8.1.2:
-    resolution: {integrity: sha512-RL1cn702JYX4jsRfxwLOkmVoOszXIUeVDp9blIyTpEOw58A39p/kANYrNRpEMmzOgOXsdToW49BwAYyB2wXQ6A==}
-    engines: {node: ^14.13.1 || >=16.0.0}
-    dependencies:
-      '@secretlint/types': 8.1.2
-      js-yaml: 4.1.0
     dev: true
 
   /@secretlint/secretlint-rule-npm@8.1.2:

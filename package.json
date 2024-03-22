@@ -64,7 +64,6 @@
   },
   "devDependencies": {
     "@secretlint/secretlint-rule-no-homedir": "^8.1.2",
-    "@secretlint/secretlint-rule-no-k8s-kind-secret": "^8.1.2",
     "@secretlint/secretlint-rule-npm": "^8.1.2",
     "@secretlint/secretlint-rule-pattern": "^8.1.2",
     "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
