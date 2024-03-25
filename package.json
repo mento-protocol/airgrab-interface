@@ -15,7 +15,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "prepare": "husky install",
-    "gen-tree": "tsc --skipLibCheck src/lib/merkle/buildTree.ts || tsx --no-cache src/lib/merkle/buildTree.ts"
+    "gen-tree": "tsc --skipLibCheck src/lib/merkle/buildTree.ts || tsx --no-cache src/lib/merkle/buildTree.ts",
+    "secrets:get": "./src/scripts/get-secrets.sh"
   },
   "dependencies": {
     "@celo/rainbowkit-celo": "^1.0.2",

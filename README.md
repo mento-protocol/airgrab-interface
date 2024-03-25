@@ -17,8 +17,11 @@ This DApp lets users:
 ## Run Locally
 
 1. Install deps: `pnpm i`
-1. Set Environment Variables: `cp env.example env.local`
-1. Start server: `pnpm dev`
+2. Copy environment variables to local: `cp env.example env.local`
+3. Log in to GCloud on your terminal: `gcloud auth login`
+4. Pull the necessary secrets: `pnpm secrets:get`
+   - In case this fails with `PERMISSION DENIED` you'll need to request permissions in GCloud from an admin
+5. Start server: `pnpm dev`
 
 ## Deploy
 
