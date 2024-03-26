@@ -8,19 +8,22 @@
     "build:tree": "node src/lib/merkle/buildTree.mjs",
     "start": "next start",
     "clean": "rm -rf .next",
-    "lint": "next lint",
+    "lint": "pnpm lint:js && pnpm lint:secrets",
+    "lint:js": "next lint",
+    "lint:secrets": "npx secretlint \"**/*\"",
     "prettier": "prettier --write \"**/*.{tsx,ts,js,mjs,json,md}\" --list-different",
     "test": "jest",
     "test:watch": "jest --watch",
     "prepare": "husky install",
-    "gen-tree": "tsc --skipLibCheck src/lib/merkle/buildTree.ts || tsx --no-cache src/lib/merkle/buildTree.ts"
+    "gen-tree": "tsc --skipLibCheck src/lib/merkle/buildTree.ts || tsx --no-cache src/lib/merkle/buildTree.ts",
+    "secrets:get": "./src/scripts/get-secrets.sh"
   },
   "dependencies": {
     "@celo/rainbowkit-celo": "^1.0.2",
     "@ethersproject/address": "^5.7.0",
     "@headlessui-float/react": "^0.11.4",
     "@headlessui/react": "^1.7.17",
-    "@hookform/resolvers": "^3.3.2",
+    "@hookform/resolvers": "^3.3.4",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@metamask/jazzicon": "^2.0.0",
     "@openzeppelin/merkle-tree": "^1.0.5",
@@ -49,7 +52,7 @@
     "postcss": "8.4.30",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.49.2",
+    "react-hook-form": "^7.49.3",
     "server-only": "^0.0.1",
     "siwe": "^2.1.4",
     "sonner": "^1.2.4",
@@ -61,13 +64,19 @@
     "wagmi": "^1.4.2"
   },
   "devDependencies": {
+    "@secretlint/secretlint-rule-no-homedir": "^8.1.2",
+    "@secretlint/secretlint-rule-npm": "^8.1.2",
+    "@secretlint/secretlint-rule-pattern": "^8.1.2",
+    "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
+    "@secretlint/secretlint-rule-secp256k1-privatekey": "^8.1.2",
     "@types/mailchimp__mailchimp_marketing": "^3.0.17",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-testing-library": "^6.0.2",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
+    "secretlint": "^8.1.2",
     "tsx": "^4.7.0"
   }
 }

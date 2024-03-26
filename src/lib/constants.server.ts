@@ -28,11 +28,13 @@ if (!process.env.FRACTAL_KYC_LEVEL) {
   throw new Error("FRACTAL_KYC_LEVEL is undefined");
 }
 
-// Exporting the variables
+// Exporting the variables, we're in a server environment so we can disable secretlint here
 export const FRACTAL_KYC_LEVEL = process.env.FRACTAL_KYC_LEVEL;
+// secretlint-disable-next-line
 export const SECRET_COOKIE_PASSWORD = process.env.SECRET_COOKIE_PASSWORD;
 export const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY;
 export const MAILCHIMP_SERVER_PREFIX = process.env.MAILCHIMP_SERVER_PREFIX;
 export const MAILCHIMP_AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
+// secretlint-disable-next-line
 export const FRACTAL_CLIENT_SECRET = process.env.FRACTAL_CLIENT_SECRET;
 export const FRACTAL_TOKEN_COOKIE_NAME = "fid";
