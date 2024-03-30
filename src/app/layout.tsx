@@ -28,6 +28,7 @@ import Header from "@/components/header/header";
 import { Providers } from "@/components/providers";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
+import Modal from "@/components/modal";
 const founders_grotesk = localFont({
   variable: "--font-fg",
   src: [
@@ -68,6 +69,7 @@ export default function RootLayout({
         <Providers>
           <div className="relative w-screen h-full max-w-[1440px]">
             <Header />
+            <Modal />
             <main className="flex-grow z-30">
               <div className="h-12 md:h-24 " />
               <Spacer axis="vertical" size={24} />

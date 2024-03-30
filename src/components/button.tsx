@@ -25,25 +25,34 @@ export const Button = ({
   containerClassNames,
   noFlexZone,
   width,
+  disabled,
   ...restProps
 }: ButtonProps) => {
   const isLink = isPropsForAnchorElement(restProps);
-
   const colorClasses = {
     blue: {
       accent: "bg-[#2A326A]",
       background: "bg-[#4D62F0]",
       text: "text-clean-white",
+      border: "border-primary-dark",
     },
     blush: {
       accent: "bg-[#845F84]",
       background: "bg-primary-blush",
       text: "text-primary-dark",
+      border: "border-primary-dark",
     },
     white: {
       accent: "bg-[#B3B3B3]",
       background: "bg-clean-white",
       text: "text-primary-dark",
+      border: "border-primary-dark",
+    },
+    disabled: {
+      accent: "bg-[#636366]",
+      background: "bg-[#B3B3B3]",
+      text: "text-[#636366]",
+      border: "border-[#636366]",
     },
   };
 
@@ -51,15 +60,16 @@ export const Button = ({
     "group",
     "font-inter",
     "outline-offset-4",
-    "cursor-pointer",
+    !disabled && "cursor-pointer",
     "border-b",
     "rounded-lg",
-    "border-primary-dark",
+    disabled ? colorClasses.disabled.border : colorClasses[color].border,
     "font-medium",
     "select-none",
     "inline-block",
+    "pb-[4px]",
     isLink ? "inline-block" : "",
-    colorClasses[color].accent,
+    disabled ? colorClasses.disabled.accent : colorClasses[color].accent,
     width ? width : "w-[298px] sm:w-[260px] md:w-[260px]",
   ].filter(Boolean);
 
@@ -68,20 +78,21 @@ export const Button = ({
     "group-active:-translate-y-[2px]",
     "block",
     "py-[18px]",
-    "group-hover:brightness-110",
+    !disabled && "group-hover:brightness-110",
     "group-active:brightness-90",
     "transition-transform",
     "delay-[250]",
-    "hover:-translate-y-[6px]",
-    "-translate-y-[4px]",
+    !disabled && "hover:-translate-y-[2px]",
     "font-medium",
     "text-[15px]",
     "border",
     "rounded-lg",
-    "border-primary-dark",
+    disabled ? colorClasses.disabled.border : colorClasses[color].border,
     "leading-5",
-    colorClasses[color].text,
-    colorClasses[color].background,
+    disabled ? colorClasses.disabled.text : colorClasses[color].text,
+    disabled
+      ? colorClasses.disabled.background
+      : colorClasses[color].background,
     fullWidth ? "w-full flex items-center justify-center" : "",
   ].filter(Boolean);
 
