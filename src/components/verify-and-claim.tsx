@@ -13,7 +13,7 @@ const LockingFAQLink = () => {
   return (
     <Link
       className="text-primary-blue underline font-fg text-xl"
-      href="#lock-tokens"
+      href="#what-vemento"
     >
       Why do I need to lock tokens?
     </Link>
@@ -23,7 +23,7 @@ const KYCFAQLink = () => {
   return (
     <Link
       className="text-primary-blue underline font-fg text-xl"
-      href="#verify"
+      href="#why-verify-identity"
     >
       Why is this required?
     </Link>
