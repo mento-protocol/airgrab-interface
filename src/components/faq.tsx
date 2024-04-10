@@ -4,6 +4,7 @@ import { Disclosure } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "./svgs";
 import Link from "next/link";
+import { links } from "@/lib/constants";
 
 export interface FAQ {
   id: string;
@@ -261,7 +262,7 @@ export const faqs: FAQ[] = [
           Website:{" "}
           <Link
             className="font-fg text-primary-blue underline text-sm"
-            href="https://www.mento.org/"
+            href={links.mento}
             target="_blank"
           >
             mento.org
@@ -271,17 +272,17 @@ export const faqs: FAQ[] = [
           Discord:{" "}
           <Link
             className="font-fg text-primary-blue underline text-sm"
-            href="https://chat.mento.org/"
+            href={links.discord}
             target="_blank"
           >
-            chat.mento.org
+            Mento Discord
           </Link>
         </span>
         <span>
           Documentation:{" "}
           <Link
             className="font-fg text-primary-blue underline text-sm"
-            href="https://docs.mento.org/mento"
+            href={links.docs}
             target="_blank"
           >
             docs.mento.org
@@ -291,7 +292,7 @@ export const faqs: FAQ[] = [
           Blog:{" "}
           <Link
             className="font-fg text-primary-blue underline text-sm"
-            href="https://mirror.xyz/mentoprotocol.eth"
+            href={links.mirror}
             target="_blank"
           >
             mirror.xyz/mentoprotocol.eth
@@ -301,7 +302,7 @@ export const faqs: FAQ[] = [
           X:{" "}
           <Link
             className="font-fg text-primary-blue underline text-sm"
-            href="https://twitter.com/MentoLabs"
+            href={links.twitter}
             target="_blank"
           >
             twitter.com/MentoLabs

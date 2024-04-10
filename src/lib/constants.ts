@@ -10,6 +10,8 @@ export const links = {
   forum: "https://forum.celo.org/c/mento/33",
   mentolabs: "https://www.mentolabs.xyz/team",
   cookiePolicy: "/files/cookie-policy.pdf",
+  mirror: "https://mirror.xyz/mentoprotocol.eth",
+  mento: "https://www.mento.org/",
 };
 
 export const AIRDROP_CONTRACT_ADDRESS =
