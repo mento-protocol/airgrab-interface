@@ -133,7 +133,7 @@ export const faqs: FAQ[] = [
     ),
   },
   {
-    id: "what-criteria",
+    id: "eligibility-criteria",
     question: "What are the airdrop eligibility criteria?",
     answer: (
       <>
