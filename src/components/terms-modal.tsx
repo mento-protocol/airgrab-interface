@@ -69,13 +69,13 @@ export default function TermsModal() {
 
   return (
     <div className="modal">
-      <div className="modal-content h-[540px] w-[547px] sm:w-full md:min-h-[350px] md:max-w-[547px] flex flex-col p-[18px] bg-white shadow-md rounded-[8px] border-t-[1px] overflow-visible border border-primary-dark">
-        <h1 className="font-fg pt-none md:text-[32px] text-center font-medium">
+      <div className="modal-content h-[540px] w-[328px] md:w-[547px] md:min-h-[350px] md:max-w-[547px] flex flex-col p-[18px] bg-white shadow-md rounded-[8px] border-t-[1px] overflow-visible border border-primary-dark">
+        <h1 className="font-fg pt-none text-[22px] leading-[22px] md:text-[32px] text-center font-medium md:pt-5">
           MENTO token airdrop terms
         </h1>
         <div
           ref={termsContainerRef}
-          className="p-[20px] border border-[#B3B3B3] overflow-auto rounded-lg text-[12px] font-inter font-[400]"
+          className="p-[20px] border border-[#B3B3B3] overflow-auto rounded-lg text-[12px] font-inter font-[400] my-5 leading-[14.4px]"
         >
           These MENTO Governance Tokens Airdrop Terms and Conditions
           (hereinafter referred to as “<strong>Airdrop TnCs</strong>”) apply to
@@ -284,7 +284,7 @@ export default function TermsModal() {
           agency.
         </div>
         <div>
-          <label className="my-[18px] text-[18px] mr-[5px] flex flex-row justify-center w-full font-fg">
+          <label className="my-[18px] text-[18px] mr-[5px] flex flex-row justify-center w-full font-fg mt-0">
             <input
               className="scale-150 mr-[10px] flex"
               type="checkbox"
