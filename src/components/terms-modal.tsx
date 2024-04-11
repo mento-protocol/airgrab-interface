@@ -1,22 +1,54 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { Button } from "./button";
 
-export default function Modal() {
+export default function TermsModal() {
   const [isChecked, setIsChecked] = useState(false);
+  const [termsContainer, setTermsContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+
+  const termsContainerRef = useCallback((node: HTMLDivElement | null) => {
+    setTermsContainer(node);
+  }, []);
 
   const onCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (termsContainer) {
+        const { scrollTop, scrollHeight, clientHeight } = termsContainer;
+        if (scrollTop + clientHeight >= scrollHeight) {
+          setHasScrolledToBottom(true);
+        }
+      }
+    };
+
+    if (termsContainer) {
+      termsContainer.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (termsContainer) {
+        termsContainer.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [termsContainer]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-s flex justify-center items-center z-100">
       <div>
         <div className="h-[540px] w-[547px] sm:w-full md:min-h-[350px] md:max-w-[547px] flex flex-col p-[18px] bg-white shadow-md rounded-2xl overflow-visible border border-primary-dark">
           <h1 className="pt-none font-[32px] md:text-[32px] text-center">
-            MENTO token airdrop terms
+            MENTO Token Airdrop Terms
           </h1>
-          <div className="mt-[18px] p-[20px] border border-[#B3B3B3] overflow-auto rounded-lg text-[12px]">
+          <div
+            ref={termsContainerRef}
+            className="mt-[18px] p-[20px] border border-[#B3B3B3] overflow-auto rounded-lg text-[12px]"
+          >
             These MENTO Governance Tokens Airdrop Terms and Conditions
             (hereinafter referred to as “<strong>Airdrop TnCs</strong>”) apply
             to all participants of the Airdrop of the MENTO Governance Tokens
@@ -223,6 +255,7 @@ export default function Modal() {
                 className="scale-150 mr-[10px] flex"
                 type="checkbox"
                 onClick={onCheckboxChange}
+                disabled={!hasScrolledToBottom}
               />
               I have read, understand and accept these terms
             </label>
