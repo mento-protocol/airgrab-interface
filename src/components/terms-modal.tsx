@@ -8,10 +8,12 @@ export default function TermsModal() {
     null,
   );
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
-  const [showModal, setShowModal] = useState(() => {
+  const [showModal, setShowModal] = useState(true);
+
+  useEffect(() => {
     const hasAgreedToTerms = localStorage.getItem("hasAgreedToTerms");
-    return !hasAgreedToTerms;
-  });
+    setShowModal(!hasAgreedToTerms);
+  }, []);
 
   const termsContainerRef = useCallback((node: HTMLDivElement | null) => {
     setTermsContainer(node);
@@ -57,7 +59,7 @@ export default function TermsModal() {
   };
 
   const handleAgreeAndContinue = () => {
-    if (isChecked) {
+    if (isChecked && typeof window !== "undefined") {
       localStorage.setItem("hasAgreedToTerms", "true");
       setShowModal(false);
     }
