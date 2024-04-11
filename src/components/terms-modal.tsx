@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useCallback, useState, Fragment } from "react";
+import { useEffect, useCallback, useState, Fragment, useRef } from "react";
 import { Button } from "./button";
 import { Dialog, Transition } from "@headlessui/react";
 
@@ -10,6 +10,7 @@ export default function TermsModal() {
   );
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const [showModal, setShowModal] = useState(true);
+  const initialFocusRef = useRef(null);
 
   useEffect(() => {
     const hasAgreedToTerms = localStorage.getItem("hasAgreedToTerms");
@@ -66,6 +67,7 @@ export default function TermsModal() {
           as="div"
           className="relative z-10"
           onClose={() => setShowModal(false)}
+          initialFocus={initialFocusRef}
         >
           <Transition.Child
             as={Fragment}
@@ -345,6 +347,7 @@ export default function TermsModal() {
                         className="scale-150 mr-[10px] flex"
                         type="checkbox"
                         onClick={onCheckboxChange}
+                        ref={initialFocusRef}
                         disabled={!hasScrolledToBottom}
                       />
                       I have read, understand and accept these terms
