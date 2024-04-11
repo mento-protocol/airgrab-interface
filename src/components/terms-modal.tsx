@@ -8,14 +8,14 @@ export default function TermsModal() {
     null,
   );
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+  const [showModal, setShowModal] = useState(() => {
+    const hasAgreedToTerms = localStorage.getItem("hasAgreedToTerms");
+    return !hasAgreedToTerms;
+  });
 
   const termsContainerRef = useCallback((node: HTMLDivElement | null) => {
     setTermsContainer(node);
   }, []);
-
-  const onCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +37,19 @@ export default function TermsModal() {
       }
     };
   }, [termsContainer]);
+
+  const onCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const handleAgreeAndContinue = () => {
+    localStorage.setItem("hasAgreedToTerms", "true");
+    setShowModal(false);
+  };
+
+  if (!showModal) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-s flex justify-center items-center z-100">
@@ -186,19 +199,23 @@ export default function TermsModal() {
             </ol>
             <br />
             <strong>General Airdrop participation rules</strong> <br />
+            <br />
             <strong>No tax advice. </strong>You agree and acknowledge that you
             have the sole responsibility and liability for all taxes in
             connection with your participation in the Airdrop and you should
             consult a tax advisor before participating in the Airdrop. <br />
+            <br />
             <strong>Complying with laws.</strong> You agree and acknowledge that
             you have the sole responsibility for complying with all applicable
             laws of the jurisdiction you are located in when participating in
             the Airdrop and you are the legal owner of the blockchain address
             that you use to access or participate in the Airdrop. <br />
+            <br />
             <strong> Mento Governance Tokens Entitlement.</strong> You agree and
             acknowledge not to engage in any activities that are designed to
             obtain more MENTO Governance Tokens in the Airdrop than you are
             entitled to. <br />
+            <br />
             <strong>Unable to claim MENTO Governance Tokens.</strong> You agree
             and acknowledge that the [issuing company] will not bear any
             liability if you are unable to claim MENTO Governance Tokens in the
@@ -207,8 +224,10 @@ export default function TermsModal() {
             thereto, or for any other reason; you will have no recourse or claim
             against [issuing company].
             <br />
+            <br />
             <strong> Assets control.</strong> You always retain control over
             your digital assets when participating in the Airdrop. <br />
+            <br />
             <strong> Warranties.</strong>
             You make the warranties that you (a) have never violated any
             anti-terrorism laws, (b) have never engaged in any transaction,
@@ -224,6 +243,7 @@ export default function TermsModal() {
             territory identified by the FATF as high risk or that is subject to
             OFAC sanctions or embargo programs.
             <br />
+            <br />
             <strong>VPN/Circumventions.</strong> You confirm that you will not
             use a VPN or other tool to circumvent any geoblock or other
             restrictions that the [issuing company] may have implemented for
@@ -231,6 +251,7 @@ export default function TermsModal() {
             circumvention, may permanently disqualify you from participation in
             the Airdrop and any future Mento token airdrops in the sole
             discretion of the [issuing company].
+            <br />
             <br />
             <strong> Regulatory Uncertainty.</strong> You agree and acknowledge
             that the regulatory regime governing blockchain technologies,
@@ -240,11 +261,12 @@ export default function TermsModal() {
             cryptocurrencies and digital assets, including governance tokens and
             that there are risks of new taxation related to the purchase or sale
             of cryptocurrencies and other digital assets, including governance
-            tokens. <br /> <strong>No Deposit Insurance.</strong> You agree and
-            acknowledge that cryptocurrencies and other digital assets,
-            including governance tokens are not covered by any deposit insurance
-            scheme neither (i) as deposits of or guaranteed by a bank nor (ii)
-            insured by the European Forum of Deposits Insurers (“
+            tokens. <br /> <br />
+            <strong>No Deposit Insurance.</strong> You agree and acknowledge
+            that cryptocurrencies and other digital assets, including governance
+            tokens are not covered by any deposit insurance scheme neither (i)
+            as deposits of or guaranteed by a bank nor (ii) insured by the
+            European Forum of Deposits Insurers (“
             <strong>EFDI</strong>”) or International Association of Deposits
             Insurers (“<strong>IADI</strong>”) or by any other governmental
             agency.
@@ -260,7 +282,12 @@ export default function TermsModal() {
               I have read, understand and accept these terms
             </label>
           </div>
-          <Button color="blue" type="submit" disabled={!isChecked}>
+          <Button
+            color="blue"
+            type="submit"
+            disabled={!isChecked}
+            onClick={handleAgreeAndContinue}
+          >
             Agree and continue
           </Button>
         </div>
