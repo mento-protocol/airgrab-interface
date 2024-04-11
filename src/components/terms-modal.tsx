@@ -10,7 +10,6 @@ export default function TermsModal() {
   );
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const [showModal, setShowModal] = useState(true);
-  const initialFocusRef = useRef(null);
 
   useEffect(() => {
     const hasAgreedToTerms = localStorage.getItem("hasAgreedToTerms");
@@ -66,8 +65,7 @@ export default function TermsModal() {
           open={showModal}
           as="div"
           className="relative z-10"
-          onClose={() => setShowModal(false)}
-          initialFocus={initialFocusRef}
+          onClose={() => ({})}
         >
           <Transition.Child
             as={Fragment}
@@ -347,7 +345,6 @@ export default function TermsModal() {
                         className="scale-150 mr-[10px] flex"
                         type="checkbox"
                         onClick={onCheckboxChange}
-                        ref={initialFocusRef}
                         disabled={!hasScrolledToBottom}
                       />
                       I have read, understand and accept these terms
@@ -355,7 +352,9 @@ export default function TermsModal() {
                   </div>
 
                   <Button
-                    className={!isChecked ? "cursor-not-allowed" : ""}
+                    className={`${
+                      !isChecked && "cursor-not-allowed"
+                    } outline-none`}
                     color="blue"
                     type="submit"
                     disabled={!isChecked}
