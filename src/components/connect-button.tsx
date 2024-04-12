@@ -53,7 +53,7 @@ export function ConnectButton({
   };
 
   return (
-    <div className="relative flex justify-end mb-1 min-h-6">
+    <div className="flex justify-end mb-1 min-h-6">
       <ClientOnly
         fallback={
           <button
