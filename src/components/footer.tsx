@@ -78,11 +78,11 @@ const FooterNav = () => {
               {heading}
             </h3>
             <ul className="flex flex-col gap-3">
-              {links.map(({ title, href, isDownload }) => {
+              {links.map(({ title, href, isDownload, isInternal }) => {
                 return (
                   <Link
                     key={title}
-                    target="_blank"
+                    target={isInternal ? "_self" : "_blank"}
                     rel="noopener noreferrer"
                     href={href}
                     download={isDownload}
@@ -132,16 +132,47 @@ const SocialLinks = ({}) => {
 
 const footerMenuItems = {
   Developers: [
-    { title: "Docs", href: links.docs, isDownload: false },
-    { title: "Github", href: links.github, isDownload: false },
+    { title: "Docs", href: links.docs, isDownload: false, isInternal: false },
+    {
+      title: "Github",
+      href: links.github,
+      isDownload: false,
+      isInternal: false,
+    },
   ],
   Community: [
-    { title: "Forum", href: links.forum, isDownload: false },
-    { title: "Discord", href: links.discord, isDownload: false },
-    { title: "Twitter", href: links.twitter, isDownload: false },
+    { title: "Forum", href: links.forum, isDownload: false, isInternal: false },
+    {
+      title: "Discord",
+      href: links.discord,
+      isDownload: false,
+      isInternal: false,
+    },
+    {
+      title: "Twitter",
+      href: links.twitter,
+      isDownload: false,
+      isInternal: false,
+    },
   ],
   Other: [
-    { title: "Team", href: links.mentolabs, isDownload: false },
-    { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
+    {
+      title: "Team",
+      href: links.mentolabs,
+      isDownload: false,
+      isInternal: false,
+    },
+    {
+      title: "Cookie Policy",
+      href: links.cookiePolicy,
+      isDownload: true,
+      isInternal: false,
+    },
+    {
+      title: "Terms & Conditions",
+      href: "/terms",
+      isDownload: false,
+      isInternal: true,
+    },
   ],
 };
