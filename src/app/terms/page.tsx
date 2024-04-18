@@ -15,21 +15,18 @@ const Page: NextPage = () => {
           These MENTO Governance Tokens Airdrop Terms and Conditions
           (hereinafter referred to as <strong>“Airdrop TnCs”</strong>) apply to
           all participants of the Airdrop of the MENTO Governance Tokens
-          (hereinafter referred to as <strong>“Airdrop”</strong>) by the
-          [issuing company]. The Airdrop TnCs govern the ability to participate
-          in the Airdrop. By participating and claiming MENTO Governance Tokens
-          in the Airdrop, you agree to these Airdrop TnCs. If you don’t agree
-          with the Airdrop TnCs, please DO NOT ACCESS, USE, PARTICIPATE in the
-          Airdrop. If you DO NOT AGREE to these TnCs YOU SHALL BE PROHIBITED
-          FROM CLAIMING THE MENTO GOVERNANCE TOKEN(S).
+          (hereinafter referred to as <strong>“Airdrop”</strong>). The Airdrop
+          TnCs govern the ability to participate in the Airdrop. By
+          participating and claiming MENTO Governance Tokens in the Airdrop, you
+          agree to these Airdrop TnCs. If you don’t agree with the Airdrop TnCs,
+          please DO NOT ACCESS, USE, PARTICIPATE in the Airdrop. If you DO NOT
+          AGREE to these TnCs YOU SHALL BE PROHIBITED FROM CLAIMING THE MENTO
+          GOVERNANCE TOKEN(S).
         </p>
 
         <p className="text-md md:text-lg tracking-loose">
-          These Airdrop TnCs constitute the entire agreement between you and
-          [issuing company] in regard to the Airdrop and supersede all prior
-          agreements – if any - between you and the [issuing company]. These
-          Airdrop TnCs may be modified from time to time in which case the “as
-          of” date of these Airdrop TnCs will be updated respectively. The
+          These Airdrop TnCs may be modified from time to time in which case the
+          “as of” date of these Airdrop TnCs will be updated respectively. The
           updated Airdrop TnCs will be effective as of the time of posting, or
           at a later date as may be stipulated in the updated Airdrop TnCs. By
           continuing to participate in the Airdrop after the changes come into
@@ -98,9 +95,9 @@ const Page: NextPage = () => {
               15th, 2022, and February 15th, 2024).
             </li>
           </ul>
-          Claimable amounts are concave (think square root) in the balances of
-          locked CELO and Mento’s decentralized stable assets, as well as the
-          Mento stablecoin volumes:
+          Claimable amounts are a function of balances of locked CELO and
+          Mento’s decentralized stable assets, as well as the Mento stable
+          assets volumes:
           <ul className="list-disc mb-5">
             <li className="ml-6 mb-2 mt-2">
               50% allocated to locked CELO holders
@@ -121,7 +118,7 @@ const Page: NextPage = () => {
           Safes. Mento’s decentralized stable assets held in liquidity pools,
           etc. will not be counted directly because it is not (feasible to
           account for all pools, etc., on all DeFi protocols on Celo), but since
-          depositing stablecoins in liquidity pools leads to volume, they are
+          depositing stable assets in liquidity pools leads to volume, they are
           counted indirectly. <br /> <br />
           To verify, participants can review raw data from the snapshots in CSV
           files in{" "}
@@ -151,7 +148,7 @@ const Page: NextPage = () => {
 
         <p className="text-lg md:text-xl tracking-loose">
           <span className="font-bold">
-            Which countries are restricted?
+            Which countries are blocked?
             <br />
           </span>
         </p>
@@ -190,8 +187,8 @@ const Page: NextPage = () => {
               have a registered office in the Prohibited Localities.
             </li>
             <li className="ml-6 mb-2 mt-2">
-              Persons residing in the United States or the United Kingdom will
-              also be PROHIBITED from participating.
+              <strong>US and UK</strong>. Persons residing in the United States
+              or the United Kingdom will also be PROHIBITED from participating.
             </li>
             <li className="ml-6 mb-2 mt-2">
               <strong>Non-Circumvention</strong>. You agree not to participate
@@ -232,12 +229,12 @@ const Page: NextPage = () => {
 
         <p className="text-md md:text-lg tracking-loose">
           <strong>Unable to claim MENTO Governance Tokens. </strong> You agree
-          and acknowledge that the [issuing company] will not bear any liability
+          and acknowledge that no person or legal entity will bear any liability
           if you are unable to claim MENTO Governance Tokens in the Airdrop due
           to technical bugs, smart contract issue, gas fees, wallet
           incompatibility, loss of access to a wallet or the keys thereto, or
-          for any other reason; you will have no recourse or claim against
-          [issuing company].
+          for any other reason; you will have no recourse or claim against a
+          person or legal entity.
         </p>
 
         <p className="text-md md:text-lg tracking-loose">
@@ -263,12 +260,10 @@ const Page: NextPage = () => {
 
         <p className="text-md md:text-lg tracking-loose">
           <strong>VPN/Circumventions.</strong> You confirm that you will not use
-          a VPN or other tool to circumvent any geoblock or other restrictions
-          that the [issuing company] may have implemented for Airdrop
-          participants. Any such circumvention, or attempted circumvention, may
-          permanently disqualify you from participation in the Airdrop and any
-          future Mento token airdrops in the sole discretion of the [issuing
-          company].
+          a VPN or other tool to circumvent any geoblock or other restrictions.
+          Any such circumvention, or attempted circumvention, may permanently
+          disqualify you from participation in the Airdrop and any future Mento
+          token airdrops.
         </p>
 
         <p className="text-md md:text-lg tracking-loose">
