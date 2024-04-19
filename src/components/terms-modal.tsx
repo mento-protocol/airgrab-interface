@@ -105,21 +105,21 @@ export default function TermsModal() {
                     (hereinafter referred to as “<strong>Airdrop TnCs</strong>”)
                     apply to all participants of the Airdrop of the MENTO
                     Governance Tokens (hereinafter referred to as “
-                    <strong>Airdrop</strong>”) by the [issuing company]. The
-                    Airdrop TnCs govern the ability to participate in the
-                    Airdrop. By participating and claiming MENTO Governance
-                    Tokens in the Airdrop, you agree to these Airdrop TnCs. If
-                    you don&apos;t agree with the Airdrop TnCs, please DO NOT
-                    ACCESS, USE, PARTICIPATE in the Airdrop. If you DO NOT AGREE
-                    to these TnCs YOU SHALL BE PROHIBITED FROM CLAIMING THE
-                    MENTO GOVERNANCE TOKEN(S). <br /> <br /> These Airdrop TnCs
-                    may be modified from time to time in which case the “as of”
-                    date of these Airdrop TnCs will be updated respectively. The
-                    updated Airdrop TnCs will be effective as of the time of
-                    posting, or at a later date as may be stipulated in the
-                    updated Airdrop TnCs. By continuing to participate in the
-                    Airdrop after the changes come into effect, you agree to the
-                    modified Airdrop TnCs. <br />
+                    <strong>Airdrop</strong>”). The Airdrop TnCs govern the
+                    ability to participate in the Airdrop. By participating and
+                    claiming MENTO Governance Tokens in the Airdrop, you agree
+                    to these Airdrop TnCs. If you don&apos;t agree with the
+                    Airdrop TnCs, please DO NOT ACCESS, USE, PARTICIPATE in the
+                    Airdrop. If you DO NOT AGREE to these TnCs YOU SHALL BE
+                    PROHIBITED FROM CLAIMING THE MENTO GOVERNANCE TOKEN(S).{" "}
+                    <br /> <br /> These Airdrop TnCs may be modified from time
+                    to time in which case the “as of” date of these Airdrop TnCs
+                    will be updated respectively. The updated Airdrop TnCs will
+                    be effective as of the time of posting, or at a later date
+                    as may be stipulated in the updated Airdrop TnCs. By
+                    continuing to participate in the Airdrop after the changes
+                    come into effect, you agree to the modified Airdrop TnCs.{" "}
+                    <br />
                     <br />
                     <strong>What does Airdrop mean?</strong> <br />
                     The Airdrop is the process of distributing MENTO Governance
