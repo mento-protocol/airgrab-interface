@@ -105,24 +105,21 @@ export default function TermsModal() {
                     (hereinafter referred to as “<strong>Airdrop TnCs</strong>”)
                     apply to all participants of the Airdrop of the MENTO
                     Governance Tokens (hereinafter referred to as “
-                    <strong>Airdrop</strong>”) by the [issuing company]. The
-                    Airdrop TnCs govern the ability to participate in the
-                    Airdrop. By participating and claiming MENTO Governance
-                    Tokens in the Airdrop, you agree to these Airdrop TnCs. If
-                    you don&apos;t agree with the Airdrop TnCs, please DO NOT
-                    ACCESS, USE, PARTICIPATE in the Airdrop. If you DO NOT AGREE
-                    to these TnCs YOU SHALL BE PROHIBITED FROM CLAIMING THE
-                    MENTO GOVERNANCE TOKEN(S). <br /> <br /> These Airdrop TnCs
-                    constitute the entire agreement between you and [issuing
-                    company] in regard to the Airdrop and supersede all prior
-                    agreements – if any - between you and the [issuing company].
-                    These Airdrop TnCs may be modified from time to time in
-                    which case the “as of” date of these Airdrop TnCs will be
-                    updated respectively. The updated Airdrop TnCs will be
-                    effective as of the time of posting, or at a later date as
-                    may be stipulated in the updated Airdrop TnCs. By continuing
-                    to participate in the Airdrop after the changes come into
-                    effect, you agree to the modified Airdrop TnCs. <br />
+                    <strong>Airdrop</strong>”). The Airdrop TnCs govern the
+                    ability to participate in the Airdrop. By participating and
+                    claiming MENTO Governance Tokens in the Airdrop, you agree
+                    to these Airdrop TnCs. If you don&apos;t agree with the
+                    Airdrop TnCs, please DO NOT ACCESS, USE, PARTICIPATE in the
+                    Airdrop. If you DO NOT AGREE to these TnCs YOU SHALL BE
+                    PROHIBITED FROM CLAIMING THE MENTO GOVERNANCE TOKEN(S).{" "}
+                    <br /> <br /> These Airdrop TnCs may be modified from time
+                    to time in which case the “as of” date of these Airdrop TnCs
+                    will be updated respectively. The updated Airdrop TnCs will
+                    be effective as of the time of posting, or at a later date
+                    as may be stipulated in the updated Airdrop TnCs. By
+                    continuing to participate in the Airdrop after the changes
+                    come into effect, you agree to the modified Airdrop TnCs.{" "}
+                    <br />
                     <br />
                     <strong>What does Airdrop mean?</strong> <br />
                     The Airdrop is the process of distributing MENTO Governance
@@ -169,9 +166,9 @@ export default function TermsModal() {
                         15th, 2024).
                       </li>
                     </ul>
-                    Claimable amounts are concave (think square root) in the
-                    balances of locked CELO and Mento&apos;s decentralized
-                    stable assets, as well as the Mento stablecoin volumes:
+                    Claimable amounts are a function of balances of locked CELO
+                    and Mento&apos;s decentralized stable assets, as well as the
+                    Mento stable assets volumes:
                     <ul className="list-disc">
                       <li className="ml-5">
                         {" "}
@@ -189,7 +186,7 @@ export default function TermsModal() {
                     assets held in liquidity pools, etc. will not be counted
                     directly because it is not (feasible to account for all
                     pools, etc., on all DeFi protocols on Celo), but since
-                    depositing stablecoins in liquidity pools leads to volume,
+                    depositing stable assets in liquidity pools leads to volume,
                     they are counted indirectly. <br />
                     <br /> To verify, participants can review raw data from the
                     snapshots in CSV files in this GitHub repository. <br />
@@ -202,7 +199,7 @@ export default function TermsModal() {
                     ownership, verify that they are not on a restricted or
                     prohibited list, and claim their allocation. <br />
                     <br />
-                    <strong>Which countries are restricted? </strong>
+                    <strong>Which countries are blocked? </strong>
                     <br /> There are 3 types of restricted countries:
                     <br />
                     <br /> As further described below, the TnCs refer to
@@ -244,8 +241,9 @@ export default function TermsModal() {
                       </li>
                       <br />
                       <li className="ml-5">
-                        Persons residing in the United States or the United
-                        Kingdom will also be PROHIBITED from participating.
+                        <strong>US and UK</strong>. Persons residing in the
+                        United States or the United Kingdom will also be
+                        PROHIBITED from participating.
                       </li>
                       <br />
                       <li className="ml-5">
@@ -278,13 +276,13 @@ export default function TermsModal() {
                     <strong>
                       Unable to claim MENTO Governance Tokens.
                     </strong>{" "}
-                    You agree and acknowledge that the [issuing company] will
-                    not bear any liability if you are unable to claim MENTO
+                    You agree and acknowledge that no person or legal entity
+                    will bear any liability if you are unable to claim MENTO
                     Governance Tokens in the Airdrop due to technical bugs,
                     smart contract issue, gas fees, wallet incompatibility, loss
                     of access to a wallet or the keys thereto, or for any other
-                    reason; you will have no recourse or claim against [issuing
-                    company].
+                    reason; you will have no recourse or claim against a person
+                    or legal entity.
                     <br />
                     <br />
                     <strong> Assets control.</strong> You always retain control
@@ -311,12 +309,10 @@ export default function TermsModal() {
                     <br />
                     <strong>VPN/Circumventions.</strong> You confirm that you
                     will not use a VPN or other tool to circumvent any geoblock
-                    or other restrictions that the [issuing company] may have
-                    implemented for Airdrop participants. Any such
-                    circumvention, or attempted circumvention, may permanently
-                    disqualify you from participation in the Airdrop and any
-                    future Mento token airdrops in the sole discretion of the
-                    [issuing company].
+                    or other restrictions. Any such circumvention, or attempted
+                    circumvention, may permanently disqualify you from
+                    participation in the Airdrop and any future Mento token
+                    airdrops.
                     <br />
                     <br />
                     <strong> Regulatory Uncertainty.</strong> You agree and
