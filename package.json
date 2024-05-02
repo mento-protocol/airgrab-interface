@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "PORT=5151 next dev",
     "build": "next build",
-    "build:tree": "node src/lib/merkle/buildTree.mjs",
     "start": "next start",
     "clean": "rm -rf .next",
     "lint": "pnpm lint:js && pnpm lint:secrets",
@@ -15,7 +14,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "prepare": "husky install",
-    "gen-tree": "tsc --skipLibCheck src/lib/merkle/buildTree.ts || tsx --no-cache src/lib/merkle/buildTree.ts",
     "secrets:get": "./src/scripts/get-secrets.sh"
   },
   "dependencies": {
