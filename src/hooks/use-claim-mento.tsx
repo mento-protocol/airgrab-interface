@@ -7,10 +7,10 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 
-import { Airdrop, MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airdrop";
+import { Airdrop } from "@/abis/Airdrop";
 import { AIRDROP_CONTRACT_ADDRESS } from "@/lib/constants";
 import { toast } from "sonner";
-import { BaseError, UserRejectedRequestError } from "viem";
+import { BaseError, UserRejectedRequestError, parseEther } from "viem";
 import { PrepareWriteContractConfig } from "wagmi/actions";
 
 import * as Sentry from "@sentry/nextjs";
@@ -31,9 +31,9 @@ export const useClaimMento = ({
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
 
   const claimStatus = useContractRead({
-    address: AIRDROP_CONTRACT_ADDRESS,
-    abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
-    functionName: "checkHasClaimed",
+    address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
+    abi: Airdrop,
+    functionName: "claimed",
     args: [address!],
   });
 
@@ -43,7 +43,7 @@ export const useClaimMento = ({
   );
 
   const prepare = usePrepareContractWrite({
-    address: AIRDROP_CONTRACT_ADDRESS,
+    address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
     abi: Airdrop,
     functionName: "claim",
     enabled: shouldPrepareClaim,
@@ -200,7 +200,7 @@ function prepareArgs({
   }
 
   return [
-    BigInt(allocation),
+    parseEther(allocation),
     address,
     merkleProof as `0x${string}`[],
     proof,
