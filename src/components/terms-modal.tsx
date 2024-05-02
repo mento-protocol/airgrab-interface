@@ -26,7 +26,7 @@ export default function TermsModal() {
     const handleScroll = () => {
       if (termsContainer) {
         const { scrollTop, scrollHeight, clientHeight } = termsContainer;
-        if (scrollTop + clientHeight >= scrollHeight) {
+        if (scrollTop + clientHeight >= scrollHeight - 2) {
           setHasScrolledToBottom(true);
         }
       }
