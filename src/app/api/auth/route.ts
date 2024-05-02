@@ -1,4 +1,4 @@
-import { MOCK_CONTRACT_HAS_CLAIMED_ABI } from "@/abis/Airdrop";
+import { Airdrop } from "@/abis/Airdrop";
 import { AIRDROP_CONTRACT_ADDRESS } from "@/lib/constants";
 import { refetchKycStatus } from "@/lib/fractal";
 import { getAddressForSession, getServerSession } from "@/lib/session";
@@ -110,9 +110,9 @@ async function checkHasClaimedForWallet(chainId: number, address: string) {
     });
 
     return await publicClient.readContract({
-      address: AIRDROP_CONTRACT_ADDRESS,
-      abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
-      functionName: "checkHasClaimed",
+      address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
+      abi: Airdrop,
+      functionName: "claimed",
       args: [address as `0x${string}`],
     });
   } catch (error) {

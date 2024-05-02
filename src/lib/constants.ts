@@ -14,9 +14,11 @@ export const links = {
   mento: "https://www.mento.org/",
 };
 
-export const AIRDROP_CONTRACT_ADDRESS =
-  "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
-
+if (!process.env.NEXT_PUBLIC_AIRDROP_CONTRACT_ADDRESS) {
+  throw new Error(
+    "NEXT_PUBLIC_AIRDROP_CONTRACT_ADDRESS is undefined. Plesae set NEXT_PUBLIC_AIRDROP_CONTRACT_ADDRESS environment variable.",
+  );
+}
 // Ensuring the environment variables are set
 if (!process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL) {
   throw new Error(
@@ -49,6 +51,8 @@ if (!process.env.NEXT_PUBLIC_RESTRICTED_COUNTRIES) {
 }
 
 // Exporting the variables
+export const AIRDROP_CONTRACT_ADDRESS =
+  process.env.NEXT_PUBLIC_AIRDROP_CONTRACT_ADDRESS;
 export const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
 export const FRACTAL_AUTH_URL = process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL;
 export const FRACTAL_RESOURCE_URL =
