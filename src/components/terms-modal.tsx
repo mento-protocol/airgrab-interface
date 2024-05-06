@@ -336,7 +336,7 @@ export default function TermsModal() {
                     governmental agency.
                   </div>
                   <div>
-                    <label className="my-[18px] text-[18px] mr-[5px] flex flex-row justify-center w-full font-fg mt-0">
+                    <label className="my-[18px] ml-1 text-[18px] mr-[5px] flex flex-row justify-center items-center w-full font-fg mt-0">
                       <input
                         className="scale-150 mr-[10px] flex"
                         type="checkbox"

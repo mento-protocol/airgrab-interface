@@ -135,7 +135,6 @@ const Background = () => {
       {/* Top Left Gradient */}
       <GradientPrimaryLight className="top-[150px] -left-[600px] dark:hidden" />
       <GradientPrimaryLightMobile className=" w-[654px] h-[602px] top-[260.58px] -left-[328px]" />
-      <GradientPrimaryLightMobile className=" w-[411px] h-[349px] top-[824.58px] left-[302px]" />
       <GradientPrimaryLightMobile className=" w-[411px] h-[368px] top-[1651px] -left-[231px]" />
       {/* Bottom Right Gradient */}
       <GradientPrimaryLight className="top-[750px] -right-[600px] dark:hidden" />

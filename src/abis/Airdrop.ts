@@ -373,25 +373,3 @@ export const Airdrop = [
     type: "function",
   },
 ] as const;
-
-export const MOCK_CONTRACT_HAS_CLAIMED_ABI = [
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "address",
-        type: "address",
-      },
-    ],
-    name: "checkHasClaimed",
-    outputs: [
-      {
-        name: "",
-        type: "bool",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-] as const;
