@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@celo/rainbowkit-celo':
-        specifier: ^1.0.2
+        specifier: ~1.0.2
         version: 1.0.2(@rainbow-me/rainbowkit@1.0.11(@types/react@18.2.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(viem@1.10.14(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10))(wagmi@1.4.2(@types/react@18.2.22)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@1.10.14(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10))))(@wagmi/chains@1.8.0(typescript@5.2.2))(viem@1.10.14(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10))(wagmi@1.4.2(@types/react@18.2.22)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@1.10.14(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)))
       '@ethersproject/address':
         specifier: ^5.7.0
