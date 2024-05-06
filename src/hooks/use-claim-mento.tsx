@@ -6,9 +6,8 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-
 import { Airdrop } from "@/abis/Airdrop";
-import { AIRDROP_CONTRACT_ADDRESS } from "@/lib/constants";
+import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import { toast } from "sonner";
 import { BaseError, UserRejectedRequestError, parseEther } from "viem";
 import { PrepareWriteContractConfig } from "wagmi/actions";
@@ -16,6 +15,7 @@ import { PrepareWriteContractConfig } from "wagmi/actions";
 import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
 import { useKYCProof } from "./use-kyc-proof";
+import * as mento from "@mento-protocol/mento-sdk";
 
 export const useClaimMento = ({
   address,
@@ -30,8 +30,16 @@ export const useClaimMento = ({
   const { kyc } = useKYCProof();
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
 
+  let chainId = Alfajores.id;
+
+  if (chain && chain.id === Celo.id) {
+    chainId = Celo.id;
+  }
+
+  const addresses = mento.addresses[chainId];
+
   const claimStatus = useContractRead({
-    address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
+    address: addresses.Airgrab as `0x${string}`,
     abi: Airdrop,
     functionName: "claimed",
     args: [address!],
@@ -43,7 +51,7 @@ export const useClaimMento = ({
   );
 
   const prepare = usePrepareContractWrite({
-    address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
+    address: addresses.Airgrab as `0x${string}`,
     abi: Airdrop,
     functionName: "claim",
     enabled: shouldPrepareClaim,
