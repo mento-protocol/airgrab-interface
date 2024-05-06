@@ -1,4 +1,3 @@
-import ThemeSwitch from "@/components/theme-switch";
 import MobileAccordianMenu from "@/components/mobile-accordian-menu";
 import Link from "next/link";
 import {
@@ -33,10 +32,6 @@ const DesktopFooter = () => {
       <FooterNav />
       <div className="flex flex-col gap-8">
         <SocialLinks />
-        <div className="flex justify-between">
-          <span className="dark:text-body-dark">Theme</span>
-          <ThemeSwitch />
-        </div>
       </div>
     </footer>
   );
@@ -57,10 +52,6 @@ const MobileFooter = () => {
           </div>
           <div className="flex flex-col gap-8">
             <SocialLinks />
-            <div className="flex justify-between">
-              <span className="dark:text-body-dark">Theme</span>
-              <ThemeSwitch />
-            </div>
           </div>
         </div>
       </div>
