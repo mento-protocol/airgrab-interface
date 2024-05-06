@@ -1,5 +1,4 @@
 import { Airdrop } from "@/abis/Airdrop";
-import { AIRDROP_CONTRACT_ADDRESS } from "@/lib/constants";
 import { refetchKycStatus } from "@/lib/fractal";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { sessionOptions } from "@/lib/session/config";
@@ -11,6 +10,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { SiweMessage, generateNonce } from "siwe";
 import { createPublicClient, http } from "viem";
+import * as mento from "@mento-protocol/mento-sdk";
 
 // POST /api/auth
 export async function POST(request: NextRequest) {
@@ -103,6 +103,7 @@ async function checkHasClaimedForWallet(chainId: number, address: string) {
         break;
       }
     }
+    const addresses = mento.addresses[chainId];
 
     const publicClient = createPublicClient({
       chain,
@@ -110,7 +111,7 @@ async function checkHasClaimedForWallet(chainId: number, address: string) {
     });
 
     return await publicClient.readContract({
-      address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
+      address: addresses.Airgrab as `0x${string}`,
       abi: Airdrop,
       functionName: "claimed",
       args: [address as `0x${string}`],
