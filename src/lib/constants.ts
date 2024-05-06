@@ -14,9 +14,6 @@ export const links = {
   mento: "https://www.mento.org/",
 };
 
-export const AIRDROP_CONTRACT_ADDRESS =
-  "0x5edfB3C267e0D3aF1f6564D1d8Db5ead943e3fCD";
-
 // Ensuring the environment variables are set
 if (!process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL) {
   throw new Error(
