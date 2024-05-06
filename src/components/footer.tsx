@@ -30,7 +30,9 @@ const DesktopFooter = () => {
         </p>
       </div>
       <FooterNav />
-      <div className="flex flex-col gap-8"></div>
+      <div className="flex flex-col gap-8">
+        <SocialLinks />
+      </div>
     </footer>
   );
 };
