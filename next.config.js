@@ -4,11 +4,6 @@ const nextConfig = {
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
-  functions: {
-    "src/app/**/*": {
-      maxDuration: 20,
-    },
-  },
 };
 
 module.exports = nextConfig;
