@@ -4,6 +4,7 @@ import {
   RainbowKitSiweIronSessionProvider,
   useSession,
 } from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import useRefreshKYCStatus from "@/hooks/use-refresh-kyc-status";
 import { SessionData } from "@/lib/session/types";
 import { chains, config } from "@/lib/wagmi";
 import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
@@ -11,7 +12,6 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
-import useSWR from "swr";
 import { WagmiConfig, useAccount, useDisconnect, useNetwork } from "wagmi";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
@@ -52,44 +52,20 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   const isAllocationPage = pathname.startsWith("/allocation");
   const hasSession = status === "authenticated";
 
-  useSWR(
-    "refresh-kyc",
-    (session as SessionData).hasClaimed ||
-      (session as SessionData).allocation === "0"
-      ? null
-      : () => fetch("/api/kyc/refresh"),
-    {
-      onSuccess: async (data) => {
-        const verificationCaseStatus = await data.json();
-        switch (verificationCaseStatus?.status) {
-          case "contacted":
-            return router.push("/?kyc_status=contacted");
-          case "pending":
-            return router.push("/kyc-pending");
-          case "done":
-            switch (verificationCaseStatus.credential) {
-              case "approved":
-                return router.push("/allocation");
-              case "pending":
-                return router.push("/kyc-pending");
-              case "rejected":
-                return router.push("/kyc-rejected");
-            }
-          default:
-            return router.push("/");
-        }
-      },
-      isPaused: () =>
-        status !== "authenticated" &&
-        !(session instanceof Response) &&
-        !session.isKycVerified,
-      refreshInterval: 1000 * 60 * 15,
-      // Refresh KYC every 15 minutes if the user is authenticated and not kyc verified
+  const { isLoading } = useRefreshKYCStatus({
+    isPaused: () => {
+      const sess = session as SessionData;
+
+      if (!sess) return true;
+      if (sess.isKycVerified || sess.hasClaimed || sess.allocation === "0")
+        return true;
+
+      return false;
     },
-  );
+  });
 
   React.useEffect(() => {
-    if (status === "loading") return;
+    if (status === "loading" || isLoading) return;
     // every route except home requires a session
     if (!isHomePage && !hasSession) {
       return router.push("/");
