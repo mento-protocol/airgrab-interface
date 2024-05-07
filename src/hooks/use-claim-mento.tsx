@@ -9,8 +9,10 @@ import {
 import { Airdrop } from "@/abis/Airdrop";
 import { toast } from "sonner";
 import {
+  Address,
   BaseError,
   UserRejectedRequestError,
+  parseEther,
   type SimulateContractParameters,
 } from "viem";
 
@@ -18,6 +20,8 @@ import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
 import { useKYCProof } from "./use-kyc-proof";
 import * as mento from "@mento-protocol/mento-sdk";
+import { celo, celoAlfajores } from "viem/chains";
+import React from "react";
 
 export const useClaimMento = ({
   address,
@@ -32,10 +36,18 @@ export const useClaimMento = ({
   const kyc = useKYCProof();
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
 
+  let chainId: number = celoAlfajores.id;
+
+  if (chain && chain.id === celo.id) {
+    chainId = celo.id;
+  }
+
+  const { Airgrab: AirgrabContractAddress } = mento.addresses[chainId];
+
   const claimStatus = useReadContract({
-    address: AIRDROP_CONTRACT_ADDRESS,
-    abi: MOCK_CONTRACT_HAS_CLAIMED_ABI,
-    functionName: "checkHasClaimed",
+    address: AirgrabContractAddress as Address,
+    abi: Airdrop,
+    functionName: "claimed",
     args: [address!],
   });
 
@@ -45,10 +57,11 @@ export const useClaimMento = ({
   );
 
   const simulation = useSimulateContract({
-    address: AIRDROP_CONTRACT_ADDRESS,
+    address: AirgrabContractAddress as Address,
     abi: Airdrop,
     functionName: "claim",
     query: { enabled: shouldPrepareClaim },
+
     args: shouldPrepareClaim
       ? prepareArgs({
           allocation,
@@ -69,6 +82,18 @@ export const useClaimMento = ({
     refetch: refetchSimulation,
     isLoading,
   } = simulation;
+
+  React.useEffect(() => {
+    if (isError) {
+      Sentry.captureException(error);
+      if (
+        error instanceof Error &&
+        !(error instanceof UserRejectedRequestError)
+      ) {
+        toast.error(<ErrorMessage error={error} />);
+      }
+    }
+  }, [error, isError]);
 
   const {
     writeContract,
