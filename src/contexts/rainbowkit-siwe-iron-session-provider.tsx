@@ -132,13 +132,13 @@ export const useSession = () => {
   const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
     optimisticData: true,
     onSuccess: async () => {
-      router.refresh();
+      router.push("/allocation");
     },
   });
 
   const { trigger: logout } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: () => {
-      router.refresh();
+      router.push("/");
     },
   });
 
