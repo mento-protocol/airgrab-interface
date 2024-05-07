@@ -37,7 +37,7 @@ const HeaderNav = () => {
       {headerMenuItems.map(({ name, items, href }) => {
         if (!items) {
           return (
-            <Link key={name} href={href}>
+            <Link key={name} href={href} target="_blank">
               {name}
             </Link>
           );
