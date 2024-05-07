@@ -17,7 +17,7 @@
     "secrets:get": "./src/scripts/get-secrets.sh"
   },
   "dependencies": {
-    "@celo/rainbowkit-celo": "~1.0.2",
+    "@celo/rainbowkit-celo": "1.1.2",
     "@ethersproject/address": "^5.7.0",
     "@headlessui-float/react": "^0.11.4",
     "@headlessui/react": "^1.7.17",
