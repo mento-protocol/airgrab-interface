@@ -9,6 +9,22 @@ import { useCooldown } from "@/hooks/use-cool-down";
 import { disconnect } from "wagmi/actions";
 import Loading from "./loading";
 
+const ClaimText = () => {
+  return (
+    <>
+      To claim your MENTO, you are required to lock them as veMENTO for a period
+      of <br className="hidden sm:block" />
+      24 months. During this 24 month locking period, your veMENTO balance will
+      gradually be unlocked and become claimable MENTO tokens.{" "}
+      <br className="hidden sm:block" />
+      Throughout the locking period, until the full amount is unlocked, you will
+      be able to participate in Mento protocol governance{" "}
+      <br className="hidden sm:block" />
+      using your current locked veMENTO balance
+    </>
+  );
+};
+
 const LockingFAQLink = () => {
   return (
     <Link
@@ -182,11 +198,7 @@ const ClaimOverview = ({
     </ClaimHeading>
     <ClaimDescription>
       <span className="text-sm sm:text-xl">
-        To claim your MENTO, you are required to lock them as veMENTO for{" "}
-        <br className="hidden sm:block" />
-        24 months. You can&apos;t withdraw, but you can participate in{" "}
-        <br className="hidden sm:block" />
-        governance of the protocol and receiving rewards.
+        <ClaimText />
       </span>
     </ClaimDescription>
   </>
@@ -211,11 +223,7 @@ const ClaimAndLockOverview = () => (
     <ClaimHeading>Claim & Lock MENTO</ClaimHeading>
     <ClaimDescription>
       <span className="text-sm sm:text-xl">
-        To claim your MENTO, you are required to lock them as veMENTO for{" "}
-        <br className="hidden sm:block" />
-        24 months. You can&apos;t withdraw, but you can participate in{" "}
-        <br className="hidden sm:block" />
-        governance of the protocol and receiving rewards.
+        <ClaimText />
       </span>
       <LockingFAQLink />
     </ClaimDescription>
