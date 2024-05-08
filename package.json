@@ -17,7 +17,7 @@
     "secrets:get": "./src/scripts/get-secrets.sh"
   },
   "dependencies": {
-    "@celo/rainbowkit-celo": "~1.0.2",
+    "@celo/rainbowkit-celo": "1.0.2",
     "@ethersproject/address": "^5.7.0",
     "@headlessui-float/react": "^0.11.4",
     "@headlessui/react": "^1.7.17",
@@ -26,7 +26,7 @@
     "@mento-protocol/mento-sdk": "0.2.7-beta0",
     "@metamask/jazzicon": "^2.0.0",
     "@openzeppelin/merkle-tree": "^1.0.5",
-    "@rainbow-me/rainbowkit": "^1.0.11",
+    "@rainbow-me/rainbowkit": "1.0.11",
     "@sentry/nextjs": "^7.92.0",
     "@sentry/wizard": "^3.20.1",
     "@testing-library/jest-dom": "^6.1.3",
