@@ -124,7 +124,7 @@ export default function VerifyAndClaim({
 
     if (preparationErrorCooldown.isCoolingDown) {
       return (
-        <Button color="blues" disabled>
+        <Button color="blue" disabled>
           Try again in {preparationErrorCooldown.timeLeft}s
         </Button>
       );
