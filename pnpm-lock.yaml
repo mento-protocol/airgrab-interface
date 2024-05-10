@@ -24,8 +24,8 @@ dependencies:
     specifier: ^3.0.80
     version: 3.0.80
   '@mento-protocol/mento-sdk':
-    specifier: 0.2.7-beta0
-    version: 0.2.7-beta0(ethers@5.7.2)
+    specifier: 0.2.6
+    version: 0.2.6(ethers@5.7.2)
   '@metamask/jazzicon':
     specifier: ^2.0.0
     version: 2.0.0
@@ -1598,8 +1598,8 @@ packages:
     resolution: {integrity: sha512-jrJdglXnTecveV0AUp9qoENXL0c7x/deNp4Abkyy7Flm0ChhyGd7qWd7W5djDIYpnPM5xzeQnsGg2b8jyNf2Xw==}
     dev: false
 
-  /@mento-protocol/mento-sdk@0.2.7-beta0(ethers@5.7.2):
-    resolution: {integrity: sha512-kheTzD8ZHKlAeeoxFM6kHpdM940eIFi5e2EF6GqMg4vAb+TyA0vb4ID0jUqaK3lGgA/dp89CZIyXUQWi594JQA==}
+  /@mento-protocol/mento-sdk@0.2.6(ethers@5.7.2):
+    resolution: {integrity: sha512-um8hlig+SzMO/YKU874+U9Guf4VJge9c4x8wmfyPKhr8PWaXrz+A+3ePKDmd91vhZrTNanlmfa73I+kOiG5bmQ==}
     engines: {node: '>=14'}
     peerDependencies:
       ethers: ^5.7
