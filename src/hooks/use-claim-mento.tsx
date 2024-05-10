@@ -38,8 +38,6 @@ export const useClaimMento = ({
 
   const addresses = mento.addresses[chainId];
 
-  console.log("Sending a call to check if the user has claimed Mento.");
-
   const claimStatus = useContractRead({
     address: addresses.Airgrab as `0x${string}`,
     abi: Airdrop,
