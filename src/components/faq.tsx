@@ -292,10 +292,10 @@ export const faqs: FAQ[] = [
           Blog:{" "}
           <Link
             className="font-fg text-primary-blue underline text-sm"
-            href={links.mirror}
+            href={links.blog}
             target="_blank"
           >
-            mirror.xyz/mentoprotocol.eth
+            mentolabs.xyz/blog
           </Link>
         </span>
         <span>
