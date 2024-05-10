@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-export type ButtonColor = "blush" | "blue" | "white";
+export type ButtonColor = "blush" | "blue" | "white" | "disabled";
 type HTMLButtonProps = React.ComponentPropsWithRef<"button">;
 type HTMLAnchorProps = React.ComponentPropsWithRef<"a">;
 
@@ -60,7 +60,7 @@ export const Button = ({
     "group",
     "font-inter",
     "outline-offset-4",
-    !disabled && "cursor-pointer",
+    disabled ? "cursor-default" : "cursor-pointer",
     "border-b",
     "rounded-lg",
     disabled ? colorClasses.disabled.border : colorClasses[color].border,
@@ -75,7 +75,7 @@ export const Button = ({
 
   const innerClasses = [
     "text-center",
-    "group-active:-translate-y-[2px]",
+    !disabled && "group-active:-translate-y-[2px]",
     "block",
     "py-[18px]",
     !disabled && "group-hover:brightness-110",
