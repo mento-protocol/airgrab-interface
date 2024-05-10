@@ -13,13 +13,9 @@ const MerkleTreeError = new Error(
 );
 
 function loadTree() {
-  const before = Date.now();
-
   if (!tree) {
     try {
-      console.log("Goign to load ");
       tree = StandardMerkleTree.load(JSON.parse(JSON.stringify(treeJson)));
-      console.log("Load time", (Date.now() - before) / 1000);
     } catch (err) {
       throw MerkleTreeError;
     }
@@ -39,14 +35,10 @@ export function getAllocationList(
     if (!tree) throw new Error("Tree not found");
 
     const allocationObject: AllocationMap = {};
-
-    const before = Date.now();
-    console.log("Going to get allocations");
     for (let [, [address, allocation]] of tree.entries()) {
       allocationObject[address] = allocation;
     }
-    console.log("Get Allocation List: ");
-    console.log((Date.now() - before) / 1000);
+
     return allocationObject;
   } catch (err) {
     throw MerkleTreeError;
