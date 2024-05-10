@@ -160,14 +160,14 @@ export default function VerifyAndClaim({
     if (!kyc.isSuccess) {
       return (
         <Button color="blue" onClick={signMessage}>
-          Claim {allocation} MENTO
+          Claim Your MENTO
         </Button>
       );
     }
 
     return (
       <Button color="blue" onClick={claimMento}>
-        <>Claim & Lock {allocation} MENTO</>
+        <>Claim & Lock Your MENTO</>
       </Button>
     );
   };
