@@ -108,7 +108,7 @@ export default function VerifyAndClaim({
   const renderButton = () => {
     if (claimErrorCooldown.isCoolingDown) {
       return (
-        <Button color="disabled" disabled>
+        <Button color="blue" disabled>
           Try again in {claimErrorCooldown.timeLeft}s
         </Button>
       );
@@ -116,7 +116,7 @@ export default function VerifyAndClaim({
 
     if (kycErrorCooldown.isCoolingDown) {
       return (
-        <Button color="disabled" disabled>
+        <Button color="blue" disabled>
           Try again in {kycErrorCooldown.timeLeft}s
         </Button>
       );
@@ -124,7 +124,7 @@ export default function VerifyAndClaim({
 
     if (preparationErrorCooldown.isCoolingDown) {
       return (
-        <Button color="disabled" disabled>
+        <Button color="blues" disabled>
           Try again in {preparationErrorCooldown.timeLeft}s
         </Button>
       );
@@ -149,7 +149,7 @@ export default function VerifyAndClaim({
 
     if (isPreparingKycOrClaim) {
       return (
-        <Button color="disabled" disabled>
+        <Button color="blue" disabled>
           Loading...
         </Button>
       );
@@ -157,7 +157,7 @@ export default function VerifyAndClaim({
 
     if (isAwaitingUserSignature) {
       return (
-        <Button color="disabled" disabled>
+        <Button color="blue" disabled>
           Continue in wallet
         </Button>
       );
@@ -165,7 +165,7 @@ export default function VerifyAndClaim({
 
     if (claim.isConfirmationLoading) {
       return (
-        <Button color="disabled" disabled>
+        <Button color="blue" disabled>
           Awaiting confirmation...
         </Button>
       );

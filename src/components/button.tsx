@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-export type ButtonColor = "blush" | "blue" | "white" | "disabled";
+export type ButtonColor = "blush" | "blue" | "white";
 type HTMLButtonProps = React.ComponentPropsWithRef<"button">;
 type HTMLAnchorProps = React.ComponentPropsWithRef<"a">;
 
