@@ -39,7 +39,7 @@ export function RainbowKitSiweIronSessionProvider({
   children,
   getSiweMessageOptions,
 }: RainbowKitSiweIronSessionProviderProps) {
-  const { status, logout, login } = useSession();
+  const { login, logout, status } = useSession();
 
   const adapter = React.useMemo(
     () =>

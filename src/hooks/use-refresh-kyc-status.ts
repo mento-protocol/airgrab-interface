@@ -1,8 +1,11 @@
-import { useRouter } from "next/router";
+import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import { SessionData } from "@/lib/session/types";
+import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
-const useRefreshKYCStatus = ({ isPaused }: { isPaused?: () => boolean }) => {
+const useRefreshKYCStatus = () => {
   const router = useRouter();
+  const { data } = useSession();
 
   return useSWR("refresh-kyc", () => fetch("/api/kyc/refresh"), {
     onSuccess: async (data) => {
@@ -25,7 +28,19 @@ const useRefreshKYCStatus = ({ isPaused }: { isPaused?: () => boolean }) => {
           return router.push("/");
       }
     },
-    isPaused,
+    isPaused: () => {
+      const session = data as SessionData;
+
+      if (
+        !session ||
+        session.isKycVerified ||
+        session.hasClaimed ||
+        session.allocation === "0"
+      )
+        return true;
+
+      return false;
+    },
     refreshInterval: 1000 * 60 * 15,
     // Refresh KYC every 15 minutes if the user is authenticated and not kyc verified
   });

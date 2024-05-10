@@ -151,7 +151,7 @@ const ConnectButtonIcon = ({
 const styles = {
   // TODO DRY up with SolidButton styles
   walletButtonDefault:
-    "shadow-md h-[52px] min-w-[137px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg border border-solid border-black dark:border-white font-medium leading-5 dark:text-white dark:bg-primary-dark",
+    "shadow-md h-[52px] min-w-[196px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg border border-solid border-black dark:border-white font-medium leading-5 dark:text-white dark:bg-primary-dark",
   walletButtonConnected:
     "flex items-center justify-center bg-white text-black rounded-full shadow-md transition-all duration-300",
   menuOption:
