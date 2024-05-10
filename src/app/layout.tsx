@@ -29,7 +29,6 @@ import { Providers } from "@/components/providers";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import TermsModal from "@/components/terms-modal";
-import Loading from "@/components/loading";
 const founders_grotesk = localFont({
   variable: "--font-fg",
   src: [
@@ -63,39 +62,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head></head>
       <body
         className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
       >
-        <Providers
-          fallback={
-            <div className="relative w-screen h-full max-w-[1440px]">
-              <Header />
-              <TermsModal />
-              <main className="flex-grow z-30">
-                <div className="h-12 md:h-24 " />
-                <Spacer axis="vertical" size={24} />
-                <MaxWidthContainer>
-                  <MainHeading />
-                  <div className="h-2" />
-                  <SubHeading />
-                </MaxWidthContainer>
-                <div className="h-8 sm:h-20  md:h-20" />
-                <MaxWidthContainer>
-                  <ClaimCard>
-                    <Loading />
-                  </ClaimCard>
-                </MaxWidthContainer>
-                <div className="h-[56px] sm:h-[112px] md:h-[112px]" />
-                <MaxWidthContainer>
-                  <FAQ />
-                </MaxWidthContainer>
-                <LearnMoreSection />
-              </main>
-              <Footer />
-              <Background />
-            </div>
-          }
-        >
+        <Providers>
           <div className="relative w-screen h-full max-w-[1440px]">
             <Header />
             <TermsModal />
