@@ -233,7 +233,7 @@ export const faqs: FAQ[] = [
       <>
         <span>
           The total possible supply of the token will be 1,000,000,000 (one
-          billion) MENTO, with 65% being minted at the genesis block (see
+          billion) MENTO, with 60% being minted at the genesis block (see
           distribution above), and the rest is emitted to the Mento Community
           Treasury via exponential decay with a half-life of 10 years.
         </span>
