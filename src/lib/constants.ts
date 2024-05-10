@@ -10,7 +10,7 @@ export const links = {
   forum: "https://forum.celo.org/c/mento/33",
   mentolabs: "https://www.mentolabs.xyz/team",
   cookiePolicy: "/files/cookie-policy.pdf",
-  mirror: "https://mirror.xyz/mentoprotocol.eth",
+  blog: "https://www.mentolabs.xyz/blog",
   mento: "https://www.mento.org/",
 };
 
