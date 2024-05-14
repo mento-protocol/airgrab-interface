@@ -3,6 +3,7 @@ import {
   metaMaskWallet,
   omniWallet,
   walletConnectWallet,
+  frameWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains, createConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -33,6 +34,7 @@ const connectors = connectorsForWallets([
       metaMaskWallet({ chains, projectId }),
       omniWallet({ chains, projectId }),
       walletConnectWallet({ chains, projectId }),
+      frameWallet({ chains, projectId }),
     ],
   },
 ]);
