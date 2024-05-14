@@ -39,7 +39,7 @@ export function RainbowKitSiweIronSessionProvider({
   children,
   getSiweMessageOptions,
 }: RainbowKitSiweIronSessionProviderProps) {
-  const { status, logout, login } = useSession();
+  const { login, logout, status } = useSession();
 
   const adapter = React.useMemo(
     () =>
@@ -132,13 +132,13 @@ export const useSession = () => {
   const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
     optimisticData: true,
     onSuccess: async () => {
-      router.refresh();
+      router.push("/allocation");
     },
   });
 
   const { trigger: logout } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: () => {
-      router.refresh();
+      router.push("/");
     },
   });
 
