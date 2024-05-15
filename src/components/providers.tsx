@@ -32,19 +32,12 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
 
 const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   const { disconnect } = useDisconnect();
-
   const { isLoading } = useRefreshKYCStatus();
   useRequireAuth({ enabled: !isLoading });
   useWatchChainOrAccountChange({
     onAccountChange: () => disconnect(),
     onChainChange: () => disconnect(),
   });
-
-  // const isOnCelo = chains.some((chn) => chn.id === chain?.id);
-
-  // if (Boolean(!isOnCelo && isConnectedWithSession)) {
-  //   disconnect();
-  // }
 
   return <>{children}</>;
 };
