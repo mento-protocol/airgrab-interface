@@ -69,7 +69,7 @@ export const getAllocationForAddress = (
   address: string,
 ): string | undefined => {
   // Get the checksummed address
-  const searchAddress = getAddress(address);
+  const searchAddress = getAddress(address).toLowerCase();
 
   // Get the allocation for the address
   const allocation = getAllocationList(getTree())[searchAddress];
