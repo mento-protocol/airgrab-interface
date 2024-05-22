@@ -35,8 +35,12 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   const { isLoading } = useRefreshKYCStatus();
   useRequireAuth({ enabled: !isLoading });
   useWatchChainOrAccountChange({
-    onAccountChange: () => disconnect(),
-    onChainChange: () => disconnect(),
+    onAccountChange: function () {
+      console.log(...arguments);
+    },
+    onChainChange: function () {
+      console.log(...arguments);
+    },
   });
 
   return <>{children}</>;
