@@ -7,4 +7,5 @@ export const defaultSession: SessionData = {
   success: false,
   isKycVerified: false,
   hasClaimed: false,
+  allocation: "0",
 };

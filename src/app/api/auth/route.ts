@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { SiweMessage, generateNonce } from "siwe";
 import { createPublicClient, http } from "viem";
 import * as mento from "@mento-protocol/mento-sdk";
+import { getAllocationForAddress } from "@/lib/merkle/merkle";
 
 // POST /api/auth
 export async function POST(request: NextRequest) {
@@ -25,13 +26,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Invalid nonce." }, { status: 422 });
     }
 
+    const allocation = getAllocationForAddress(fields.data.address);
     session.siwe = fields;
     session.isKycVerified = false;
+    session.allocation = allocation || "0";
 
     const hasClaimed = await checkHasClaimedForWallet(
       fields.data.chainId,
       fields.data.address,
     );
+
     if (hasClaimed) {
       session.hasClaimed = hasClaimed;
       await session.save();
