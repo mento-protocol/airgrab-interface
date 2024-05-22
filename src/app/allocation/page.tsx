@@ -14,8 +14,7 @@ export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
-  const allocation = getAllocationForAddress(fullAddress);
-  const hasAllocation = allocation && allocation !== "0";
+  const hasAllocation = session.allocation && session.allocation !== "0";
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
@@ -24,7 +23,7 @@ export default async function Allocation() {
   }
 
   if (!session?.isKycVerified) {
-    return <NoKYC fullAdress={fullAddress} />;
+    return <NoKYC fullAddress={fullAddress} />;
   }
 
   if (isBeforeLaunch) {
@@ -50,7 +49,7 @@ const NoAllocation = ({ address }: { address: string }) => {
   );
 };
 
-const NoKYC = ({ fullAdress }: { fullAdress: string }) => {
+const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <CongratulationsHeading />
@@ -62,7 +61,7 @@ const NoKYC = ({ fullAdress }: { fullAdress: string }) => {
         after.
       </p>
       <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
-      <KYCButton address={fullAdress} />
+      <KYCButton address={fullAddress} />
       <EligibilityFAQLink />
     </div>
   );
@@ -73,7 +72,7 @@ const HasKYC = () => {
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <CongratulationsHeading />
       <p className="text-center max-w-[500px]">
-        We have confirmed your verificaion with Fractal ID, please continue to
+        We have confirmed your verification with Fractal ID, please continue to
         claim your MENTO
       </p>
       <Button color="blue" href={"/claim"}>

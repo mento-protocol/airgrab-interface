@@ -5,4 +5,5 @@ export interface SessionData {
   success: boolean;
   isKycVerified: boolean;
   hasClaimed: boolean;
+  allocation: string;
 }

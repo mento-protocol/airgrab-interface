@@ -9,7 +9,7 @@ import {
 import { Airdrop } from "@/abis/Airdrop";
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import { toast } from "sonner";
-import { BaseError, UserRejectedRequestError, parseEther } from "viem";
+import { Address, BaseError, UserRejectedRequestError, parseEther } from "viem";
 import { PrepareWriteContractConfig } from "wagmi/actions";
 
 import * as Sentry from "@sentry/nextjs";
@@ -24,7 +24,7 @@ export const useClaimMento = ({
 }: {
   allocation: string | undefined;
   merkleProof: string[] | undefined;
-  address: `0x${string}` | undefined;
+  address: Address | undefined;
 }) => {
   const { chain } = useNetwork();
   const { kyc } = useKYCProof();
@@ -39,7 +39,7 @@ export const useClaimMento = ({
   const addresses = mento.addresses[chainId];
 
   const claimStatus = useContractRead({
-    address: addresses.Airgrab as `0x${string}`,
+    address: addresses.Airgrab as Address,
     abi: Airdrop,
     functionName: "claimed",
     args: [address!],
@@ -51,7 +51,7 @@ export const useClaimMento = ({
   );
 
   const prepare = usePrepareContractWrite({
-    address: addresses.Airgrab as `0x${string}`,
+    address: addresses.Airgrab as Address,
     abi: Airdrop,
     functionName: "claim",
     enabled: shouldPrepareClaim,
@@ -164,9 +164,9 @@ function prepareArgs({
   fractalId,
 }: {
   allocation: string | undefined;
-  address: `0x${string}` | undefined;
+  address: Address | undefined;
   merkleProof: string[] | undefined;
-  proof: `0x${string}` | undefined;
+  proof: Address | undefined;
   validUntil: number | undefined;
   approvedAt: number | undefined;
   fractalId: string | undefined;
@@ -210,7 +210,7 @@ function prepareArgs({
   return [
     parseEther(allocation),
     address,
-    merkleProof as `0x${string}`[],
+    merkleProof as Address[],
     proof,
     BigInt(validUntil),
     BigInt(approvedAt),
