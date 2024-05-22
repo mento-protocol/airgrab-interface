@@ -23,7 +23,7 @@
     "@headlessui/react": "^1.7.17",
     "@hookform/resolvers": "^3.3.4",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
-    "@mento-protocol/mento-sdk": "0.2.6",
+    "@mento-protocol/mento-sdk": "0.2.7-beta0",
     "@metamask/jazzicon": "^2.0.0",
     "@openzeppelin/merkle-tree": "^1.0.5",
     "@rainbow-me/rainbowkit": "1.0.11",
