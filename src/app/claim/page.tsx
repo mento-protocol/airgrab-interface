@@ -12,7 +12,7 @@ import { formatUnits } from "viem";
 
 export default async function Claim() {
   const session = await getServerSession();
-  if (!session?.isKycVerified || !session?.hasClaimed) {
+  if (!session?.isKycVerified) {
     redirect("/");
   }
 
