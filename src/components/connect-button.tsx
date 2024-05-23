@@ -56,16 +56,7 @@ export function ConnectButton({
     <div className="flex justify-end mb-1 min-h-6">
       <ClientOnly
         fallback={
-          <button
-            className={
-              styles.walletButtonConnected + " " + styles.walletButtonDefault
-            }
-          >
-            <div className="flex items-center">
-              <div className="animate-pulse rounded-full bg-gray-300 w-[26px] h-[26px]" />
-              <div className="hidden animate-pulse bg-gray-300 sm:block ml-[12px] w-[106.99px] h-[20px] rounded-md " />
-            </div>
-          </button>
+          <div className="h-[63px] min-w-[206px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg bg-gray-300 animate-pulse" />
         }
       >
         {address ? (
@@ -151,7 +142,7 @@ const ConnectButtonIcon = ({
 const styles = {
   // TODO DRY up with SolidButton styles
   walletButtonDefault:
-    "shadow-md h-[52px] min-w-[137px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg border border-solid border-black dark:border-white font-medium leading-5 dark:text-white dark:bg-primary-dark",
+    "shadow-md h-[52px] min-w-[206px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg border border-solid border-black dark:border-white font-medium leading-5 dark:text-white dark:bg-primary-dark",
   walletButtonConnected:
     "flex items-center justify-center bg-white text-black rounded-full shadow-md transition-all duration-300",
   menuOption:
