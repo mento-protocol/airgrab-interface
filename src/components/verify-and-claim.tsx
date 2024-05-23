@@ -208,7 +208,9 @@ const ClaimOverview = ({
         <span className="text-primary-blue">{shortAddress}</span> is eligible to
         receive
       </span>
-      <span className="text-base sm:text-2xl">{allocation} MENTO</span>
+      <span className="text-base sm:text-2xl">
+        {Number(allocation).toFixed(3)} MENTO
+      </span>
     </ClaimHeading>
     <ClaimDescription>
       <span className="text-sm sm:text-xl">
@@ -249,8 +251,10 @@ const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
     <Locked className="h-[248px] w-[251px]" />
     <span className="font-fg font-normal text-sm sm:text-xl">
       You claimed and locked <br className="block sm:hidden" />
-      <span className="font-medium font-fg">{allocation} MENTO</span> for{" "}
-      <span className="font-medium font-fg">24 months</span>{" "}
+      <span className="font-medium font-fg">
+        {Number(allocation).toFixed(3)} MENTO
+      </span>{" "}
+      for <span className="font-medium font-fg">24 months</span>{" "}
     </span>
     <div className="flex flex-col gap-[18px]">
       <Button color="blue" onClick={disconnect} fullWidth>

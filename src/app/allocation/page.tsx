@@ -164,7 +164,7 @@ const AllocationAmount = async () => {
 
   return (
     <span className="font-fg text-base font-medium sm:text-2xl">
-      {allocation} MENTO
+      {Number(allocation).toFixed(3)} MENTO
     </span>
   );
 };
