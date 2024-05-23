@@ -1,15 +1,16 @@
 "use client";
 
+import React from "react";
 import { Button } from "@/components/button";
 import { ConnectButton } from "@/components/connect-button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import React from "react";
 import { useAccount } from "wagmi";
 
 export default function Home() {
-  const { isConnected, isConnecting, isReconnecting, address } = useAccount();
+  const { isConnected } = useAccount();
   const { status } = useSession();
   const { openConnectModal } = useConnectModal();
   const hasMounted = useIsMounted();
@@ -63,14 +64,4 @@ export default function Home() {
       <EligibilityFAQLink />
     </div>
   );
-}
-
-export function useIsMounted() {
-  const [hasMounted, setHasMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  return hasMounted;
 }
