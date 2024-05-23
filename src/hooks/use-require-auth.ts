@@ -23,7 +23,8 @@ const useRequireAuth = ({ enabled }: { enabled?: boolean }) => {
     if (!isHomePage && !hasSession) {
       return router.push("/");
     } else if (isHomePage && hasSession) {
-      return router.push("/allocation");
+      router.push("/allocation");
+      return;
     }
 
     // Redirect to claim page if user is on allocation page and has a session and is past launch date and is kyc verified or has claimed
@@ -33,7 +34,8 @@ const useRequireAuth = ({ enabled }: { enabled?: boolean }) => {
       ((session as SessionData)?.isKycVerified ||
         (session as SessionData).hasClaimed)
     ) {
-      return router.push("/claim");
+      router.push("/claim");
+      return;
     }
 
     if (
@@ -42,8 +44,19 @@ const useRequireAuth = ({ enabled }: { enabled?: boolean }) => {
       !(session as SessionData).hasClaimed
     ) {
       router.push("/");
+      return;
     }
-  }, [enabled, hasSession, isAllocationPage, isClaimPage, isHomePage, isPastLaunchDate, router, session, status]);
+  }, [
+    enabled,
+    hasSession,
+    isAllocationPage,
+    isClaimPage,
+    isHomePage,
+    isPastLaunchDate,
+    router,
+    session,
+    status,
+  ]);
 };
 
 export { useRequireAuth };
