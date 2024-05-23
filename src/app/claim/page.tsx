@@ -7,10 +7,14 @@ import {
   getTree,
 } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
+import { redirect } from "next/navigation";
 import { formatUnits } from "viem";
 
 export default async function Claim() {
   const session = await getServerSession();
+  if (!session?.isKycVerified) {
+    redirect("/");
+  }
   const fullAddress = getAddressForSession(session);
   const allocation = getAllocationForAddress(fullAddress);
   const merkleProof = getProofForAddress(fullAddress, getTree());
