@@ -1,8 +1,11 @@
+import { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import "@rainbow-me/rainbowkit/styles.css";
+import localFont from "next/font/local";
+import { Toaster } from "sonner";
 import ClaimCard from "@/components/claim-card";
 import FAQ from "@/components/faq";
 import Footer from "@/components/footer";
-import "@rainbow-me/rainbowkit/styles.css";
-import { ReactNode } from "react";
 import "./globals.css";
 import Spacer from "@/components/spacer";
 import {
@@ -26,9 +29,8 @@ import { links } from "@/lib/constants";
 
 import Header from "@/components/header/header";
 import { Providers } from "@/components/providers";
-import localFont from "next/font/local";
-import { Toaster } from "sonner";
 import TermsModal from "@/components/terms-modal";
+
 const founders_grotesk = localFont({
   variable: "--font-fg",
   src: [
@@ -106,6 +108,7 @@ export default function RootLayout({
             },
           }}
         />
+        <Analytics />
       </body>
     </html>
   );
