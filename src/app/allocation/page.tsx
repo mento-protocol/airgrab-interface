@@ -9,6 +9,7 @@ import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
+import Link from "next/link";
 
 export default async function Allocation() {
   const session = await getServerSession();
@@ -62,7 +63,12 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
       </p>
       <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
       <KYCButton address={fullAddress} />
-      <EligibilityFAQLink />
+      <Link
+        className="font-fg text-primary-blue underline text-sm"
+        href="#why-verify-identity"
+      >
+        Why do I need to verify my identity?
+      </Link>
     </div>
   );
 };
