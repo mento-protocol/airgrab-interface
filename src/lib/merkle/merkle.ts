@@ -19,6 +19,10 @@ export async function getTree() {
       const jsonFilePath = path.join(
         process.cwd() + "/src/lib/merkle/tree.json",
       );
+      Sentry.captureEvent({
+        message: `merkle JSON file path: ${jsonFilePath}`,
+        level: "info",
+      });
       const file = await fs.readFileSync(jsonFilePath, { encoding: "utf-8" });
       if (!file) throw MerkleTreeError;
       const treeJson = JSON.parse(file);
@@ -86,8 +90,17 @@ export async function getAllocationForAddress(
   try {
     // Get the checksummed address
     const searchAddress = getAddress(address).toLowerCase();
-
     const tree = await getTree();
+
+    Sentry.captureEvent({
+      message: `Getting allocation for address`,
+      level: "info",
+      extra: {
+        address,
+        checkSummedAddress: searchAddress,
+      },
+    });
+
     if (!tree) throw new Error("Tree not found");
 
     const allocationList = getAllocationList(tree);
@@ -104,5 +117,7 @@ export async function getAllocationForAddress(
       },
     });
     return allocation;
-  } catch (error) {}
+  } catch (error) {
+    Sentry.captureException(error);
+  }
 }
