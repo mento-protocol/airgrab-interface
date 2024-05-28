@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Invalid nonce." }, { status: 422 });
     }
 
-    const allocation = getAllocationForAddress(fields.data.address);
+    const allocation = await getAllocationForAddress(fields.data.address);
     session.siwe = fields;
     session.isKycVerified = false;
     session.allocation = allocation || "0";
