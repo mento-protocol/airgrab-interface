@@ -22,16 +22,6 @@ export default async function Allocation() {
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
   if (session.isKycVerified) {
-    Sentry.captureEvent({
-      message: `/allocation for ${fullAddress}`,
-      level: "info",
-      extra: {
-        fullAddress,
-        session: JSON.stringify(session, null, 4),
-        hasAllocation,
-        allocation,
-      },
-    });
     return redirect("/claim");
   }
 
@@ -40,9 +30,29 @@ export default async function Allocation() {
   // }
 
   if (!hasAllocation) {
+    Sentry.captureEvent({
+      message: `No Allocation`,
+      level: "info",
+      extra: {
+        fullAddress,
+        session: JSON.stringify(session, null, 4),
+        hasAllocation,
+        allocation,
+      },
+    });
     return <NoAllocation address={shortAddress} />;
   }
 
+  Sentry.captureEvent({
+    message: `With Allocation`,
+    level: "info",
+    extra: {
+      fullAddress,
+      session: JSON.stringify(session, null, 4),
+      hasAllocation,
+      allocation,
+    },
+  });
   return (
     <NoKYC
       fullAddress={fullAddress}
