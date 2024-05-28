@@ -7,59 +7,33 @@ import { shortenAddress } from "@/lib/addresses";
 import { LAUNCH_DATE } from "@/lib/constants";
 import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
-import * as Sentry from "@sentry/nextjs";
-import { redirect } from "next/navigation";
+import { NotificationEmailForm } from "@/components/notification-email-form";
+import { formatUnits } from "viem";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default async function Allocation() {
+export async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
-  const allocation = await getAllocationForAddress(fullAddress);
-  const hasAllocation = allocation && Number(allocation) > 0;
+  const hasAllocation = session.allocation && session.allocation !== "0";
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
-  if (session.isKycVerified) {
-    return redirect("/claim");
-  }
-
-  // if (isBeforeLaunch) {
-  //   return <LaunchForm />;
-  // }
-
-  if (session.success && !hasAllocation) {
-    Sentry.captureEvent({
-      message: `No Allocation`,
-      level: "info",
-      extra: {
-        fullAddress,
-        session: JSON.stringify(session, null, 4),
-        hasAllocation,
-        allocation,
-      },
-    });
+  if (!hasAllocation) {
     return <NoAllocation address={shortAddress} />;
   }
 
-  Sentry.captureEvent({
-    message: `With Allocation`,
-    level: "info",
-    extra: {
-      fullAddress,
-      session: JSON.stringify(session, null, 4),
-      hasAllocation,
-      allocation,
-    },
-  });
-  return (
-    <NoKYC
-      fullAddress={fullAddress}
-      allocation={allocation}
-      shortAddress={shortAddress}
-    />
-  );
+  if (!session?.isKycVerified) {
+    return <NoKYC fullAddress={fullAddress} />;
+  }
+
+  if (isBeforeLaunch) {
+    return <LaunchForm />;
+  }
+
+  return <HasKYC />;
 }
 
 const NoAllocation = ({ address }: { address: string }) => {
@@ -78,21 +52,10 @@ const NoAllocation = ({ address }: { address: string }) => {
   );
 };
 
-const NoKYC = ({
-  fullAddress,
-  shortAddress,
-  allocation,
-}: {
-  shortAddress: string;
-  fullAddress: string;
-  allocation: string;
-}) => {
+const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">
-      <CongratulationsHeading
-        shortAddress={shortAddress}
-        allocation={allocation}
-      />
+      <CongratulationsHeading />
       <p className="font-fg text-center text-sm sm:text-base">
         To comply with regulations we kindly ask you to verify your identity.
         <br className="hidden sm:block" /> The check will be conducted by our
@@ -107,58 +70,58 @@ const NoKYC = ({
   );
 };
 
-// const HasKYC = () => {
-//   return (
-//     <div className="flex flex-col items-center justify-center gap-8 text-center">
-//       <CongratulationsHeading />
-//       <p className="text-center max-w-[500px]">
-//         We have confirmed your verification with Fractal ID, please continue to
-//         claim your MENTO
-//       </p>
-//       <Button color="blue" href={"/claim"}>
-//         Claim Your MENTO
-//       </Button>
-//       <EligibilityFAQLink />
-//     </div>
-//   );
-// };
+const HasKYC = () => {
+  return (
+    <div className="flex flex-col items-center justify-center gap-8 text-center">
+      <CongratulationsHeading />
+      <p className="text-center max-w-[500px]">
+        We have confirmed your verification with Fractal ID, please continue to
+        claim your MENTO
+      </p>
+      <Button color="blue" href={"/claim"}>
+        Claim Your MENTO
+      </Button>
+      <EligibilityFAQLink />
+    </div>
+  );
+};
 
-// const LaunchForm = () => {
-//   const defaultMessage = (
-//     <>
-//       <CongratulationsHeading />
-//       <p className="text-center max-w-[500px] text-xl font-fg">
-//         <LaunchCountdown />
-//         <span className="block md:inline">
-//           Complete the form to be notified when tokens are available to be
-//           claimed
-//         </span>
-//       </p>
-//     </>
-//   );
+const LaunchForm = () => {
+  const defaultMessage = (
+    <>
+      <CongratulationsHeading />
+      <p className="text-center max-w-[500px] text-xl font-fg">
+        <LaunchCountdown />
+        <span className="block md:inline">
+          Complete the form to be notified when tokens are available to be
+          claimed
+        </span>
+      </p>
+    </>
+  );
 
-//   const successMessage = (
-//     <>
-//       <h3 className="font-fg font-medium text-base  text-center flex flex-col gap-8">
-//         <span>
-//           Great, now you will receive an email when tokens are available!
-//         </span>
-//       </h3>
-//       <span className="font-fg text-base">You&apos;re verified to get</span>
-//       <AllocationAmount />
-//       <p className="text-center max-w-[500px] text-xl font-fg">
-//         <LaunchCountdown />
-//       </p>
-//     </>
-//   );
+  const successMessage = (
+    <>
+      <h3 className="font-fg font-medium text-base  text-center flex flex-col gap-8">
+        <span>
+          Great, now you will receive an email when tokens are available!
+        </span>
+      </h3>
+      <span className="font-fg text-base">You&apos;re verified to get</span>
+      <AllocationAmount />
+      <p className="text-center max-w-[500px] text-xl font-fg">
+        <LaunchCountdown />
+      </p>
+    </>
+  );
 
-//   return (
-//     <NotificationEmailForm
-//       defaultMessage={defaultMessage}
-//       successMessage={successMessage}
-//     />
-//   );
-// };
+  return (
+    <NotificationEmailForm
+      defaultMessage={defaultMessage}
+      successMessage={successMessage}
+    />
+  );
+};
 
 const LaunchCountdown = () => {
   const { days, hours } = getDaysAndHoursUntilLaunch();
@@ -177,13 +140,11 @@ const LaunchCountdown = () => {
   );
 };
 
-const CongratulationsHeading = ({
-  shortAddress,
-  allocation,
-}: {
-  shortAddress: string;
-  allocation: string;
-}) => {
+const CongratulationsHeading = async () => {
+  const session = await getServerSession();
+  const fullAddress = getAddressForSession(session);
+  const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
+
   return (
     <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
       <span>
@@ -191,12 +152,20 @@ const CongratulationsHeading = ({
         <span className="text-primary-blue">{shortAddress}</span> is eligible to
         receive
       </span>
-      <AllocationAmount allocation={allocation} />
+      <AllocationAmount />
     </h3>
   );
 };
 
-const AllocationAmount = async ({ allocation }: { allocation: string }) => {
+const AllocationAmount = async () => {
+  const session = await getServerSession();
+  const fullAddress = getAddressForSession(session);
+
+  const allocation = formatUnits(
+    BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
+    18,
+  );
+
   return (
     <span className="font-fg text-base font-medium sm:text-2xl">
       {Number(allocation).toFixed(3)} MENTO
