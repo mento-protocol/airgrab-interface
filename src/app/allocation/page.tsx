@@ -29,7 +29,7 @@ export default async function Allocation() {
   //   return <LaunchForm />;
   // }
 
-  if (!hasAllocation) {
+  if (session.success && !hasAllocation) {
     Sentry.captureEvent({
       message: `No Allocation`,
       level: "info",
