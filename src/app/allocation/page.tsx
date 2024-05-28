@@ -25,7 +25,11 @@ export default async function Allocation() {
   Sentry.captureEvent({
     message: `Loaded merkle tree from tree.json for the first time.`,
     level: "info",
-    extra: { allocation, session: JSON.stringify(session), hasAllocation },
+    extra: {
+      allocation,
+      session: JSON.stringify(session, null, 4),
+      hasAllocation,
+    },
   });
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
