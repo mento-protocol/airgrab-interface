@@ -146,8 +146,8 @@ const CongratulationsHeading = async () => {
     <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
       <span>
         Congratulations, wallet address{" "}
-        <span className="text-primary-blue">{shortAddress}</span> is elligible
-        to receive
+        <span className="text-primary-blue">{shortAddress}</span> is eligible to
+        receive
       </span>
       <AllocationAmount />
     </h3>
@@ -158,7 +158,7 @@ const AllocationAmount = async () => {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const allocation = formatUnits(
-    BigInt(getAllocationForAddress(fullAddress) ?? 0),
+    BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
     18,
   );
 
