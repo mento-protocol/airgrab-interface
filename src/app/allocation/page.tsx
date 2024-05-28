@@ -9,12 +9,24 @@ import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
+import * as Sentry from "@sentry/nextjs";
 
 export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
   const hasAllocation = session.allocation && session.allocation !== "0";
+
+  const allocation = formatUnits(
+    BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
+    18,
+  );
+
+  Sentry.captureEvent({
+    message: `Loaded merkle tree from tree.json for the first time.`,
+    level: "info",
+    extra: { allocation, session: JSON.stringify(session), hasAllocation },
+  });
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
@@ -157,6 +169,7 @@ const CongratulationsHeading = async () => {
 const AllocationAmount = async () => {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
+
   const allocation = formatUnits(
     BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
     18,
