@@ -13,7 +13,7 @@ import { formatUnits } from "viem";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export async function Allocation() {
+export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
@@ -160,7 +160,6 @@ const CongratulationsHeading = async () => {
 const AllocationAmount = async () => {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
-
   const allocation = formatUnits(
     BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
     18,
