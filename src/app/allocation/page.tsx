@@ -11,6 +11,8 @@ import { NotificationEmailForm } from "@/components/notification-email-form";
 import * as Sentry from "@sentry/nextjs";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
