@@ -12,15 +12,9 @@ import Loading from "./loading";
 const ClaimText = () => {
   return (
     <>
-      To claim your MENTO, you are required to lock them as veMENTO for a period
+      The MENTO you claim will be automatically locked as veMENTO for the period
       of <br className="hidden sm:block" />
-      24 months. During this 24 month locking period, your veMENTO balance will
-      gradually be unlocked and become claimable MENTO tokens.{" "}
-      <br className="hidden sm:block" />
-      Throughout the locking period, until the full amount is unlocked, you will
-      be able to participate in Mento protocol governance{" "}
-      <br className="hidden sm:block" />
-      using your current locked veMENTO balance
+      24 months.
     </>
   );
 };
@@ -31,7 +25,7 @@ const LockingFAQLink = () => {
       className="text-primary-blue underline font-fg text-xl"
       href="#what-vemento"
     >
-      Why do I need to lock tokens?
+      What is veMENTO?
     </Link>
   );
 };
@@ -190,6 +184,7 @@ export default function VerifyAndClaim({
     <ClaimWrapper>
       {renderOverview()}
       {renderButton()}
+      <LockingFAQLink />
     </ClaimWrapper>
   );
 }
@@ -239,7 +234,6 @@ const ClaimAndLockOverview = () => (
       <span className="text-sm sm:text-xl">
         <ClaimText />
       </span>
-      <LockingFAQLink />
     </ClaimDescription>
   </>
 );
