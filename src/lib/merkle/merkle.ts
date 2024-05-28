@@ -4,7 +4,8 @@ import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import * as Sentry from "@sentry/nextjs";
 export type AllocationMap = { [key: string]: string };
 import { getAddress } from "viem";
-import { promises as fs } from "fs";
+import fs from "fs";
+import path from "path";
 
 let tree: StandardMerkleTree<any[]> | null = null;
 
@@ -15,7 +16,10 @@ const MerkleTreeError = new Error(
 export async function getTree() {
   try {
     if (!tree) {
-      const file = await fs.readFile(process.cwd() + "/src/lib/merkle/tree.json", "utf8");
+      const jsonFilePath = path.join(
+        process.cwd() + "/src/lib/merkle/tree.json",
+      );
+      const file = await fs.readFileSync(jsonFilePath, { encoding: "utf-8" });
       if (!file) throw MerkleTreeError;
       const treeJson = JSON.parse(file);
       if (!treeJson) throw new Error("Failed to parse tree.json");
