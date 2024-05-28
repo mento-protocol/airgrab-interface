@@ -7,7 +7,6 @@ import { shortenAddress } from "@/lib/addresses";
 import { LAUNCH_DATE } from "@/lib/constants";
 import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
-import { NotificationEmailForm } from "@/components/notification-email-form";
 import * as Sentry from "@sentry/nextjs";
 import { redirect } from "next/navigation";
 
@@ -20,20 +19,19 @@ export default async function Allocation() {
   const allocation = await getAllocationForAddress(fullAddress);
   const hasAllocation = allocation && Number(allocation) > 0;
 
-  Sentry.captureEvent({
-    message: `/allocation for ${fullAddress}`,
-    level: "info",
-    extra: {
-      fullAddress,
-      session: JSON.stringify(session, null, 4),
-      hasAllocation,
-      allocation,
-    },
-  });
-
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
   if (session.isKycVerified) {
+    Sentry.captureEvent({
+      message: `/allocation for ${fullAddress}`,
+      level: "info",
+      extra: {
+        fullAddress,
+        session: JSON.stringify(session, null, 4),
+        hasAllocation,
+        allocation,
+      },
+    });
     return redirect("/claim");
   }
 
