@@ -15,22 +15,7 @@ export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
-  const hasAllocation = session.allocation && session.allocation !== "0";
-
-  const allocation = formatUnits(
-    BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
-    18,
-  );
-
-  Sentry.captureEvent({
-    message: `Loaded merkle tree from tree.json for the first time.`,
-    level: "info",
-    extra: {
-      allocation,
-      session: JSON.stringify(session, null, 4),
-      hasAllocation,
-    },
-  });
+  const hasAllocation = await getAllocationForAddress(fullAddress);
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
