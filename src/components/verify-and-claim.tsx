@@ -12,7 +12,7 @@ import Loading from "./loading";
 const ClaimText = () => {
   return (
     <>
-      The MENTO you claim will be automatically locked as veMENTO for the period
+      The MENTO you claim will be automatically locked as veMENTO for a period
       of <br className="hidden sm:block" />
       24 months.
     </>
