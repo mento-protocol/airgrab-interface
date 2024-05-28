@@ -123,7 +123,6 @@ export const useSession = () => {
       arg: { signature: string; message: SiweMessage };
     },
   ) {
-    router.prefetch("/allocation");
     // Verify signature
     const { ok } = await fetchJson<{ ok: boolean }>(url, {
       method: "POST",

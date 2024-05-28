@@ -17,8 +17,8 @@ export default async function Claim() {
   }
 
   const fullAddress = getAddressForSession(session);
-  const allocation = getAllocationForAddress(fullAddress);
-  const merkleProof = getProofForAddress(fullAddress, getTree());
+  const allocation = await getAllocationForAddress(fullAddress);
+  const merkleProof = getProofForAddress(fullAddress, await getTree());
 
   return (
     <ClientOnly fallback={<Loading />}>
