@@ -1,10 +1,11 @@
 import "server-only";
 
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import treeJson from "./tree.json";
 import * as Sentry from "@sentry/nextjs";
 export type AllocationMap = { [key: string]: string };
 import { getAddress } from "viem";
+import { promises as fs } from "fs";
+import path from "path";
 
 let tree: StandardMerkleTree<any[]> | null = null;
 
@@ -12,20 +13,38 @@ const MerkleTreeError = new Error(
   `Error: Failed to load merkle tree. Make sure tree.json is present in the src/lib/merkle directory.`,
 );
 
-function loadTree() {
-  if (!tree) {
-    try {
+export async function getTree() {
+  try {
+    if (!tree) {
+      const jsonFilePath = path.join(
+        process.cwd() + "/src/lib/merkle/tree.json",
+      );
+      Sentry.captureEvent({
+        message: `merkle JSON file path: ${jsonFilePath}`,
+        level: "info",
+      });
+      const file = await fs.readFile(jsonFilePath, { encoding: "utf-8" });
+      if (!file) throw MerkleTreeError;
+      const treeJson = JSON.parse(file);
+      if (!treeJson) throw new Error("Failed to parse tree.json");
       tree = StandardMerkleTree.load(JSON.parse(JSON.stringify(treeJson)));
-    } catch (err) {
-      throw MerkleTreeError;
+      Sentry.captureEvent({
+        message: `Loaded merkle tree from tree.json for the first time.`,
+        level: "info",
+      });
+    } else {
+      Sentry.captureEvent({
+        message: `Returned loaded tree from memory.`,
+        level: "info",
+      });
+      return tree;
     }
-  } else {
+  } catch (err) {
+    Sentry.captureException(err);
+    return null;
+  } finally {
     return tree;
   }
-}
-
-export function getTree(): StandardMerkleTree<any[]> | null {
-  return tree;
 }
 
 export function getAllocationList(
@@ -65,25 +84,40 @@ export function getProofForAddress(
   }
 }
 
-export const getAllocationForAddress = (
+export async function getAllocationForAddress(
   address: string,
-): string | undefined => {
-  // Get the checksummed address
-  const searchAddress = getAddress(address).toLowerCase();
+): Promise<string | undefined> {
+  try {
+    // Get the checksummed address
+    const searchAddress = getAddress(address).toLowerCase();
+    const tree = await getTree();
 
-  // Get the allocation for the address
-  const allocation = getAllocationList(getTree())[searchAddress];
+    Sentry.captureEvent({
+      message: `Getting allocation for address`,
+      level: "info",
+      extra: {
+        address,
+        checkSummedAddress: searchAddress,
+      },
+    });
 
-  Sentry.captureEvent({
-    message: `Got allocation for address from merkle tree`,
-    level: "info",
-    extra: {
-      Account: searchAddress,
-      Allocation: !allocation ? "0" : allocation,
-    },
-  });
-  return allocation;
-};
+    if (!tree) throw new Error("Tree not found");
 
-// Intialize tree - load into memory on import
-loadTree();
+    const allocationList = getAllocationList(tree);
+
+    // Get the allocation for the address
+    const allocation = allocationList[searchAddress];
+
+    Sentry.captureEvent({
+      message: `Got allocation for address from merkle tree`,
+      level: "info",
+      extra: {
+        Account: searchAddress,
+        Allocation: !allocation ? "0" : allocation,
+      },
+    });
+    return allocation;
+  } catch (error) {
+    Sentry.captureException(error);
+  }
+}
