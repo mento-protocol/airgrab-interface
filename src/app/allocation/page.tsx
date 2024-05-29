@@ -10,9 +10,6 @@ import { getAddressForSession, getServerSession } from "@/lib/session";
 import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
