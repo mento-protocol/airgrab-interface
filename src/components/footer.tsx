@@ -1,4 +1,4 @@
-import MobileAccordianMenu from "@/components/mobile-accordian-menu";
+import MobileAccordionMenu from "@/components/mobile-accordion-menu";
 import Link from "next/link";
 import {
   DiscordIcon,
@@ -41,7 +41,7 @@ const MobileFooter = () => {
   return (
     <footer className="px-4 pb-8 mt-10 lg:hidden ">
       <div className="border-t border-primary-dark">
-        <MobileAccordianMenu />
+        <MobileAccordionMenu />
         <div className="flex justify-between">
           <div className="flex flex-col">
             <MentoLogo className="h-5 w-[90px]" />

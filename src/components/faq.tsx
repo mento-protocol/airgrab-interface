@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "./svgs";
 import Link from "next/link";
 import { links } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 export interface FAQ {
   id: string;
@@ -18,12 +20,23 @@ export default function FAQ() {
       <h2 className="font-fg text-center font-medium text-xl  md:text-[56px] tracking-[-0.02em] leading-none mb-3 dark:text-clean-white">
         Frequently asked questions
       </h2>
-      <AccordianMenu list={faqs} />
+      <AccordionMenu list={faqs} />
     </div>
   );
 }
 
-const AccordianMenu = ({ list }: { list: FAQ[] }) => {
+const AccordionMenu = ({ list }: { list: FAQ[] }) => {
+  const [openDisclosureId, setOpenDisclosureId] = useState<string | null>(null);
+  const params = useParams();
+
+  useEffect(() => {
+    const anchor = window.location.hash.replace("#", "");
+    setOpenDisclosureId(anchor);
+    document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth" });
+  }, [params]);
+
+  const isDisclosureOpen = (id: string) => openDisclosureId === id;
+
   return (
     <div className="w-full flex flex-col mb-8 dark:bg-primary-dark">
       {list.map(({ question, answer, id }) => {
@@ -32,29 +45,40 @@ const AccordianMenu = ({ list }: { list: FAQ[] }) => {
             as="div"
             className="leading-[118%] bg-clean-white rounded-md border border-primary-dark dark:border-clean-white mt-[18px] sm:mt-8 md:mt-8"
             key={question}
+            defaultOpen={isDisclosureOpen(id)}
           >
-            {({ open }) => (
-              <>
-                <Disclosure.Button
-                  id={id}
-                  className={`${
-                    open ? "border-b" : ""
-                  }  p-[1rem] pl-8 sm:p-[1.875rem] md:p-[1.875rem] sm:text-base mt-2 font-medium text-left text-sm font-fg flex justify-between w-full`}
-                >
-                  {question}
+            <>
+              <Disclosure.Button
+                id={id}
+                className={`${
+                  isDisclosureOpen(id) ? "border-b" : ""
+                }  p-[1rem] pl-8 sm:p-[1.875rem] md:p-[1.875rem] sm:text-base mt-2 font-medium text-left text-sm font-fg flex justify-between w-full`}
+                onClick={() => {
+                  if (isDisclosureOpen(id)) {
+                    setOpenDisclosureId(null);
+                  } else {
+                    setOpenDisclosureId(id);
+                  }
+                }}
+              >
+                {question}
 
-                  <motion.span
-                    animate={{ rotate: open ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown />
-                  </motion.span>
-                </Disclosure.Button>
-                <Disclosure.Panel className="flex flex-col leading-7 justify-around gap-4 px-8 pb-8 pt-6 font-fg text-sm">
+                <motion.span
+                  animate={{ rotate: isDisclosureOpen(id) ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown />
+                </motion.span>
+              </Disclosure.Button>
+              {isDisclosureOpen(id) && (
+                <Disclosure.Panel
+                  static
+                  className="flex flex-col leading-7 justify-around gap-4 px-8 pb-8 pt-6 font-fg text-sm"
+                >
                   {answer}
                 </Disclosure.Panel>
-              </>
-            )}
+              )}
+            </>
           </Disclosure>
         );
       })}
