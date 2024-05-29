@@ -1,5 +1,5 @@
 import { Button } from "@/components/button";
-import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
+import { FaqNavLink } from "@/components/faq-nav-link";
 import { FRACTAL_APP_URL } from "@/lib/constants";
 
 export default function KYCRejected() {
@@ -14,7 +14,10 @@ export default function KYCRejected() {
       <Button color="blue" href={FRACTAL_APP_URL}>
         Go to Fractal ID dashboard
       </Button>
-      <EligibilityFAQLink />
+      <FaqNavLink
+        text="What are eligibility criteria?"
+        elementID="eligibility-criteria"
+      />
     </div>
   );
 }

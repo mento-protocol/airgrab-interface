@@ -3,6 +3,7 @@ import { Button } from "@/components/button";
 import { useClaimMento } from "@/hooks/use-claim-mento";
 import { shortenAddress } from "@/lib/addresses";
 import Link from "next/link";
+import { FaqNavLink } from "@/components/faq-nav-link";
 import React from "react";
 import { Locked } from "./svgs";
 import { useCooldown } from "@/hooks/use-cool-down";
@@ -12,37 +13,11 @@ import Loading from "./loading";
 const ClaimText = () => {
   return (
     <>
-      To claim your MENTO, you are required to lock them as veMENTO for a period
-      of <br className="hidden sm:block" />
-      24 months. During this 24 month locking period, your veMENTO balance will
-      gradually be unlocked and become claimable MENTO tokens.{" "}
+      The MENTO you claim will be automatically locked as veMENTO
       <br className="hidden sm:block" />
-      Throughout the locking period, until the full amount is unlocked, you will
-      be able to participate in Mento protocol governance{" "}
+      for the period of 24 months.
       <br className="hidden sm:block" />
-      using your current locked veMENTO balance
     </>
-  );
-};
-
-const LockingFAQLink = () => {
-  return (
-    <Link
-      className="text-primary-blue underline font-fg text-xl"
-      href="#what-vemento"
-    >
-      Why do I need to lock tokens?
-    </Link>
-  );
-};
-const KYCFAQLink = () => {
-  return (
-    <Link
-      className="text-primary-blue underline font-fg text-xl"
-      href="#why-verify-identity"
-    >
-      Why is this required?
-    </Link>
   );
 };
 
@@ -104,6 +79,28 @@ export default function VerifyAndClaim({
       <ClaimOverview shortAddress={shortAddress} allocation={allocation} />
     );
   };
+
+  function renderFAQ() {
+    if (kyc.isSuccess) {
+      return (
+        <FaqNavLink
+          text="Why do I need to lock tokens?"
+          elementID="what-vemento"
+        />
+      );
+    }
+
+    if (kyc.isLoadingSignature || kyc.isLoadingProof) {
+      return (
+        <FaqNavLink
+          text="Why is this required?"
+          elementID="why-verify-identity"
+        />
+      );
+    }
+
+    return <FaqNavLink text="What is veMENTO?" elementID="what-vemento" />;
+  }
 
   const renderButton = () => {
     if (claimErrorCooldown.isCoolingDown) {
@@ -190,6 +187,7 @@ export default function VerifyAndClaim({
     <ClaimWrapper>
       {renderOverview()}
       {renderButton()}
+      {renderFAQ()}
     </ClaimWrapper>
   );
 }
@@ -227,7 +225,6 @@ const KYCOverview = () => (
         <br className="hidden sm:block" />
         This signature helps us confirm your KYC on-chain with Fractal ID.
       </span>
-      <KYCFAQLink />
     </ClaimDescription>
   </>
 );
@@ -239,7 +236,6 @@ const ClaimAndLockOverview = () => (
       <span className="text-sm sm:text-xl">
         <ClaimText />
       </span>
-      <LockingFAQLink />
     </ClaimDescription>
   </>
 );

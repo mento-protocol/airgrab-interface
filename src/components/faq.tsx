@@ -36,7 +36,7 @@ const AccordianMenu = ({ list }: { list: FAQ[] }) => {
             {({ open }) => (
               <>
                 <Disclosure.Button
-                  id={id}
+                  id={`${id}${open ? "-open" : ""}`}
                   className={`${
                     open ? "border-b" : ""
                   }  p-[1rem] pl-8 sm:p-[1.875rem] md:p-[1.875rem] sm:text-base mt-2 font-medium text-left text-sm font-fg flex justify-between w-full`}

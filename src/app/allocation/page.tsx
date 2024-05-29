@@ -1,6 +1,6 @@
 import { Button } from "@/components/button";
 import { DisconnectButton } from "@/components/disconnect-button";
-import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
+import { FaqNavLink } from "@/components/faq-nav-link";
 import { KYCButton } from "@/components/kyc-button";
 import { FractalIDLogo } from "@/components/svgs";
 import { shortenAddress } from "@/lib/addresses";
@@ -44,7 +44,10 @@ const NoAllocation = ({ address }: { address: string }) => {
       <DisconnectButton color="blue">
         Disconnect & try another wallet
       </DisconnectButton>
-      <EligibilityFAQLink />
+      <FaqNavLink
+        text="What are eligibility criteria?"
+        elementID="eligibility-criteria"
+      />
     </div>
   );
 };
@@ -62,7 +65,10 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
       </p>
       <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
       <KYCButton address={fullAddress} />
-      <EligibilityFAQLink />
+      <FaqNavLink
+        text="Why do I need to verify my identity?"
+        elementID="why-verify-identity"
+      />
     </div>
   );
 };
@@ -78,7 +84,10 @@ const HasKYC = () => {
       <Button color="blue" href={"/claim"}>
         Claim Your MENTO
       </Button>
-      <EligibilityFAQLink />
+      <FaqNavLink
+        text="What are eligibility criteria?"
+        elementID="eligibility-criteria"
+      />
     </div>
   );
 };

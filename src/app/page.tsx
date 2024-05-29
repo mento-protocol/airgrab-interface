@@ -1,5 +1,5 @@
 import { ConnectButton } from "@/components/connect-button";
-import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
+import { FaqNavLink } from "@/components/faq-nav-link";
 
 export default async function Home() {
   return (
@@ -8,7 +8,10 @@ export default async function Home() {
         Connect wallet to check your eligibility to claim MENTO token
       </h3>
       <ConnectButton color="blue" />
-      <EligibilityFAQLink />
+      <FaqNavLink
+        text="What are eligibility criteria?"
+        elementID="eligibility-criteria"
+      />
     </div>
   );
 }
