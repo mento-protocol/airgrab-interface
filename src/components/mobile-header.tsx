@@ -16,7 +16,7 @@ import {
 import { links } from "@/lib/constants";
 import Link from "next/link";
 
-import MobileAccordianMenu from "@/components/mobile-accordian-menu";
+import MobileAccordionMenu from "@/components/mobile-accordion-menu";
 import { DisconnectButton } from "@/components/disconnect-button";
 import { useAccount } from "wagmi";
 import ClientOnly from "./client-only";
@@ -87,7 +87,7 @@ const DropDownMenuOverlay = ({
         ) : (
           <Spacer className="h-[48px]" />
         )}
-        <MobileAccordianMenu />
+        <MobileAccordionMenu />
         <div className="flex flex-col w-full justify-center items-center gap-8">
           <div className="flex flex-col w-full justify-center items-center gap-[18px]">
             <ConnectionButtons isConnected={isConnected} />
