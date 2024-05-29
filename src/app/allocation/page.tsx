@@ -15,7 +15,8 @@ export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
-  const hasAllocation = session.allocation && session.allocation !== "0";
+  const allocation = await getAllocationForAddress(fullAddress);
+  const hasAllocation = allocation !== "0";
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
@@ -164,13 +165,13 @@ const AllocationAmount = async () => {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const allocation = formatUnits(
-    BigInt(getAllocationForAddress(fullAddress) ?? 0),
+    BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
     18,
   );
 
   return (
     <span className="font-fg text-base font-medium sm:text-2xl">
-      {allocation} MENTO
+      {Number(allocation).toFixed(3)} MENTO
     </span>
   );
 };
