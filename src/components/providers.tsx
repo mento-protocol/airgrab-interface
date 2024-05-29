@@ -8,8 +8,9 @@ import { chains, config } from "@/lib/wagmi";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
+import { disconnect } from "process";
 import * as React from "react";
-import { WagmiConfig, useDisconnect } from "wagmi";
+import { WagmiConfig } from "wagmi";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
@@ -31,12 +32,10 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
 }
 
 const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
-  const { disconnect } = useDisconnect();
   const { isLoading } = useRefreshKYCStatus();
   useRequireAuth({ enabled: !isLoading });
   useWatchChainOrAccountChange({
     onAccountChange: () => disconnect(),
-    onChainChange: () => disconnect(),
   });
 
   return <>{children}</>;
