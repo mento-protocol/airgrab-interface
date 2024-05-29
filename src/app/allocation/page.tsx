@@ -9,6 +9,7 @@ import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
+import Link from "next/link";
 
 export default async function Allocation() {
   const session = await getServerSession();
@@ -155,8 +156,8 @@ const CongratulationsHeading = async () => {
     <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
       <span>
         Congratulations, wallet address{" "}
-        <span className="text-primary-blue">{shortAddress}</span> is elligible
-        to receive
+        <span className="text-primary-blue">{shortAddress}</span> is eligible to
+        receive
       </span>
       <AllocationAmount />
     </h3>
