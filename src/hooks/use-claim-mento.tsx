@@ -16,6 +16,8 @@ import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
 import { useKYCProof } from "./use-kyc-proof";
 import * as mento from "@mento-protocol/mento-sdk";
+import { useSentryContext } from "@/hooks/use-sentry-context";
+import { useEffect } from "react";
 
 export const useClaimMento = ({
   address,
@@ -29,6 +31,7 @@ export const useClaimMento = ({
   const { chain } = useNetwork();
   const { kyc } = useKYCProof();
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
+  const { updateContextItem } = useSentryContext();
 
   let chainId = Alfajores.id;
 
@@ -119,6 +122,10 @@ export const useClaimMento = ({
       await claimStatus.refetch();
 
       if (data) {
+        updateContextItem({
+          success: true,
+          transactionHash: data.transactionHash,
+        });
         toast.success(
           <TransactionSuccessMessage transactionHash={data.transactionHash} />,
         );

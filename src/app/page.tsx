@@ -8,12 +8,14 @@ import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
 import { useIsMounted } from "@/hooks/use-is-mounted";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import { useSentryContext } from "@/hooks/use-sentry-context";
 
 export default function Home() {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { status } = useSession();
   const { openConnectModal } = useConnectModal();
   const hasMounted = useIsMounted();
+  const { updateContextItem } = useSentryContext();
 
   if (!hasMounted) {
     return (
@@ -40,6 +42,9 @@ export default function Home() {
   }
 
   if (status === "unauthenticated") {
+    updateContextItem({
+      address,
+    });
     return (
       <div className="flex flex-col gap-8 items-center justify-center text-center">
         <h3 className="font-fg font-medium text-[18px] md:text-base">

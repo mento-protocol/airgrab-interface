@@ -9,6 +9,7 @@ import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
+import { useSentryContext } from "@/hooks/use-sentry-context";
 
 export default async function Allocation() {
   const session = await getServerSession();
@@ -16,16 +17,28 @@ export default async function Allocation() {
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
   const allocation = await getAllocationForAddress(fullAddress);
   const hasAllocation = allocation !== "0";
+  const { updateContextItem } = useSentryContext();
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
   if (!hasAllocation) {
+    updateContextItem({
+      allocation: "0",
+    });
     return <NoAllocation address={shortAddress} />;
   }
 
   if (!session?.isKycVerified) {
+    updateContextItem({
+      isKycVerified: false,
+    });
     return <NoKYC fullAddress={fullAddress} />;
   }
+
+  updateContextItem({
+    allocation: allocation,
+    isKycVerified: true,
+  });
 
   if (isBeforeLaunch) {
     return <LaunchForm />;
