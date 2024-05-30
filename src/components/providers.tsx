@@ -32,8 +32,8 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
 }
 
 const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
-  const { isLoading, data: { credential } = {} } = useRefreshKYCStatus();
-  useRequireAuth({ disabled: isLoading || credential !== "approved" });
+  const { isLoading } = useRefreshKYCStatus();
+  useRequireAuth({ enabled: !isLoading });
   useWatchChainOrAccountChange({
     onAccountChange: () => disconnect(),
   });

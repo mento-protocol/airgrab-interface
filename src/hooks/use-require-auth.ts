@@ -6,7 +6,7 @@ import { SessionData } from "@/lib/session/types";
 import { usePathname, useRouter } from "next/navigation";
 import { LAUNCH_DATE } from "@/lib/constants";
 
-const useRequireAuth = ({ disabled }: { disabled?: boolean }) => {
+const useRequireAuth = ({ enabled }: { enabled?: boolean }) => {
   const pathname = usePathname();
   const router = useRouter();
   const { status, data: session } = useSession();
@@ -18,7 +18,7 @@ const useRequireAuth = ({ disabled }: { disabled?: boolean }) => {
   const isPastLaunchDate = new Date(LAUNCH_DATE).getTime() < Date.now();
 
   useEffect(() => {
-    if (status === "loading" || disabled) return;
+    if (status === "loading" || !enabled) return;
     // every route except home requires a session
     if (!isHomePage && !hasSession) {
       router.push("/");
@@ -47,7 +47,17 @@ const useRequireAuth = ({ disabled }: { disabled?: boolean }) => {
       router.push("/");
       return;
     }
-  }, [disabled, hasSession, isAllocationPage, isClaimPage, isHomePage, isPastLaunchDate, router, session, status]);
+  }, [
+    enabled,
+    hasSession,
+    isAllocationPage,
+    isClaimPage,
+    isHomePage,
+    isPastLaunchDate,
+    router,
+    session,
+    status,
+  ]);
 };
 
 export { useRequireAuth };
