@@ -1,4 +1,5 @@
 "use client";
+import { useSentryContext } from "@/hooks/use-sentry-context";
 import { defaultSession } from "@/lib/session/constants";
 import { SessionData } from "@/lib/session/types";
 import { fetchJson } from "@/lib/utils";
@@ -8,11 +9,11 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/navigation";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { SiweMessage } from "siwe";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
-import { useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 
 type UnconfigurableMessageOptions = {
   address: string;
@@ -100,6 +101,9 @@ const fetchNonce = async () => {
 };
 
 export const useSession = () => {
+  const { address } = useAccount();
+  const { updateContextItem, clearContext } = useSentryContext();
+
   const sessionResponse = useSWR(sessionApiRoute, fetchJson<SessionData>, {
     fallbackData: defaultSession,
   });
@@ -134,6 +138,9 @@ export const useSession = () => {
   const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
     optimisticData: true,
     onSuccess: async () => {
+      updateContextItem({
+        address,
+      });
       router.push("/allocation");
     },
   });
@@ -142,6 +149,7 @@ export const useSession = () => {
     onSuccess: () => {
       router.push("/");
       disconnect();
+      clearContext();
     },
   });
 
