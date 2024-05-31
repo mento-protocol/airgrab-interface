@@ -6,8 +6,10 @@ import Link from "next/link";
 import React from "react";
 import { Locked } from "./svgs";
 import { useCooldown } from "@/hooks/use-cool-down";
-import { disconnect } from "wagmi/actions";
+import { disconnect, switchNetwork } from "wagmi/actions";
 import Loading from "./loading";
+import { useNetwork } from "wagmi";
+import { useChainModal } from "@rainbow-me/rainbowkit";
 
 const ClaimText = () => {
   return (
@@ -56,6 +58,8 @@ export default function VerifyAndClaim({
     merkleProof,
     address,
   });
+  const { chain, chains } = useNetwork();
+  const { openChainModal } = useChainModal();
 
   const claimErrorCooldown = useCooldown(claim.isError, 5000);
   const kycErrorCooldown = useCooldown(kyc.error, 5000);
@@ -85,6 +89,10 @@ export default function VerifyAndClaim({
     }
   };
 
+  const handleChainChange = () => {
+    openChainModal?.();
+  };
+
   const renderOverview = () => {
     if (kyc.isSuccess) {
       return <ClaimAndLockOverview />;
@@ -100,6 +108,12 @@ export default function VerifyAndClaim({
   };
 
   const renderButton = () => {
+    if (chain && !chains.includes(chain)) {
+      <Button onClick={handleChainChange} color="blue">
+        Please change to the correct network
+      </Button>;
+    }
+
     if (claimErrorCooldown.isCoolingDown) {
       return (
         <Button color="blue" disabled>
