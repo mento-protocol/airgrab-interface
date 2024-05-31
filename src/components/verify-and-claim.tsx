@@ -89,10 +89,6 @@ export default function VerifyAndClaim({
     }
   };
 
-  const handleChainChange = () => {
-    openChainModal?.();
-  };
-
   const renderOverview = () => {
     if (kyc.isSuccess) {
       return <ClaimAndLockOverview />;
@@ -108,12 +104,18 @@ export default function VerifyAndClaim({
   };
 
   const renderButton = () => {
-    if (chain && !chains.includes(chain)) {
-      <Button onClick={handleChainChange} color="blue">
-        Please change to the correct network
-      </Button>;
+    if (chain?.unsupported) {
+      return (
+        <>
+          <Button onClick={() => openChainModal?.()} color="blue">
+            Switch to Celo
+          </Button>
+          <span className="text-red-500">
+            Wrong network detected, please connect to Celo to claim your MENTO
+          </span>
+        </>
+      );
     }
-
     if (claimErrorCooldown.isCoolingDown) {
       return (
         <Button color="blue" disabled>
