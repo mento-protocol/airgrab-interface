@@ -1,15 +1,13 @@
 "use client";
 
 import { RainbowKitSiweIronSessionProvider } from "@/contexts/rainbowkit-siwe-iron-session-provider";
-import useRefreshKYCStatus from "@/hooks/use-refresh-kyc-status";
-import { useRequireAuth } from "@/hooks/use-require-auth";
-import { useWatchChainOrAccountChange } from "@/hooks/use-watch-chain-or-account-change";
 import { chains, config } from "@/lib/wagmi";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
 import * as React from "react";
-import { WagmiConfig, useDisconnect } from "wagmi";
+import { WagmiConfig } from "wagmi";
+import ConnectionGuard from "./connection-guard";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
@@ -29,15 +27,3 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
     </WagmiConfig>
   );
 }
-
-const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
-  const { disconnect } = useDisconnect();
-  const { isLoading } = useRefreshKYCStatus();
-  useRequireAuth({ enabled: !isLoading });
-  useWatchChainOrAccountChange({
-    onAccountChange: () => disconnect(),
-    onChainChange: () => disconnect(),
-  });
-
-  return <>{children}</>;
-};

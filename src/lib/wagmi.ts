@@ -12,12 +12,12 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { Valora, CeloWallet } from "@celo/rainbowkit-celo/wallets";
 
 // Import CELO chain information
-import { Alfajores, Baklava, Celo } from "@celo/rainbowkit-celo/chains";
+import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? "";
 
 const { chains, publicClient } = configureChains(
-  [Alfajores, Celo, Baklava],
+  [Celo, Alfajores],
   [
     jsonRpcProvider({
       rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
