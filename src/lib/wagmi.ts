@@ -14,16 +14,14 @@ import { Valora, CeloWallet } from "@celo/rainbowkit-celo/wallets";
 // Import CELO chain information
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 
+const isVercelProduction = process?.env?.VERCEL_ENV === "production";
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? "";
-
-const { chains, publicClient } = configureChains(
-  [Celo, Alfajores],
-  [
-    jsonRpcProvider({
-      rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
-    }),
-  ],
-);
+const chainList = [...(isVercelProduction ? [Celo] : [Celo, Alfajores])];
+const { chains, publicClient } = configureChains(chainList, [
+  jsonRpcProvider({
+    rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
+  }),
+]);
 
 const connectors = connectorsForWallets([
   {
