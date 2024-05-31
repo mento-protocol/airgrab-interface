@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { toast } from "sonner";
 import useRefreshKYCStatus from "@/hooks/use-refresh-kyc-status";
