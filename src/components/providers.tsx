@@ -36,7 +36,6 @@ const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
   useRequireAuth({ enabled: !isLoading });
   useWatchChainOrAccountChange({
     onAccountChange: () => disconnect(),
-    onChainChange: () => disconnect(),
   });
 
   return <>{children}</>;
