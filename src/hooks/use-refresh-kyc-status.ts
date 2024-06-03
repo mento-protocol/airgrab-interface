@@ -1,41 +1,47 @@
 import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
 import { SessionData } from "@/lib/session/types";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import useSWR from "swr";
 
 const useRefreshKYCStatus = () => {
   const router = useRouter();
-  const { data } = useSession();
+  const pathname = usePathname();
+  const { data, status } = useSession();
+
+  const pushIfNotAlreadyOnPage = (page: string) => {
+    if (pathname !== page) {
+      router.push(page);
+    }
+  };
 
   return useSWR("refresh-kyc", () => fetch("/api/kyc/refresh"), {
     onSuccess: async (data) => {
       const verificationCaseStatus = await data.json();
       switch (verificationCaseStatus?.status) {
         case "contacted":
-          return router.push("/?kyc_status=contacted");
+          pushIfNotAlreadyOnPage("/?kyc_status=contacted");
         case "pending":
-          return router.push("/kyc-pending");
+          pushIfNotAlreadyOnPage("/kyc-pending");
         case "done":
           switch (verificationCaseStatus.credential) {
             case "approved":
-              return router.push("/allocation");
+              pushIfNotAlreadyOnPage("/allocation");
             case "pending":
-              return router.push("/kyc-pending");
+              pushIfNotAlreadyOnPage("/kyc-pending");
             case "rejected":
-              return router.push("/kyc-rejected");
+              pushIfNotAlreadyOnPage("/kyc-rejected");
           }
         default:
-          return router.push("/");
+          pushIfNotAlreadyOnPage("/");
       }
     },
     isPaused: () => {
       const session = data as SessionData;
 
       if (
-        !session ||
+        status !== "authenticated" ||
         session.isKycVerified ||
-        session.hasClaimed ||
-        session.allocation === "0"
+        session.hasClaimed
       )
         return true;
 
@@ -43,6 +49,7 @@ const useRefreshKYCStatus = () => {
     },
     refreshInterval: 1000 * 60 * 15,
     // Refresh KYC every 15 minutes if the user is authenticated and not kyc verified
+    // It will also refresh on focus by default
   });
 };
 
