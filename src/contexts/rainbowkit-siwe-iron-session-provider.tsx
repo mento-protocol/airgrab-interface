@@ -12,6 +12,7 @@ import React from "react";
 import { SiweMessage } from "siwe";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+import { useDisconnect } from "wagmi";
 
 type UnconfigurableMessageOptions = {
   address: string;
@@ -104,6 +105,7 @@ export const useSession = () => {
   });
 
   const router = useRouter();
+  const { disconnect } = useDisconnect();
 
   async function doLogout(url: string) {
     const result = await fetchJson<SessionData>(url, { method: "DELETE" });
@@ -120,7 +122,6 @@ export const useSession = () => {
       arg: { signature: string; message: SiweMessage };
     },
   ) {
-    router.prefetch("/allocation");
     // Verify signature
     const { ok } = await fetchJson<{ ok: boolean }>(url, {
       method: "POST",
@@ -139,6 +140,7 @@ export const useSession = () => {
   const { trigger: logout } = useSWRMutation(sessionApiRoute, doLogout, {
     onSuccess: () => {
       router.push("/");
+      disconnect();
     },
   });
 

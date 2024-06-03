@@ -8,7 +8,7 @@ const useWatchChainOrAccountChange = ({
 }: {
   onChainChange?: () => void;
   onAccountChange?: () => void;
-}) => {
+} = {}) => {
   const { connector: activeConnector } = useAccount();
   const { disconnect } = useDisconnect();
   const { openChainModal } = useChainModal();

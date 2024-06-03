@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Invalid nonce." }, { status: 422 });
     }
 
-    const allocation = getAllocationForAddress(fields.data.address);
+    const allocation = await getAllocationForAddress(fields.data.address);
     session.siwe = fields;
     session.isKycVerified = false;
     session.allocation = allocation || "0";
@@ -43,12 +43,11 @@ export async function POST(request: NextRequest) {
     }
 
     const kycStatus = await refetchKycStatus(getAddressForSession(session));
-    if (!kycStatus) {
-      await session.save();
-      return NextResponse.json({ ok: true });
-    }
-
-    if (kycStatus?.status === "done" && kycStatus?.credential === "approved") {
+    if (
+      kycStatus &&
+      kycStatus?.status === "done" &&
+      kycStatus?.credential === "approved"
+    ) {
       session.isKycVerified = true;
     }
 
