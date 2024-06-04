@@ -12,6 +12,7 @@ import { SiweMessage, generateNonce } from "siwe";
 import { createPublicClient, http } from "viem";
 import * as mento from "@mento-protocol/mento-sdk";
 import { getAllocationForAddress } from "@/lib/merkle/merkle";
+import * as Sentry from "@sentry/nextjs";
 
 // POST /api/auth
 export async function POST(request: NextRequest) {
@@ -52,6 +53,10 @@ export async function POST(request: NextRequest) {
     }
 
     await session.save();
+    Sentry.captureEvent({
+      message: `Session Created: ${JSON.stringify(session, null, 4)}`,
+      level: "info",
+    });
 
     return NextResponse.json({ ok: true });
   } catch (error) {
