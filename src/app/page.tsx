@@ -17,7 +17,7 @@ export default function Home() {
   const hasMounted = useIsMounted();
   const { updateContextItem } = useSentryContext();
 
-  if (!hasMounted) {
+  if (!hasMounted || status === "loading") {
     return (
       <div className="flex flex-col gap-8 items-center justify-center text-center">
         <h3 className="font-fg font-medium text-[18px] md:text-base bg-gray-300 animate-pulse text-gray-300 rounded-md">

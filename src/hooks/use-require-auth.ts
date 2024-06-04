@@ -21,7 +21,8 @@ const useRequireAuth = ({ enabled }: { enabled?: boolean }) => {
     if (status === "loading" || !enabled) return;
     // every route except home requires a session
     if (!isHomePage && !hasSession) {
-      return router.push("/");
+      router.push("/");
+      return;
     } else if (isHomePage && hasSession) {
       router.push("/allocation");
       return;
