@@ -6,8 +6,10 @@ import Link from "next/link";
 import React from "react";
 import { Locked } from "./svgs";
 import { useCooldown } from "@/hooks/use-cool-down";
-import { disconnect } from "wagmi/actions";
+import { disconnect, switchNetwork } from "wagmi/actions";
 import Loading from "./loading";
+import { useNetwork } from "wagmi";
+import { useChainModal } from "@rainbow-me/rainbowkit";
 
 const ClaimText = () => {
   return (
@@ -56,6 +58,8 @@ export default function VerifyAndClaim({
     merkleProof,
     address,
   });
+  const { chain, chains } = useNetwork();
+  const { openChainModal } = useChainModal();
 
   const claimErrorCooldown = useCooldown(claim.isError, 5000);
   const kycErrorCooldown = useCooldown(kyc.error, 5000);
@@ -100,6 +104,18 @@ export default function VerifyAndClaim({
   };
 
   const renderButton = () => {
+    if (chain?.unsupported) {
+      return (
+        <>
+          <Button onClick={() => openChainModal?.()} color="blue">
+            Switch to Celo
+          </Button>
+          <span className="text-red-500">
+            Wrong network detected, please connect to Celo to claim your MENTO
+          </span>
+        </>
+      );
+    }
     if (claimErrorCooldown.isCoolingDown) {
       return (
         <Button color="blue" disabled>

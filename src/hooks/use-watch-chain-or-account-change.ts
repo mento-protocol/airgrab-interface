@@ -1,4 +1,4 @@
-import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import { useChainModal } from "@rainbow-me/rainbowkit";
 import React from "react";
 import { ConnectorData, useAccount, useDisconnect } from "wagmi";
 
@@ -11,12 +11,12 @@ const useWatchChainOrAccountChange = ({
 } = {}) => {
   const { connector: activeConnector } = useAccount();
   const { disconnect } = useDisconnect();
-  const { logout } = useSession();
+  const { openChainModal } = useChainModal();
 
   React.useEffect(() => {
     const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
       if (chain?.unsupported) {
-        logout();
+        openChainModal?.();
       }
       if (account) {
         onAccountChange && onAccountChange();
@@ -32,7 +32,7 @@ const useWatchChainOrAccountChange = ({
     return () => {
       activeConnector?.off("change", handleConnectorUpdate);
     };
-  }, [activeConnector, disconnect, logout, onAccountChange, onChainChange]);
+  }, [activeConnector, disconnect, onAccountChange, onChainChange, openChainModal]);
 };
 
 export { useWatchChainOrAccountChange };
