@@ -1,5 +1,6 @@
 import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
 import { useSentryContext } from "@/hooks/use-sentry-context";
+import { useChainModal } from "@rainbow-me/rainbowkit";
 import React from "react";
 import { ConnectorData, useAccount, useDisconnect } from "wagmi";
 
@@ -14,12 +15,13 @@ const useWatchChainOrAccountChange = ({
   const { disconnect } = useDisconnect();
   const { logout } = useSession();
   const { clearContext, setContext } = useSentryContext();
+  const { openChainModal } = useChainModal();
 
   React.useEffect(() => {
     const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
       if (chain?.unsupported) {
         clearContext();
-        logout();
+        openChainModal?.();
       }
       if (account) {
         setContext({
@@ -50,6 +52,7 @@ const useWatchChainOrAccountChange = ({
     logout,
     onAccountChange,
     onChainChange,
+    openChainModal,
     setContext,
   ]);
 };
