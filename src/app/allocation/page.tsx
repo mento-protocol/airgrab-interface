@@ -20,6 +20,8 @@ export default async function Allocation() {
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
+  const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
+
   if (!hasAllocation) {
     return <NoAllocation address={shortAddress} />;
   }
