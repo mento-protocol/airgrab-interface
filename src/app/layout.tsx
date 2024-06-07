@@ -1,10 +1,12 @@
-import "./globals.css";
-import "@rainbow-me/rainbowkit/styles.css";
 import { ReactNode } from "react";
-import Footer from "@/components/footer";
+import { Analytics } from "@vercel/analytics/react";
+import "@rainbow-me/rainbowkit/styles.css";
+import localFont from "next/font/local";
+import { Toaster } from "sonner";
 import ClaimCard from "@/components/claim-card";
 import FAQ from "@/components/faq";
-
+import Footer from "@/components/footer";
+import "./globals.css";
 import Spacer from "@/components/spacer";
 import {
   ChevronRight,
@@ -22,13 +24,13 @@ import {
   TokenR3,
   TokenR4,
 } from "@/components/svgs";
-import { PrimaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { links } from "@/lib/constants";
 
-import localFont from "next/font/local";
-import { Providers } from "@/components/providers";
 import Header from "@/components/header/header";
-import { Toaster } from "sonner";
+import { Providers } from "@/components/providers";
+import TermsModal from "@/components/terms-modal";
+
 const founders_grotesk = localFont({
   variable: "--font-fg",
   src: [
@@ -51,8 +53,8 @@ const founders_grotesk = localFont({
 });
 
 export const metadata = {
-  title: "Mento | Airgrab",
-  description: "Over-Collateralized, Decentralized & Transparent stable assets",
+  title: "Mento | Airdrop",
+  description: "Over-Collateralized, Decentralized & Transparent Stable Assets",
 };
 
 export default function RootLayout({
@@ -62,12 +64,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head></head>
       <body
         className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
       >
         <Providers>
-          <div className="relative w-full h-full max-w-[1440px]">
+          <div className="relative w-screen h-full max-w-[1440px]">
             <Header />
+            <TermsModal />
             <main className="flex-grow z-30">
               <div className="h-12 md:h-24 " />
               <Spacer axis="vertical" size={24} />
@@ -104,6 +108,7 @@ export default function RootLayout({
             },
           }}
         />
+        <Analytics />
       </body>
     </html>
   );
@@ -124,7 +129,7 @@ const Background = () => {
       {/* Floating Tokens */}
       <TokenL1 className=" hidden token-header-touchpoint:block w-[123px] h-[112px] absolute top-[175.69px] left-[176.52px] -z-10" />
       <TokenL2 className=" hidden md:block w-[106px] h-[107px] absolute top-[479px] left-[49.09px] -z-10" />
-      <TokenL3 className=" hidden token-header-touchpoint:block w-[73px] h-[75px] absolute top-[786.50px] left-[200.01px] -z-10" />
+      <TokenL3 className=" hidden token-header-touchpoint:block w-[73px] h-[75px] absolute top-[786.50px] left-[.01px] -z-10" />
       <TokenL4 className=" hidden md:block w-[144px] h-[142px] absolute top-[1192px] left-[75.31px] -z-10" />
       <TokenR1 className=" hidden md:block w-[123px] h-[112px] absolute top-[132.81px] left-[1104.23px] -z-10" />
       <TokenR2 className=" hidden md:block w-[106px] h-[107px] absolute top-[533.54px] left-[1296.08px] -z-10" />
@@ -133,7 +138,6 @@ const Background = () => {
       {/* Top Left Gradient */}
       <GradientPrimaryLight className="top-[150px] -left-[600px] dark:hidden" />
       <GradientPrimaryLightMobile className=" w-[654px] h-[602px] top-[260.58px] -left-[328px]" />
-      <GradientPrimaryLightMobile className=" w-[411px] h-[349px] top-[824.58px] left-[302px]" />
       <GradientPrimaryLightMobile className=" w-[411px] h-[368px] top-[1651px] -left-[231px]" />
       {/* Bottom Right Gradient */}
       <GradientPrimaryLight className="top-[750px] -right-[600px] dark:hidden" />
@@ -149,7 +153,7 @@ const MainHeading = () => {
         style={{ WebkitTextStroke: "1.2px black" }}
         className="text-transparent"
       >
-        AIRGRAB
+        AIRDROP
       </span>
     </h1>
   );
@@ -178,14 +182,15 @@ const LearnMoreSection = () => {
           </FeatureParagraph>
 
           <div className="md:w-full flex justify-center lg:justify-start sm:mb-[42px]">
-            <PrimaryButton
+            <Button
+              color="blue"
               fullWidth
               href={links.discord}
               icon={<ChevronRight />}
               noFlexZone={true}
             >
               <DiscordIcon className="text-clean-white" /> Join the community
-            </PrimaryButton>
+            </Button>
           </div>
         </div>
         <LearnMoreImage className="hidden overflow-visible lg:inline w-[396px] h-[314px] dark:hidden" />

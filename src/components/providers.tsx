@@ -1,23 +1,23 @@
 "use client";
 
-import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
-import { WagmiConfig, useAccount, useDisconnect } from "wagmi";
+import { RainbowKitSiweIronSessionProvider } from "@/contexts/rainbowkit-siwe-iron-session-provider";
+import useRefreshKYCStatus from "@/hooks/use-refresh-kyc-status";
+import { useRequireAuth } from "@/hooks/use-require-auth";
+import { useWatchChainOrAccountChange } from "@/hooks/use-watch-chain-or-account-change";
 import { chains, config } from "@/lib/wagmi";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
-import {
-  RainbowKitSiweIronSessionProvider,
-  useSession,
-} from "@/contexts/rainbowkit-siwe-iron-session-provider";
-import { useRouter } from "next/navigation";
+import { disconnect } from "process";
+import * as React from "react";
+import { WagmiConfig } from "wagmi";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
     <WagmiConfig config={config}>
       <RainbowKitSiweIronSessionProvider>
         <RainbowKitProvider
-          appInfo={{ appName: "Mento Airgrab Interface" }}
+          appInfo={{ appName: "Mento Airdrop UI" }}
           chains={chains}
         >
           <ConnectionGuard>
@@ -32,29 +32,11 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
 }
 
 const ConnectionGuard = ({ children }: { children: React.ReactNode }) => {
-  const { connectModalOpen } = useConnectModal();
-  const { isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-  const router = useRouter();
-  const { status } = useSession();
-  const isConnectedWithNoSession = status === "unauthenticated" && isConnected;
-  const isLoggingInViaModal = connectModalOpen;
-  const hasSessionButNoConnection = status === "authenticated" && !isConnected;
+  const { isLoading } = useRefreshKYCStatus();
+  useRequireAuth({ enabled: !isLoading });
+  useWatchChainOrAccountChange({
+    onAccountChange: () => disconnect(),
+  });
 
-  React.useEffect(() => {
-    if (isConnectedWithNoSession && !isLoggingInViaModal) {
-      disconnect();
-    }
-    if (hasSessionButNoConnection) {
-      disconnect();
-      router.push("/");
-    }
-  }, [
-    isConnectedWithNoSession,
-    isLoggingInViaModal,
-    disconnect,
-    hasSessionButNoConnection,
-    router,
-  ]);
   return <>{children}</>;
 };

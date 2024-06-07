@@ -6,4 +6,6 @@ export const defaultSession: SessionData = {
   siwe: {},
   success: false,
   isKycVerified: false,
+  hasClaimed: false,
+  allocation: "0",
 };

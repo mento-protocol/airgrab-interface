@@ -1,23 +1,22 @@
-import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import React from "react";
 import cn from "classnames";
 
-type BaseProps = {
-  icon?: ReactNode;
+export type ButtonColor = "blush" | "blue" | "white";
+type HTMLButtonProps = React.ComponentPropsWithRef<"button">;
+type HTMLAnchorProps = React.ComponentPropsWithRef<"a">;
+
+type ButtonProps = {
+  icon?: React.ReactNode;
   fullWidth?: boolean;
-  className?: string;
   innerClassNames?: string;
   containerClassNames?: string;
-  color?: "blush" | "blue";
+  color: ButtonColor;
   noFlexZone?: boolean;
   width?: string;
-} & ButtonHTMLAttributes<HTMLButtonElement> &
-  AnchorHTMLAttributes<HTMLAnchorElement>;
+} & HTMLButtonProps &
+  HTMLAnchorProps;
 
-type ColorProps = {
-  color: "blush" | "blue";
-};
-
-const BaseButton = ({
+export const Button = ({
   children,
   icon,
   color,
@@ -26,50 +25,74 @@ const BaseButton = ({
   containerClassNames,
   noFlexZone,
   width,
+  disabled,
   ...restProps
-}: BaseProps & Partial<ColorProps>) => {
-  const { href } = restProps;
-  const isLink = Boolean(href);
-  const Component: any = isLink ? "a" : "button";
-
-  const isBlue = color === "blue";
+}: ButtonProps) => {
+  const isLink = isPropsForAnchorElement(restProps);
+  const colorClasses = {
+    blue: {
+      accent: "bg-[#2A326A]",
+      background: "bg-[#4D62F0]",
+      text: "text-clean-white",
+      border: "border-primary-dark",
+    },
+    blush: {
+      accent: "bg-[#845F84]",
+      background: "bg-primary-blush",
+      text: "text-primary-dark",
+      border: "border-primary-dark",
+    },
+    white: {
+      accent: "bg-[#B3B3B3]",
+      background: "bg-clean-white",
+      text: "text-primary-dark",
+      border: "border-primary-dark",
+    },
+    disabled: {
+      accent: "bg-[#636366]",
+      background: "bg-[#B3B3B3]",
+      text: "text-[#636366]",
+      border: "border-[#636366]",
+    },
+  };
 
   const containerClasses = [
     "group",
     "font-inter",
     "outline-offset-4",
-    "cursor-pointer",
+    disabled ? "cursor-default" : "cursor-pointer",
     "border-b",
     "rounded-lg",
-    "border-primary-dark",
+    disabled ? colorClasses.disabled.border : colorClasses[color].border,
     "font-medium",
     "select-none",
     "inline-block",
-    href ? "inline-block" : "",
-    color === "blue" ? "bg-[#2A326A]" : "bg-[#845F84]",
+    "pb-[4px]",
+    isLink ? "inline-block" : "",
+    disabled ? colorClasses.disabled.accent : colorClasses[color].accent,
     width ? width : "w-[298px] sm:w-[260px] md:w-[260px]",
   ].filter(Boolean);
 
   const innerClasses = [
     "text-center",
-    "group-active:-translate-y-[2px]",
+    !disabled && "group-active:-translate-y-[2px]",
     "block",
     "py-[18px]",
-    "group-hover:brightness-110",
+    !disabled && "group-hover:brightness-110",
     "group-active:brightness-90",
     "transition-transform",
     "delay-[250]",
-    "hover:-translate-y-[6px]",
-    "-translate-y-[4px]",
+    !disabled && "hover:-translate-y-[2px]",
     "font-medium",
     "text-[15px]",
     "border",
     "rounded-lg",
-    "border-primary-dark",
+    disabled ? colorClasses.disabled.border : colorClasses[color].border,
     "leading-5",
-    isBlue
-      ? "bg-[#4D62F0] text-clean-white"
-      : "bg-primary-blush text-primary-dark",
+    disabled ? colorClasses.disabled.text : colorClasses[color].text,
+    disabled
+      ? colorClasses.disabled.background
+      : colorClasses[color].background,
     fullWidth ? "w-full flex items-center justify-center" : "",
   ].filter(Boolean);
 
@@ -81,7 +104,7 @@ const BaseButton = ({
   ].filter(Boolean);
 
   return (
-    <Component {...restProps}>
+    <ButtonOrLink {...restProps}>
       <span className={cn(containerClasses.join(" "), containerClassNames)}>
         <span className={cn(innerClasses.join(" "), innerClassNames)}>
           <span className={contentClasses.join(" ")}>
@@ -90,16 +113,22 @@ const BaseButton = ({
           </span>
         </span>
       </span>
-    </Component>
+    </ButtonOrLink>
   );
 };
 
-export const PrimaryButton = (props: BaseProps) => (
-  <BaseButton {...props} color="blue" />
-);
-export const SecondaryButton = (props: BaseProps) => (
-  <BaseButton {...props} color="blush" />
-);
-export const TertiaryButton = (props: BaseProps) => (
-  <BaseButton {...props} color={props.color} />
-);
+const ButtonOrLink: React.FC<
+  React.PropsWithChildren<HTMLButtonProps | HTMLAnchorProps>
+> = ({ children, ...props }) => {
+  if (isPropsForAnchorElement(props)) {
+    return <a {...(props as HTMLAnchorProps)}>{children}</a>;
+  } else {
+    return <button {...(props as HTMLButtonProps)}>{children}</button>;
+  }
+};
+
+function isPropsForAnchorElement(
+  props: HTMLButtonProps | HTMLAnchorProps,
+): props is HTMLAnchorProps {
+  return "href" in props;
+}

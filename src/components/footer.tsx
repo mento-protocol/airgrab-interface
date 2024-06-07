@@ -1,5 +1,4 @@
-import ThemeSwitch from "@/components/theme-switch";
-import MobileAccordianMenu from "@/components/mobile-accordian-menu";
+import MobileAccordionMenu from "@/components/mobile-accordion-menu";
 import Link from "next/link";
 import {
   DiscordIcon,
@@ -33,10 +32,6 @@ const DesktopFooter = () => {
       <FooterNav />
       <div className="flex flex-col gap-8">
         <SocialLinks />
-        <div className="flex justify-between">
-          <span className="dark:text-body-dark">Theme</span>
-          <ThemeSwitch />
-        </div>
       </div>
     </footer>
   );
@@ -46,7 +41,7 @@ const MobileFooter = () => {
   return (
     <footer className="px-4 pb-8 mt-10 lg:hidden ">
       <div className="border-t border-primary-dark">
-        <MobileAccordianMenu />
+        <MobileAccordionMenu />
         <div className="flex justify-between">
           <div className="flex flex-col">
             <MentoLogo className="h-5 w-[90px]" />
@@ -57,10 +52,6 @@ const MobileFooter = () => {
           </div>
           <div className="flex flex-col gap-8">
             <SocialLinks />
-            <div className="flex justify-between">
-              <span className="dark:text-body-dark">Theme</span>
-              <ThemeSwitch />
-            </div>
           </div>
         </div>
       </div>
@@ -78,11 +69,11 @@ const FooterNav = () => {
               {heading}
             </h3>
             <ul className="flex flex-col gap-3">
-              {links.map(({ title, href, isDownload }) => {
+              {links.map(({ title, href, isDownload, isInternal }) => {
                 return (
                   <Link
                     key={title}
-                    target="_blank"
+                    target={isInternal ? "_self" : "_blank"}
                     rel="noopener noreferrer"
                     href={href}
                     download={isDownload}
@@ -132,16 +123,47 @@ const SocialLinks = ({}) => {
 
 const footerMenuItems = {
   Developers: [
-    { title: "Docs", href: links.docs, isDownload: false },
-    { title: "Github", href: links.github, isDownload: false },
+    { title: "Docs", href: links.docs, isDownload: false, isInternal: false },
+    {
+      title: "Github",
+      href: links.github,
+      isDownload: false,
+      isInternal: false,
+    },
   ],
   Community: [
-    { title: "Forum", href: links.forum, isDownload: false },
-    { title: "Discord", href: links.discord, isDownload: false },
-    { title: "Twitter", href: links.twitter, isDownload: false },
+    { title: "Forum", href: links.forum, isDownload: false, isInternal: false },
+    {
+      title: "Discord",
+      href: links.discord,
+      isDownload: false,
+      isInternal: false,
+    },
+    {
+      title: "Twitter",
+      href: links.twitter,
+      isDownload: false,
+      isInternal: false,
+    },
   ],
   Other: [
-    { title: "Team", href: links.mentolabs, isDownload: false },
-    { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
+    {
+      title: "Team",
+      href: links.mentolabs,
+      isDownload: false,
+      isInternal: false,
+    },
+    {
+      title: "Cookie Policy",
+      href: links.cookiePolicy,
+      isDownload: true,
+      isInternal: false,
+    },
+    {
+      title: "Terms & Conditions",
+      href: "/terms",
+      isDownload: false,
+      isInternal: true,
+    },
   ],
 };

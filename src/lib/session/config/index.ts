@@ -1,13 +1,6 @@
-"server only";
+import "server-only";
+import { SECRET_COOKIE_PASSWORD } from "@/lib/constants.server";
 import { SessionOptions } from "iron-session";
-
-const SECRET_COOKIE_PASSWORD = process.env.SECRET_COOKIE_PASSWORD;
-
-if (!SECRET_COOKIE_PASSWORD) {
-  throw new Error(
-    "SECRET_COOKIE_PASSWORD is not set, please set in environment variables",
-  );
-}
 
 export const sessionOptions: SessionOptions = {
   password: SECRET_COOKIE_PASSWORD,

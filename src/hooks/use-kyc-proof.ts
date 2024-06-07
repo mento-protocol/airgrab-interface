@@ -4,8 +4,8 @@ import { useSignMessage } from "wagmi";
 import { UserRejectedRequestError } from "viem";
 import { toast } from "sonner";
 
-import { MESSAGE } from "@/lib/constants";
 import { fetchJson } from "@/lib/utils";
+import { createFractalAuthMessage } from "@/lib/authMessage";
 
 export type FractalVerificationDetails = {
   proof: `0x${string}` | undefined;
@@ -34,7 +34,7 @@ const fetchProof = async (
 
 export const useKYCProof = () => {
   const signature = useSignMessage({
-    message: MESSAGE,
+    message: createFractalAuthMessage(),
     onSettled: (data: `0x${string}` | undefined, e: Error | null) => {
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
         toast.error(e.message);
@@ -66,6 +66,7 @@ export const useKYCProof = () => {
       isSuccess: !kyc.error && signature.isSuccess,
       data: kyc.data,
       error: signature.error || kyc.error,
+      isError: signature.isError || kyc.error,
       signMessage: signature.signMessage,
     },
   };

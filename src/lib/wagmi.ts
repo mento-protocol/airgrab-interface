@@ -3,6 +3,7 @@ import {
   metaMaskWallet,
   omniWallet,
   walletConnectWallet,
+  frameWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains, createConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -11,18 +12,18 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { Valora, CeloWallet } from "@celo/rainbowkit-celo/wallets";
 
 // Import CELO chain information
-import { Alfajores, Baklava, Celo } from "@celo/rainbowkit-celo/chains";
+import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 
+const isVercelProduction =
+  process.env.NODE_ENV === "production" &&
+  process.env.VERCEL_ENV === "production";
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? "";
-
-const { chains, publicClient } = configureChains(
-  [Alfajores, Celo, Baklava],
-  [
-    jsonRpcProvider({
-      rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
-    }),
-  ],
-);
+const chainList = [...(isVercelProduction ? [Celo] : [Celo, Alfajores])];
+const { chains, publicClient } = configureChains(chainList, [
+  jsonRpcProvider({
+    rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
+  }),
+]);
 
 const connectors = connectorsForWallets([
   {
@@ -30,6 +31,7 @@ const connectors = connectorsForWallets([
     wallets: [
       Valora({ chains, projectId }),
       CeloWallet({ chains, projectId }),
+      frameWallet({ chains, projectId }),
       metaMaskWallet({ chains, projectId }),
       omniWallet({ chains, projectId }),
       walletConnectWallet({ chains, projectId }),

@@ -11,21 +11,21 @@ import {
 import { shortenAddress } from "@/lib/addresses";
 import { tryClipboardSet } from "@/lib/clipboard";
 import { useAccount, useDisconnect } from "wagmi";
-import { TertiaryButton } from "./button";
+import { Button, type ButtonColor } from "./button";
 import React, { ReactNode } from "react";
 import { DropdownModal } from "./dropdown";
 import ClientOnly from "./client-only";
 
 export function ConnectButton({
   containerClassNames,
-  color,
+  color = "blue",
   icon,
   noFlexZone,
   width,
   innerClassNames,
 }: {
   containerClassNames?: string;
-  color?: "blush" | "blue";
+  color?: ButtonColor;
   icon?: ReactNode;
   noFlexZone?: boolean;
   width?: string;
@@ -53,19 +53,10 @@ export function ConnectButton({
   };
 
   return (
-    <div className="relative flex justify-end mb-1 min-h-6">
+    <div className="flex justify-end mb-1 min-h-6">
       <ClientOnly
         fallback={
-          <button
-            className={
-              styles.walletButtonConnected + " " + styles.walletButtonDefault
-            }
-          >
-            <div className="flex items-center">
-              <div className="animate-pulse rounded-full bg-gray-300 w-[26px] h-[26px]" />
-              <div className="hidden animate-pulse bg-gray-300 sm:block ml-[12px] w-[106.99px] h-[20px] rounded-md " />
-            </div>
-          </button>
+          <div className="h-[63px] min-w-[206px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg bg-gray-300 animate-pulse" />
         }
       >
         {address ? (
@@ -110,7 +101,7 @@ export function ConnectButton({
             modalClasses="right-px min-w-[272px] border border-solid border-black dark:border-[#333336] text-sm !rounded-[16px] !shadow-lg2 dark:bg-[#1D1D20]/[1]"
           />
         ) : (
-          <TertiaryButton
+          <Button
             onClick={openConnectModal}
             containerClassNames={containerClassNames}
             color={color}
@@ -120,7 +111,7 @@ export function ConnectButton({
             innerClassNames={innerClassNames}
           >
             Connect Wallet
-          </TertiaryButton>
+          </Button>
         )}
       </ClientOnly>
     </div>
@@ -151,7 +142,7 @@ const ConnectButtonIcon = ({
 const styles = {
   // TODO DRY up with SolidButton styles
   walletButtonDefault:
-    "shadow-md h-[52px] min-w-[137px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg border border-solid border-black dark:border-white font-medium leading-5 dark:text-white dark:bg-primary-dark",
+    "shadow-md h-[52px] min-w-[206px] py-[16px] !pl-[20px] !pr-[24px] sm:px-4 rounded-lg border border-solid border-black dark:border-white font-medium leading-5 dark:text-white dark:bg-primary-dark",
   walletButtonConnected:
     "flex items-center justify-center bg-white text-black rounded-full shadow-md transition-all duration-300",
   menuOption:

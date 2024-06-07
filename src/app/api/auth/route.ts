@@ -1,14 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { getIronSession } from "iron-session";
-import { SessionData } from "@/lib/session/types";
+import { Airdrop } from "@/abis/Airdrop";
+import { refetchKycStatus } from "@/lib/fractal";
+import { getAddressForSession, getServerSession } from "@/lib/session";
 import { sessionOptions } from "@/lib/session/config";
 import { defaultSession } from "@/lib/session/constants";
+import { SessionData } from "@/lib/session/types";
+import { Alfajores, Baklava, Celo } from "@celo/rainbowkit-celo/chains";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 import { SiweMessage, generateNonce } from "siwe";
+import { createPublicClient, http } from "viem";
+import * as mento from "@mento-protocol/mento-sdk";
+import { getAllocationForAddress } from "@/lib/merkle/merkle";
 
-// /api/auth
+// POST /api/auth
 export async function POST(request: NextRequest) {
-  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+  const session = await getServerSession();
 
   try {
     const { message, signature } = await request.json();
@@ -19,7 +26,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Invalid nonce." }, { status: 422 });
     }
 
+    const allocation = await getAllocationForAddress(fields.data.address);
     session.siwe = fields;
+    session.isKycVerified = false;
+    session.allocation = allocation || "0";
+
+    const hasClaimed = await checkHasClaimedForWallet(
+      fields.data.chainId,
+      fields.data.address,
+    );
+
+    if (hasClaimed) {
+      session.hasClaimed = hasClaimed;
+      await session.save();
+      return NextResponse.json({ ok: true });
+    }
+
+    const kycStatus = await refetchKycStatus(getAddressForSession(session));
+    if (
+      kycStatus &&
+      kycStatus?.status === "done" &&
+      kycStatus?.credential === "approved"
+    ) {
+      session.isKycVerified = true;
+    }
+
     await session.save();
 
     return NextResponse.json({ ok: true });
@@ -61,5 +92,34 @@ export async function DELETE() {
   } catch (error) {
     // Session deletion error
     return NextResponse.json({ ok: false });
+  }
+}
+
+async function checkHasClaimedForWallet(chainId: number, address: string) {
+  try {
+    const chains = { Celo, Alfajores, Baklava };
+
+    let chain;
+    for (const [chainName, chainInfo] of Object.entries(chains)) {
+      if (chainInfo.id === chainId) {
+        chain = chainInfo;
+        break;
+      }
+    }
+    const addresses = mento.addresses[chainId];
+
+    const publicClient = createPublicClient({
+      chain,
+      transport: http(),
+    });
+
+    return await publicClient.readContract({
+      address: addresses.Airgrab as `0x${string}`,
+      abi: Airdrop,
+      functionName: "claimed",
+      args: [address as `0x${string}`],
+    });
+  } catch (error) {
+    return false;
   }
 }

@@ -1,11 +1,6 @@
-import { PrimaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
-
-const FRACTAL_APP_URL = process.env.NEXT_PUBLIC_FRACTAL_APP_URL;
-
-if (!FRACTAL_APP_URL) {
-  throw new Error("FRACTAL_APP_URL not found. Set 'FRACTAL_APP_URL' env var");
-}
+import { FRACTAL_APP_URL } from "@/lib/constants";
 
 export default function KYCRejected() {
   return (
@@ -16,9 +11,9 @@ export default function KYCRejected() {
       <div className="flex flex-col items-center gap-6">
         <span>Please see the FAQ section to learn more about the criteria</span>
       </div>
-      <PrimaryButton href={FRACTAL_APP_URL}>
+      <Button color="blue" href={FRACTAL_APP_URL}>
         Go to Fractal ID dashboard
-      </PrimaryButton>
+      </Button>
       <EligibilityFAQLink />
     </div>
   );

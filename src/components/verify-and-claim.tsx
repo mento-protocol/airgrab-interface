@@ -1,20 +1,33 @@
 "use client";
-import { PrimaryButton, TertiaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { useClaimMento } from "@/hooks/use-claim-mento";
 import { shortenAddress } from "@/lib/addresses";
 import Link from "next/link";
 import React from "react";
 import { Locked } from "./svgs";
 import { useCooldown } from "@/hooks/use-cool-down";
-import { UserRejectedRequestError } from "viem";
+import { disconnect, switchNetwork } from "wagmi/actions";
+import Loading from "./loading";
+import { useNetwork } from "wagmi";
+import { useChainModal } from "@rainbow-me/rainbowkit";
+
+const ClaimText = () => {
+  return (
+    <>
+      The MENTO you claim will be automatically locked as veMENTO for a period
+      of <br className="hidden sm:block" />
+      24 months.
+    </>
+  );
+};
 
 const LockingFAQLink = () => {
   return (
     <Link
       className="text-primary-blue underline font-fg text-xl"
-      href="#lock-tokens"
+      href="#what-vemento"
     >
-      Why do I need to lock tokens?
+      What is veMENTO?
     </Link>
   );
 };
@@ -22,7 +35,7 @@ const KYCFAQLink = () => {
   return (
     <Link
       className="text-primary-blue underline font-fg text-xl"
-      href="#verify"
+      href="#why-verify-identity"
     >
       Why is this required?
     </Link>
@@ -40,29 +53,28 @@ export default function VerifyAndClaim({
 }) {
   const shortAddress = address ? shortenAddress(address) : "";
 
-  const { claim, kyc, prepare } = useClaimMento({
+  const { claim, kyc, prepare, claimStatus } = useClaimMento({
     allocation,
     merkleProof,
     address,
   });
+  const { chain, chains } = useNetwork();
+  const { openChainModal } = useChainModal();
 
   const claimErrorCooldown = useCooldown(claim.isError, 5000);
   const kycErrorCooldown = useCooldown(kyc.error, 5000);
-  const preparationErrorCooldown = useCooldown(
-    prepare.isError && !(prepare.error instanceof UserRejectedRequestError),
-    5000,
-  );
-
-  if (prepare.isError) {
-    console.log({ error: prepare.error });
-  }
+  const preparationErrorCooldown = useCooldown(prepare.isError, 5000);
 
   const isPreparingKycOrClaim = prepare.isLoading || kyc.isLoadingProof;
   const isAwaitingUserSignature = kyc.isLoadingSignature || claim.isLoading;
   const hasClaimed = claim.hasClaimed;
 
+  if (claimStatus.isRefetching) {
+    <Loading />;
+  }
+
   if (hasClaimed) {
-    return <Claimed allocation={allocation} />;
+    return <ClaimConfirmation allocation={allocation} />;
   }
 
   const signMessage = () => {
@@ -92,56 +104,95 @@ export default function VerifyAndClaim({
   };
 
   const renderButton = () => {
+    if (chain?.unsupported) {
+      return (
+        <>
+          <Button onClick={() => openChainModal?.()} color="blue">
+            Switch to Celo
+          </Button>
+          <span className="text-red-500">
+            Wrong network detected, please connect to Celo to claim your MENTO
+          </span>
+        </>
+      );
+    }
     if (claimErrorCooldown.isCoolingDown) {
       return (
-        <PrimaryButton>
+        <Button color="blue" disabled>
           Try again in {claimErrorCooldown.timeLeft}s
-        </PrimaryButton>
+        </Button>
       );
     }
 
     if (kycErrorCooldown.isCoolingDown) {
       return (
-        <PrimaryButton>Try again in {kycErrorCooldown.timeLeft}s</PrimaryButton>
+        <Button color="blue" disabled>
+          Try again in {kycErrorCooldown.timeLeft}s
+        </Button>
       );
     }
 
     if (preparationErrorCooldown.isCoolingDown) {
       return (
-        <PrimaryButton>
+        <Button color="blue" disabled>
           Try again in {preparationErrorCooldown.timeLeft}s
-        </PrimaryButton>
+        </Button>
       );
     }
 
     if (prepare.isError) {
       return (
-        <PrimaryButton onClick={() => prepare.refetch()}>
+        <Button color="blue" onClick={() => prepare.refetch()}>
           Try again
-        </PrimaryButton>
+        </Button>
+      );
+    }
+
+    if (claimStatus.isError) {
+      return (
+        <span className="text-red-500">
+          Error Fetching Claim status, ensure you are connected to the correct
+          network{" "}
+        </span>
       );
     }
 
     if (isPreparingKycOrClaim) {
-      return <PrimaryButton>Loading...</PrimaryButton>;
+      return (
+        <Button color="blue" disabled>
+          Loading...
+        </Button>
+      );
     }
 
     if (isAwaitingUserSignature) {
-      return <PrimaryButton>Continue in wallet</PrimaryButton>;
+      return (
+        <Button color="blue" disabled>
+          Continue in wallet
+        </Button>
+      );
+    }
+
+    if (claim.isConfirmationLoading) {
+      return (
+        <Button color="blue" disabled>
+          Awaiting confirmation...
+        </Button>
+      );
     }
 
     if (!kyc.isSuccess) {
       return (
-        <PrimaryButton onClick={signMessage}>
-          Claim {allocation} MENTO
-        </PrimaryButton>
+        <Button color="blue" onClick={signMessage}>
+          Claim Your MENTO
+        </Button>
       );
     }
 
     return (
-      <PrimaryButton onClick={claimMento}>
-        <>Claim & Lock {allocation} MENTO</>
-      </PrimaryButton>
+      <Button color="blue" onClick={claimMento}>
+        <>Claim & Lock Your MENTO</>
+      </Button>
     );
   };
 
@@ -149,6 +200,7 @@ export default function VerifyAndClaim({
     <ClaimWrapper>
       {renderOverview()}
       {renderButton()}
+      <LockingFAQLink />
     </ClaimWrapper>
   );
 }
@@ -167,15 +219,13 @@ const ClaimOverview = ({
         <span className="text-primary-blue">{shortAddress}</span> is eligible to
         receive
       </span>
-      <span className="text-base sm:text-2xl">{allocation} MENTO</span>
+      <span className="text-base sm:text-2xl">
+        {Number(allocation).toFixed(3)} MENTO
+      </span>
     </ClaimHeading>
     <ClaimDescription>
       <span className="text-sm sm:text-xl">
-        To claim your MENTO, you are required to lock them as veMENTO for{" "}
-        <br className="hidden sm:block" />
-        24 months. You can&apos;t withdraw, but you can participate in{" "}
-        <br className="hidden sm:block" />
-        governance of the protocol and receiving rewards.
+        <ClaimText />
       </span>
     </ClaimDescription>
   </>
@@ -194,44 +244,42 @@ const KYCOverview = () => (
     </ClaimDescription>
   </>
 );
+
 const ClaimAndLockOverview = () => (
   <>
     <ClaimHeading>Claim & Lock MENTO</ClaimHeading>
     <ClaimDescription>
       <span className="text-sm sm:text-xl">
-        To claim your MENTO, you are required to lock them as veMENTO for{" "}
-        <br className="hidden sm:block" />
-        24 months. You can&apos;t withdraw, but you can participate in{" "}
-        <br className="hidden sm:block" />
-        governance of the protocol and receiving rewards.
+        <ClaimText />
       </span>
-      <LockingFAQLink />
     </ClaimDescription>
   </>
 );
 
-const Claimed = ({ allocation }: { allocation: string }) => (
+const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
   <ClaimWrapper>
     <Locked className="h-[248px] w-[251px]" />
     <span className="font-fg font-normal text-sm sm:text-xl">
       You claimed and locked <br className="block sm:hidden" />
-      <span className="font-medium font-fg">{allocation} MENTO</span> for{" "}
-      <span className="font-medium font-fg">24 months</span>{" "}
+      <span className="font-medium font-fg">
+        {Number(allocation).toFixed(3)} MENTO
+      </span>{" "}
+      for <span className="font-medium font-fg">24 months</span>{" "}
     </span>
     <div className="flex flex-col gap-[18px]">
-      <PrimaryButton href="/" fullWidth>
+      <Button color="blue" onClick={disconnect} fullWidth>
         Check another wallet
-      </PrimaryButton>
-      <TertiaryButton href="https://app.mento.org" fullWidth>
+      </Button>
+      <Button color="blush" href="https://app.mento.org" fullWidth>
         Go to app
-      </TertiaryButton>
+      </Button>
     </div>
   </ClaimWrapper>
 );
 
 const ClaimHeading = ({ children }: { children: React.ReactNode }) => {
   return (
-    <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
+    <h3 className=" font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
       {children}
     </h3>
   );

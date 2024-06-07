@@ -1,4 +1,4 @@
-import { PrimaryButton } from "@/components/button";
+import { Button } from "@/components/button";
 import { DisconnectButton } from "@/components/disconnect-button";
 import { EligibilityFAQLink } from "@/components/eligibility-faq-link";
 import { KYCButton } from "@/components/kyc-button";
@@ -9,13 +9,16 @@ import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
+import Link from "next/link";
 
 export default async function Allocation() {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
-  const allocation = getAllocationForAddress(fullAddress);
-  const hasAllocation = allocation && allocation !== "0";
+  const allocation = await getAllocationForAddress(fullAddress);
+  const hasAllocation = allocation !== "0";
+
+  const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
@@ -24,7 +27,7 @@ export default async function Allocation() {
   }
 
   if (!session?.isKycVerified) {
-    return <NoKYC fullAdress={fullAddress} />;
+    return <NoKYC fullAddress={fullAddress} />;
   }
 
   if (isBeforeLaunch) {
@@ -50,7 +53,7 @@ const NoAllocation = ({ address }: { address: string }) => {
   );
 };
 
-const NoKYC = ({ fullAdress }: { fullAdress: string }) => {
+const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <CongratulationsHeading />
@@ -62,8 +65,13 @@ const NoKYC = ({ fullAdress }: { fullAdress: string }) => {
         after.
       </p>
       <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
-      <KYCButton address={fullAdress} />
-      <EligibilityFAQLink />
+      <KYCButton address={fullAddress} />
+      <Link
+        className="font-fg text-primary-blue underline text-sm"
+        href="#why-verify-identity"
+      >
+        Why do I need to verify my identity?
+      </Link>
     </div>
   );
 };
@@ -73,10 +81,12 @@ const HasKYC = () => {
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <CongratulationsHeading />
       <p className="text-center max-w-[500px]">
-        We have confirmed your verificaion with Fractal ID, please continue to
+        We have confirmed your verification with Fractal ID, please continue to
         claim your MENTO
       </p>
-      <PrimaryButton href={"/claim"}>Claim Your MENTO</PrimaryButton>
+      <Button color="blue" href={"/claim"}>
+        Claim Your MENTO
+      </Button>
       <EligibilityFAQLink />
     </div>
   );
@@ -145,8 +155,8 @@ const CongratulationsHeading = async () => {
     <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
       <span>
         Congratulations, wallet address{" "}
-        <span className="text-primary-blue">{shortAddress}</span> is elligible
-        to receive
+        <span className="text-primary-blue">{shortAddress}</span> is eligible to
+        receive
       </span>
       <AllocationAmount />
     </h3>
@@ -157,13 +167,13 @@ const AllocationAmount = async () => {
   const session = await getServerSession();
   const fullAddress = getAddressForSession(session);
   const allocation = formatUnits(
-    BigInt(getAllocationForAddress(fullAddress) ?? 0),
+    BigInt((await getAllocationForAddress(fullAddress)) ?? 0),
     18,
   );
 
   return (
     <span className="font-fg text-base font-medium sm:text-2xl">
-      {allocation} MENTO
+      {Number(allocation).toFixed(3)} MENTO
     </span>
   );
 };
