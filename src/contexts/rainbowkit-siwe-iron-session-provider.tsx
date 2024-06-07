@@ -133,6 +133,9 @@ export const useSession = () => {
   const { trigger: login } = useSWRMutation(sessionApiRoute, doLogin, {
     optimisticData: true,
     onSuccess: async () => {
+      if ((sessionResponse?.data as SessionData)?.hasClaimed) {
+        router.push("/claim");
+      }
       router.push("/allocation");
     },
   });
