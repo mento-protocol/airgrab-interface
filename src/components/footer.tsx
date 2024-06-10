@@ -153,11 +153,5 @@ const footerMenuItems = {
       isDownload: true,
       isInternal: false,
     },
-    {
-      title: "Terms & Conditions",
-      href: "/terms",
-      isDownload: false,
-      isInternal: true,
-    },
   ],
 };

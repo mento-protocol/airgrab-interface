@@ -54,7 +54,7 @@ const founders_grotesk = localFont({
 
 export const metadata = {
   title: "Mento | Airdrop",
-  description: "Over-Collateralized, Decentralized & Transparent Stable Assets",
+  description: "The MENTO airdrop is live. Claim your MENTO",
 };
 
 export default function RootLayout({
@@ -64,7 +64,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head></head>
       <body
         className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
       >
