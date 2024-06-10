@@ -8,7 +8,6 @@ export const links = {
   app: "https://app.mento.org/",
   roadmap: "https://mento.canny.io/",
   forum: "https://forum.celo.org/c/mento/33",
-  mentolabs: "https://www.mentolabs.xyz/team",
   cookiePolicy: "/files/cookie-policy.pdf",
   blog: "https://www.mentolabs.xyz/blog",
   mento: "https://www.mento.org/",

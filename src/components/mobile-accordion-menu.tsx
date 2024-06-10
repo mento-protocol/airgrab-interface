@@ -23,10 +23,6 @@ const mobileMenuAccordionMenuItems = [
       { name: "Twitter", href: links.twitter },
     ],
   },
-  {
-    name: "Other",
-    items: [{ name: "Team", href: links.mentolabs }],
-  },
 ];
 
 const MobileAccordionMenu = () => {

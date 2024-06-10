@@ -9,7 +9,11 @@ import Link from "next/link";
 import { links } from "@/lib/constants";
 import { ChevronDown } from "@/components/svgs";
 
-const headerMenuItems = [
+const headerMenuItems: {
+  name: string;
+  items?: { name: string; href: string }[];
+  href?: string;
+}[] = [
   {
     name: "Developers",
     items: [
@@ -25,17 +29,13 @@ const headerMenuItems = [
       { name: "Twitter", href: links.twitter },
     ],
   },
-  {
-    name: "Team",
-    href: links.mentolabs,
-  },
 ];
 
 const HeaderNav = () => {
   return (
     <div className="flex gap-9 dark:text-clean-white">
       {headerMenuItems.map(({ name, items, href }) => {
-        if (!items) {
+        if (!items && href) {
           return (
             <Link key={name} href={href} target="_blank">
               {name}
@@ -66,7 +66,7 @@ const HeaderNav = () => {
                       transition={{ duration: 0.2 }}
                       className="absolute right-0 z-10 flex flex-col items-center justify-center mt-1 border rounded focus:outline-none bg-clean-white border-primary-dark dark:border-clean-white dark:bg-primary-dark"
                     >
-                      {items.map(({ name, href }, index) => (
+                      {items?.map(({ name, href }, index) => (
                         <Menu.Item key={name}>
                           {({ active }) => (
                             <Link
