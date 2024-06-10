@@ -20,16 +20,21 @@ const useRefreshKYCStatus = () => {
       switch (verificationCaseStatus?.status) {
         case "contacted":
           pushIfNotAlreadyOnPage("/?kyc_status=contacted");
+          break;
         case "pending":
           pushIfNotAlreadyOnPage("/kyc-pending");
+          break;
         case "done":
           switch (verificationCaseStatus.credential) {
             case "approved":
               pushIfNotAlreadyOnPage("/allocation");
+              break;
             case "pending":
               pushIfNotAlreadyOnPage("/kyc-pending");
+              break;
             case "rejected":
               pushIfNotAlreadyOnPage("/kyc-rejected");
+              break;
           }
         default:
           pushIfNotAlreadyOnPage("/");
