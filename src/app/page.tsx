@@ -14,6 +14,21 @@ export default function Home() {
   const { status } = useSession();
   const { openConnectModal } = useConnectModal();
   const hasMounted = useIsMounted();
+  const [showError, setShowError] = React.useState(false);
+
+  if (showError) {
+    return <ErrorComponent />;
+  }
+
+  return (
+    <button
+      onClick={() => {
+        setShowError(true);
+      }}
+    >
+      Show Error
+    </button>
+  );
 
   if (!hasMounted || status === "loading") {
     return (
@@ -65,3 +80,7 @@ export default function Home() {
     </div>
   );
 }
+
+const ErrorComponent = () => {
+  throw new Error("This is a test error!");
+};
