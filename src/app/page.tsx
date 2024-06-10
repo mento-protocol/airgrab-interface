@@ -65,7 +65,3 @@ export default function Home() {
     </div>
   );
 }
-
-const ErrorComponent = () => {
-  throw new Error("This is a test error!");
-};
