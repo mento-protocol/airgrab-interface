@@ -148,22 +148,10 @@ const footerMenuItems = {
   ],
   Other: [
     {
-      title: "Team",
-      href: links.mentolabs,
-      isDownload: false,
-      isInternal: false,
-    },
-    {
       title: "Cookie Policy",
       href: links.cookiePolicy,
       isDownload: true,
       isInternal: false,
-    },
-    {
-      title: "Terms & Conditions",
-      href: "/terms",
-      isDownload: false,
-      isInternal: true,
     },
   ],
 };
