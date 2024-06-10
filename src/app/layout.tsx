@@ -64,7 +64,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head></head>
       <body
         className={`${founders_grotesk.variable} bg-background flex justify-center w-screen`}
       >
