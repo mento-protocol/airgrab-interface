@@ -25,10 +25,18 @@ export default function Error({
         Unexpected Error
       </h3>
       <p className="font-fg text-center text-sm sm:text-base">
-        An unexpected error has occurred. We apologize for the inconvenience. To
-        ensure your security, we have disconnected your crypto wallet and reset
-        the application. Please try to restart the process. If the issue
-        persists, <Link href="">contact our support</Link> team for assistance.
+        An unexpected error has occurred. We apologize for the inconvenience.{" "}
+        <br /> Please click the button below to disconnect your wallet & restart
+        the process.
+        <br /> If the issue persists, please open a support ticket in the{" "}
+        <Link
+          className="text-[#4D62F0]"
+          href="https://discord.com/invite/Zszgng9NdF"
+          target="_blank"
+        >
+          Mento discord
+        </Link>{" "}
+        for assistance.
       </p>
       <Button
         color="blue"
