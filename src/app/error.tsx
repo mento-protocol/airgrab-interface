@@ -24,7 +24,7 @@ export default function Error({
       <h3 className="font-fg font-medium text-sm sm:text-base text-center flex flex-col gap-8">
         Unexpected Error
       </h3>
-      <p className="text-center max-w-[500px]">
+      <p className="font-fg text-center text-sm sm:text-base">
         An unexpected error has occurred. We apologize for the inconvenience. To
         ensure your security, we have disconnected your crypto wallet and reset
         the application. Please try to restart the process. If the issue
