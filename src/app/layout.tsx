@@ -54,7 +54,7 @@ const founders_grotesk = localFont({
 
 export const metadata = {
   title: "Mento | Airdrop",
-  description: "The MENTO airdrop it live. Claim your MENTO",
+  description: "The MENTO airdrop is live. Claim your MENTO",
 };
 
 export default function RootLayout({
