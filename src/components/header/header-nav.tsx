@@ -66,7 +66,7 @@ const HeaderNav = () => {
                       transition={{ duration: 0.2 }}
                       className="absolute right-0 z-10 flex flex-col items-center justify-center mt-1 border rounded focus:outline-none bg-clean-white border-primary-dark dark:border-clean-white dark:bg-primary-dark"
                     >
-                      {items.map(({ name, href }, index) => (
+                      {items?.map(({ name, href }, index) => (
                         <Menu.Item key={name}>
                           {({ active }) => (
                             <Link
