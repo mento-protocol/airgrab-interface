@@ -61,7 +61,7 @@ const MobileFooter = () => {
 
 const FooterNav = () => {
   return (
-    <nav className="flex justify-between flex-1 ">
+    <nav className="flex justify-around flex-1 ">
       {Object.entries(footerMenuItems).map(([heading, links]) => {
         return (
           <div key={heading}>
@@ -143,14 +143,6 @@ const footerMenuItems = {
       title: "Twitter",
       href: links.twitter,
       isDownload: false,
-      isInternal: false,
-    },
-  ],
-  Other: [
-    {
-      title: "Cookie Policy",
-      href: links.cookiePolicy,
-      isDownload: true,
       isInternal: false,
     },
   ],
