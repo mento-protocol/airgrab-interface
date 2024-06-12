@@ -11,6 +11,7 @@ import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
 import { links } from "@/lib/constants";
 import Link from "next/link";
+import { useAddTokens } from "@/hooks/use-add-tokens";
 
 export default async function Allocation() {
   const session = await getServerSession();
@@ -91,6 +92,7 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
 };
 
 const HasKYC = () => {
+  const { addMento, addVeMento } = useAddTokens();
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <CongratulationsHeading />
@@ -101,6 +103,14 @@ const HasKYC = () => {
       <Button color="blue" href={"/claim"}>
         Claim Your MENTO
       </Button>
+      <div>
+        <Button onClick={addMento} color={"blush"}>
+          Add MENTO token to wallet
+        </Button>
+        <Button onClick={addVeMento} color={"blush"}>
+          Add veMENTO token to wallet
+        </Button>
+      </div>
       <EligibilityFAQLink />
     </div>
   );
