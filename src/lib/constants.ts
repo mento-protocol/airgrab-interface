@@ -11,6 +11,8 @@ export const links = {
   cookiePolicy: "/files/cookie-policy.pdf",
   blog: "https://www.mentolabs.xyz/blog",
   mento: "https://www.mento.org/",
+  additionalWalletsTutorial:
+    "https://www.mentolabs.xyz/blog/how-to-claim-mento-with-another-address",
 };
 
 // Ensuring the environment variables are set
