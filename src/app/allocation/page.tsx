@@ -9,6 +9,7 @@ import { getAllocationForAddress } from "@/lib/merkle/merkle";
 import { getAddressForSession, getServerSession } from "@/lib/session";
 import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
+import { links } from "@/lib/constants";
 import Link from "next/link";
 
 export default async function Allocation() {
@@ -62,6 +63,21 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
         <br className="block sm:hidden" />
         after.
       </p>
+
+      <sub className="font-fg text-xs sm:text-sm">
+        * If you are claiming for an additional address and have already gone
+        through the KYC process, you do not need to verify via Fractal ID again.
+        Please follow{" "}
+        <a
+          className="text-primary-blue"
+          href={links.additionalWalletsTutorial}
+          target="_blank"
+        >
+          {" "}
+          these instructions{" "}
+        </a>{" "}
+        to link your additional address to the KYC provider.{" "}
+      </sub>
       <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
       <KYCButton address={fullAddress} />
       <Link
