@@ -30,7 +30,6 @@ const connectors = connectorsForWallets([
     groupName: "Recommended with CELO",
     wallets: [
       Valora({ chains, projectId }),
-      CeloWallet({ chains, projectId }),
       frameWallet({ chains, projectId }),
       metaMaskWallet({ chains, projectId }),
       omniWallet({ chains, projectId }),
