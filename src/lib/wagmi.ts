@@ -9,7 +9,7 @@ import { configureChains, createConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 // Import known recommended wallets
-import { Valora, CeloWallet } from "@celo/rainbowkit-celo/wallets";
+import { Valora } from "@celo/rainbowkit-celo/wallets";
 
 // Import CELO chain information
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
