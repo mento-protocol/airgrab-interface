@@ -10,6 +10,7 @@ import { disconnect, switchNetwork } from "wagmi/actions";
 import Loading from "./loading";
 import { useNetwork } from "wagmi";
 import { useChainModal } from "@rainbow-me/rainbowkit";
+import { links } from "@/lib/constants";
 
 const ClaimText = () => {
   return (
@@ -265,6 +266,17 @@ const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
         {Number(allocation).toFixed(3)} MENTO
       </span>{" "}
       for <span className="font-medium font-fg">24 months</span>{" "}
+      <p className="text-center max-w-[500px]">
+        Welcome to the Mento community! <br />
+        <a
+          className="text-primary-blue"
+          href={links.welcomeToCommunityPost}
+          target="_blank"
+        >
+          {" "}
+          Learn More{" "}
+        </a>
+      </p>
     </span>
     <div className="flex flex-col gap-[18px]">
       <Button color="blue" onClick={disconnect} fullWidth>
