@@ -38,3 +38,5 @@ export const MAILCHIMP_AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
 // secretlint-disable-next-line
 export const FRACTAL_CLIENT_SECRET = process.env.FRACTAL_CLIENT_SECRET;
 export const FRACTAL_TOKEN_COOKIE_NAME = "fid";
+
+export const VERCEL_ENV = process.env.VERCEL_ENV;
