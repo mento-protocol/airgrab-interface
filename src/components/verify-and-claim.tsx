@@ -283,7 +283,7 @@ const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
         Check another wallet
       </Button>
       <Button color="blush" href="https://governance.mento.org" fullWidth>
-        Go to app
+        Go to Governance app
       </Button>
     </div>
   </ClaimWrapper>
