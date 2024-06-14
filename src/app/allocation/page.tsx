@@ -63,6 +63,7 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
         <br className="block sm:hidden" />
         after.
       </p>
+
       <sub className="font-fg text-xs sm:text-sm">
         * If you are claiming for an additional address and have already gone
         through the KYC process, you do not need to verify via Fractal ID again.
