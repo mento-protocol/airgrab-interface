@@ -10,6 +10,7 @@ function buildFractalUrl(wallet?: string): string {
   url.searchParams.append("client_id", FRACTAL_CLIENT_ID);
   url.searchParams.append("redirect_uri", REDIRECT_URL);
   url.searchParams.append("response_type", "code");
+  url.searchParams.append("user_role", "person");
   url.searchParams.append(
     "scope",
     "contact:read verification.plus:read verification.liveness:read verification.wallet-eth:read",
