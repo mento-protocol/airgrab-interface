@@ -2,10 +2,12 @@
 import { useCallback } from "react";
 import * as mento from "@mento-protocol/mento-sdk";
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
-import { useNetwork } from "wagmi";
+import { useNetwork, useWalletClient } from "wagmi";
 
 export const useAddTokens = () => {
   const { chain } = useNetwork();
+  const { data: walletClient } = useWalletClient();
+
   let chainId = Alfajores.id;
 
   if (chain && chain.id === Celo.id) {
@@ -13,34 +15,36 @@ export const useAddTokens = () => {
   }
 
   const addMento = useCallback(async () => {
-    const wasAdded = await (window as any).ethereum.request({
+    if (!walletClient) return;
+
+    await walletClient.request({
       method: "wallet_watchAsset",
       params: {
-        type: "ERC20", // Initially only supports ERC20, but eventually more!
+        type: "ERC20",
         options: {
-          address: mento.addresses[chainId].MentoToken, // The address that the token is at.
-          symbol: "MENTO", // A ticker symbol or shorthand, up to 5 chars.
-          decimals: 18, // The number of decimals in the token
+          address: mento.addresses[chainId].MentoToken,
+          symbol: "MENTO",
+          decimals: 18,
         },
       },
     });
-    console.log(`Mento token added: ${wasAdded}`);
-  }, [chainId]);
+  }, [chainId, walletClient]);
 
   const addVeMento = useCallback(async () => {
-    const wasAdded = await (window as any).ethereum.request({
+    if (!walletClient) return;
+
+    await walletClient.request({
       method: "wallet_watchAsset",
       params: {
-        type: "ERC20", // Initially only supports ERC20, but eventually more!
+        type: "ERC20",
         options: {
-          address: mento.addresses[chainId].Locking, // The address that the token is at.
-          symbol: "veMENTO", // A ticker symbol or shorthand, up to 5 chars.
-          decimals: 18, // The number of decimals in the token
+          address: mento.addresses[chainId].Locking,
+          symbol: "veMENTO",
+          decimals: 18,
         },
       },
     });
-    console.log(`veMento token added: ${wasAdded}`);
-  }, [chainId]);
+  }, [chainId, walletClient]);
 
   return {
     addMento,
