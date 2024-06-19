@@ -70,6 +70,7 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
         Sign into your account and follow{" "}
         <Link
           className="font-fg text-primary-blue underline text-sm sm:text-base"
+          target="_blank"
           href={links.additionalWalletsTutorial}
         >
           these instructions
@@ -77,7 +78,12 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
         to add a new wallet:
       </p>
 
-      <Button color="blush" fullWidth href={links.fractalAddWallet}>
+      <Button
+        color="blush"
+        target="_blank"
+        fullWidth
+        href={links.fractalAddWallet}
+      >
         Add wallet to your Fractal account
       </Button>
 
