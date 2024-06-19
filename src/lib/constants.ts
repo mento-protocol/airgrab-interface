@@ -15,6 +15,7 @@ export const links = {
     "https://www.mentolabs.xyz/blog/how-to-claim-mento-with-another-address",
   welcomeToCommunityPost:
     "https://www.mentolabs.xyz/blog/welcome-to-the-mento-community",
+  fractalAddWallet: "https://app.fractal.id/edit/wallets",
 };
 
 // Ensuring the environment variables are set
