@@ -63,23 +63,32 @@ const NoKYC = ({ fullAddress }: { fullAddress: string }) => {
         <br className="block sm:hidden" />
         after.
       </p>
-
-      <sub className="font-fg text-xs sm:text-sm">
-        * If you are claiming for an additional address and have already gone
-        through the KYC process, you do not need to verify via Fractal ID again.
-        Please follow{" "}
-        <a
-          className="text-primary-blue"
-          href={links.additionalWalletsTutorial}
-          target="_blank"
-        >
-          {" "}
-          these instructions{" "}
-        </a>{" "}
-        to link your additional address to the KYC provider.{" "}
-      </sub>
-      <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
       <KYCButton address={fullAddress} />
+
+      <p className="font-fg text-center text-sm sm:text-base">
+        Have you already verified your identity with Fractal? <br />
+        Sign into your account and follow{" "}
+        <Link
+          className="font-fg text-primary-blue underline text-sm sm:text-base"
+          target="_blank"
+          href={links.additionalWalletsTutorial}
+        >
+          these instructions
+        </Link>{" "}
+        to add a new wallet:
+      </p>
+
+      <Button
+        color="blush"
+        target="_blank"
+        fullWidth
+        href={links.fractalAddWallet}
+      >
+        Add wallet to your Fractal account
+      </Button>
+
+      <FractalIDLogo className="h-[27px] w-[120px] sm:h-[44px] sm:w-[200px]" />
+
       <Link
         className="font-fg text-primary-blue underline text-sm"
         href="#why-verify-identity"
