@@ -18,6 +18,7 @@ import {
   parseEther,
 } from "viem";
 import { PrepareWriteContractConfig } from "wagmi/actions";
+import { useEstimateGas } from "./use-estimate-gas";
 
 import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
@@ -46,6 +47,26 @@ export const useClaimMento = ({
   }
 
   const addresses = mento.addresses[chainId];
+  const preparedClaimArgs = prepareArgs({
+    allocation,
+    address,
+    merkleProof,
+    proof,
+    validUntil,
+    approvedAt,
+    fractalId,
+  });
+  const gasEstimate = useEstimateGas(
+    preparedClaimArgs
+      ? {
+          address: addresses.Airgrab as Address,
+          abi: Airdrop,
+          functionName: "claim",
+          args: preparedClaimArgs,
+          account: address as Address,
+        }
+      : null,
+  );
 
   const claimStatus = useContractRead({
     address: addresses.Airgrab as Address,
@@ -56,7 +77,7 @@ export const useClaimMento = ({
 
   const hasClaimed = claimStatus.data === true;
   const shouldPrepareClaim = Boolean(
-    kyc.data && allocation && merkleProof && !hasClaimed,
+    kyc.data && allocation && merkleProof && !hasClaimed && gasEstimate,
   );
 
   const publicClient = createPublicClient({
@@ -103,17 +124,8 @@ export const useClaimMento = ({
     abi: Airdrop,
     functionName: "claim",
     enabled: shouldPrepareClaim,
-    args: shouldPrepareClaim
-      ? prepareArgs({
-          allocation,
-          address,
-          merkleProof,
-          proof,
-          validUntil,
-          approvedAt,
-          fractalId,
-        })
-      : undefined,
+    args: shouldPrepareClaim ? preparedClaimArgs : undefined,
+    gas: gasEstimate!,
     onError: (e) => {
       Sentry.captureException(e);
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
