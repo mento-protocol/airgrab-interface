@@ -9,15 +9,9 @@ import {
 import { Airdrop } from "@/abis/Airdrop";
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import { toast } from "sonner";
-import {
-  Address,
-  BaseError,
-  UserRejectedRequestError,
-  createPublicClient,
-  http,
-  parseEther,
-} from "viem";
+import { Address, BaseError, UserRejectedRequestError, parseEther } from "viem";
 import { PrepareWriteContractConfig } from "wagmi/actions";
+import { useEstimateGas } from "./use-estimate-gas";
 
 import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
@@ -37,7 +31,6 @@ export const useClaimMento = ({
   const { chain } = useNetwork();
   const { kyc } = useKYCProof();
   const { data: { proof, validUntil, approvedAt, fractalId } = {} } = kyc;
-  const [gasPrice, setGasPrice] = React.useState<bigint>(BigInt(0));
 
   let chainId = Alfajores.id;
 
@@ -46,6 +39,26 @@ export const useClaimMento = ({
   }
 
   const addresses = mento.addresses[chainId];
+  const preparedClaimArgs = prepareArgs({
+    allocation,
+    address,
+    merkleProof,
+    proof,
+    validUntil,
+    approvedAt,
+    fractalId,
+  });
+  const gasEstimate = useEstimateGas(
+    preparedClaimArgs
+      ? {
+          address: addresses.Airgrab as Address,
+          abi: Airdrop,
+          functionName: "claim",
+          args: preparedClaimArgs,
+          account: address as Address,
+        }
+      : null,
+  );
 
   const claimStatus = useContractRead({
     address: addresses.Airgrab as Address,
@@ -56,64 +69,16 @@ export const useClaimMento = ({
 
   const hasClaimed = claimStatus.data === true;
   const shouldPrepareClaim = Boolean(
-    kyc.data && allocation && merkleProof && !hasClaimed,
+    kyc.data && allocation && merkleProof && !hasClaimed && gasEstimate,
   );
-
-  const publicClient = createPublicClient({
-    chain,
-    transport: http(),
-  });
-
-  React.useEffect(() => {
-    const getGas = async () => {
-      const gasEstimate = await publicClient.estimateContractGas({
-        address: addresses.Airgrab as Address,
-        abi: Airdrop,
-        functionName: "claim",
-        args: prepareArgs({
-          allocation,
-          address,
-          merkleProof,
-          proof,
-          validUntil,
-          approvedAt,
-          fractalId,
-        }),
-        account: address as Address,
-      });
-      setGasPrice(gasEstimate);
-    };
-    if (proof && validUntil && approvedAt && fractalId) {
-      getGas();
-    }
-  }, [
-    address,
-    addresses.Airgrab,
-    allocation,
-    approvedAt,
-    fractalId,
-    merkleProof,
-    proof,
-    publicClient,
-    validUntil,
-  ]);
 
   const prepare = usePrepareContractWrite({
     address: addresses.Airgrab as Address,
     abi: Airdrop,
     functionName: "claim",
     enabled: shouldPrepareClaim,
-    args: shouldPrepareClaim
-      ? prepareArgs({
-          allocation,
-          address,
-          merkleProof,
-          proof,
-          validUntil,
-          approvedAt,
-          fractalId,
-        })
-      : undefined,
+    args: shouldPrepareClaim ? preparedClaimArgs : undefined,
+    gas: gasEstimate!,
     onError: (e) => {
       Sentry.captureException(e);
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
@@ -122,7 +87,7 @@ export const useClaimMento = ({
     },
   });
 
-  const contractWrite = useContractWrite({ ...prepare.config });
+  const contractWrite = useContractWrite(prepare.config);
 
   const TransactionSuccessMessage = ({
     transactionHash,
@@ -218,7 +183,7 @@ function prepareArgs({
   validUntil: number | undefined;
   approvedAt: number | undefined;
   fractalId: string | undefined;
-}): PrepareWriteContractConfig<typeof Airdrop, "claim">["args"] {
+}): PrepareWriteContractConfig<typeof Airdrop, "claim">["args"] | undefined {
   if (
     !allocation ||
     !address ||
@@ -240,15 +205,7 @@ function prepareArgs({
         fractalId,
       });
     }
-    return [
-      parseEther("0"),
-      "0x",
-      merkleProof as Address[],
-      "0x",
-      BigInt(0),
-      BigInt(0),
-      "",
-    ];
+    return;
   }
 
   if (process.env.NODE_ENV === "development") {
