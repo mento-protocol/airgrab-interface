@@ -18,7 +18,7 @@ const isVercelProduction =
   process.env.NODE_ENV === "production" &&
   process.env.VERCEL_ENV === "production";
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? "";
-const chainList = [...(isVercelProduction ? [Celo] : [Celo, Alfajores])];
+const chainList = [...(isVercelProduction ? [Celo] : [Alfajores, Celo])];
 const { chains, publicClient } = configureChains(chainList, [
   jsonRpcProvider({
     rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
