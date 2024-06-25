@@ -11,7 +11,6 @@ import { NotificationEmailForm } from "@/components/notification-email-form";
 import { formatUnits } from "viem";
 import { links } from "@/lib/constants";
 import Link from "next/link";
-import { useAddTokens } from "@/hooks/use-add-tokens";
 
 export default async function Allocation() {
   const session = await getServerSession();
