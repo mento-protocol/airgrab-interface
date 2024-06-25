@@ -6,11 +6,12 @@ import Link from "next/link";
 import React from "react";
 import { Locked } from "./svgs";
 import { useCooldown } from "@/hooks/use-cool-down";
-import { disconnect, switchNetwork } from "wagmi/actions";
 import Loading from "./loading";
 import { useNetwork } from "wagmi";
 import { useChainModal } from "@rainbow-me/rainbowkit";
 import { links } from "@/lib/constants";
+import { useAddTokens } from "@/hooks/use-add-tokens";
+import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
 
 const ClaimText = () => {
   return (
@@ -59,7 +60,7 @@ export default function VerifyAndClaim({
     merkleProof,
     address,
   });
-  const { chain, chains } = useNetwork();
+  const { chain } = useNetwork();
   const { openChainModal } = useChainModal();
 
   const claimErrorCooldown = useCooldown(claim.isError, 5000);
@@ -257,37 +258,52 @@ const ClaimAndLockOverview = () => (
   </>
 );
 
-const ClaimConfirmation = ({ allocation }: { allocation: string }) => (
-  <ClaimWrapper>
-    <Locked className="h-[248px] w-[251px]" />
-    <span className="font-fg font-normal text-sm sm:text-xl">
-      You claimed and locked <br className="block sm:hidden" />
-      <span className="font-medium font-fg">
-        {Number(allocation).toFixed(3)} MENTO
-      </span>{" "}
-      for <span className="font-medium font-fg">24 months</span>{" "}
-      <p className="text-center max-w-[500px]">
-        Welcome to the Mento community! <br />
-        <a
-          className="text-primary-blue"
-          href={links.welcomeToCommunityPost}
-          target="_blank"
-        >
-          {" "}
-          Learn More{" "}
-        </a>
-      </p>
-    </span>
-    <div className="flex flex-col gap-[18px]">
-      <Button color="blue" onClick={disconnect} fullWidth>
-        Check another wallet
-      </Button>
-      <Button color="blush" href="https://governance.mento.org" fullWidth>
-        Go to Governance app
-      </Button>
-    </div>
-  </ClaimWrapper>
-);
+const ClaimConfirmation = ({ allocation }: { allocation: string }) => {
+  const { addVeMento } = useAddTokens();
+  const { logout } = useSession();
+
+  return (
+    <ClaimWrapper>
+      <Locked className="h-[248px] w-[251px]" />
+      <div className="font-fg font-normal text-xl flex flex-col items-center gap-8">
+        <div className="flex flex-col">
+          <p className="">
+            You claimed and locked <br className="block sm:hidden" />
+            <span className="font-medium font-fg">
+              {Number(allocation).toFixed(3)} MENTO
+            </span>{" "}
+            for <span className="font-medium font-fg">24 months</span>
+          </p>
+          <button
+            onClick={addVeMento}
+            className="text-primary-blue text-sm leading-none m-0 p-0"
+          >
+            Add veMENTO to your wallet
+          </button>
+        </div>
+        <p className="text-center max-w-[500px]">
+          Welcome to the <br className="md:hidden" /> Mento community! <br />
+          <a
+            className="text-primary-blue text-sm"
+            href={links.welcomeToCommunityPost}
+            target="_blank"
+          >
+            {" "}
+            Learn More{" "}
+          </a>
+        </p>
+      </div>
+      <div className="flex flex-col  md:flex-row gap-[18px]">
+        <Button color="blue" onClick={() => logout()} fullWidth>
+          Check another wallet
+        </Button>
+        <Button color="blush" href="https://governance.mento.org" fullWidth>
+          Go to Governance app
+        </Button>
+      </div>
+    </ClaimWrapper>
+  );
+};
 
 const ClaimHeading = ({ children }: { children: React.ReactNode }) => {
   return (
