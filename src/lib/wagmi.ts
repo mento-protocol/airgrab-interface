@@ -9,14 +9,12 @@ import { configureChains, createConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 // Import known recommended wallets
-import { Valora, CeloWallet } from "@celo/rainbowkit-celo/wallets";
+import { Valora } from "@celo/rainbowkit-celo/wallets";
 
 // Import CELO chain information
 import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 
-const isVercelProduction =
-  process.env.NODE_ENV === "production" &&
-  process.env.VERCEL_ENV === "production";
+const isVercelProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? "";
 const chainList = [...(isVercelProduction ? [Celo] : [Celo, Alfajores])];
 const { chains, publicClient } = configureChains(chainList, [
@@ -30,7 +28,6 @@ const connectors = connectorsForWallets([
     groupName: "Recommended with CELO",
     wallets: [
       Valora({ chains, projectId }),
-      CeloWallet({ chains, projectId }),
       frameWallet({ chains, projectId }),
       metaMaskWallet({ chains, projectId }),
       omniWallet({ chains, projectId }),

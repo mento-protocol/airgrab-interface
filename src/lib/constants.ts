@@ -13,6 +13,9 @@ export const links = {
   mento: "https://www.mento.org/",
   additionalWalletsTutorial:
     "https://www.mentolabs.xyz/blog/how-to-claim-mento-with-another-address",
+  welcomeToCommunityPost:
+    "https://www.mentolabs.xyz/blog/welcome-to-the-mento-community",
+  fractalAddWallet: "https://app.fractal.id/edit/wallets",
 };
 
 // Ensuring the environment variables are set
@@ -54,8 +57,9 @@ export const FRACTAL_RESOURCE_URL =
 export const FRACTAL_CLIENT_ID = process.env.NEXT_PUBLIC_FRACTAL_CLIENT_ID;
 export const FRACTAL_CRED_URL = process.env.NEXT_PUBLIC_FRACTAL_CRED_URL;
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-//TODO: Update this with the correct date
 export const LAUNCH_DATE = process.env.NEXT_PUBLIC_LAUNCH_DATE;
+// Vercel deployment environment. More info: https://vercel.com/docs/projects/environment-variables/system-environment-variables#system-environment-variables
+export const VERCEL_ENV = process.env.NEXT_PUBLIC_VERCEL_ENV;
 
 export const RESTRICTED_COUNTRIES =
   process.env.NEXT_PUBLIC_RESTRICTED_COUNTRIES;

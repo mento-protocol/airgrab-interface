@@ -3,13 +3,15 @@
 // Note that this config is unrelated to the Vercel Edge Runtime and is also required when running locally.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
+import { VERCEL_ENV } from "@/lib/constants";
 import * as Sentry from "@sentry/nextjs";
 
-const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
+const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
+const environment = VERCEL_ENV ?? "development";
 
 Sentry.init({
   dsn: SENTRY_DSN,
-
+  environment,
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1,
 
