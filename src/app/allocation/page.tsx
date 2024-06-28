@@ -17,7 +17,7 @@ export default async function Allocation() {
   const fullAddress = getAddressForSession(session);
   const shortAddress = fullAddress ? shortenAddress(fullAddress) : "";
   const allocation = await getAllocationForAddress(fullAddress);
-  const hasAllocation = Boolean(allocation && allocation !== "0");
+  const hasAllocation = Boolean(allocation && BigInt(allocation) > 0);
 
   const isBeforeLaunch = new Date(LAUNCH_DATE).getTime() > Date.now();
 
