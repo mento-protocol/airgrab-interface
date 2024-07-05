@@ -4,9 +4,9 @@ import { Disclosure } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "./svgs";
 import Link from "next/link";
-import { links } from "@/lib/constants";
+import { legalPages, links } from "@/lib/constants";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 export interface FAQ {
   id: string;
@@ -15,6 +15,11 @@ export interface FAQ {
 }
 
 export default function FAQ() {
+  const pathname = usePathname();
+  const isLegalPage = legalPages.includes(pathname);
+  if (isLegalPage) {
+    return null;
+  }
   return (
     <div className="w-full">
       <h2 className="font-fg text-center font-medium text-xl  md:text-[56px] tracking-[-0.02em] leading-none mb-3 dark:text-clean-white">

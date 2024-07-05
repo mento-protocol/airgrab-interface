@@ -16,7 +16,11 @@ export const links = {
   welcomeToCommunityPost:
     "https://www.mentolabs.xyz/blog/welcome-to-the-mento-community",
   fractalAddWallet: "https://app.fractal.id/edit/wallets",
+  privacyPdf:
+    "https://drive.google.com/uc?export=download&id=1E1pBFFo1R7sdGZx_xvkESdaaH2LOhC5e",
 };
+
+export const legalPages = ["/privacy"];
 
 // Ensuring the environment variables are set
 if (!process.env.NEXT_PUBLIC_FRACTAL_AUTH_URL) {

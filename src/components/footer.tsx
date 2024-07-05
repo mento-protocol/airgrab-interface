@@ -146,4 +146,5 @@ const footerMenuItems = {
       isInternal: false,
     },
   ],
+  Other: [{ title: "Privacy", href: "/privacy", isInternal: true }],
 };
