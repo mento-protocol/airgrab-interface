@@ -34,9 +34,12 @@ const fetchProof = async (
 };
 
 export const useKYCProof = () => {
-  const { data: verificationType, isLoading: isVerificationTypeLoading } =
-    useVerificationType();
-    
+  const {
+    data: verificationType,
+    isLoading: isVerificationTypeLoading,
+    error: verificationTypeError,
+  } = useVerificationType();
+
   const signature = useSignMessage({
     message: createFractalAuthMessage(verificationType),
     onSettled: (data: `0x${string}` | undefined, e: Error | null) => {
@@ -69,8 +72,8 @@ export const useKYCProof = () => {
       isLoadingProof: kyc.isLoading,
       isSuccess: !kyc.error && signature.isSuccess,
       data: kyc.data,
-      error: signature.error || kyc.error,
-      isError: signature.isError || kyc.error,
+      error: signature.error || kyc.error || verificationTypeError,
+      isError: signature.isError || kyc.error || verificationTypeError,
       signMessage: signature.signMessage,
       isReady: verificationType && !isVerificationTypeLoading,
     },
