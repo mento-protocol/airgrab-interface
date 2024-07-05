@@ -48,7 +48,7 @@ export const useClaimMento = ({
     approvedAt,
     fractalId,
   });
-  const gasEstimate = useEstimateGas(
+  const { data: gasEstimate, error } = useEstimateGas(
     preparedClaimArgs
       ? {
           address: addresses.Airgrab as Address,
@@ -59,6 +59,8 @@ export const useClaimMento = ({
         }
       : null,
   );
+
+  console.log({ error });
 
   const claimStatus = useContractRead({
     address: addresses.Airgrab as Address,

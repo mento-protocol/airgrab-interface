@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { fetchJson } from "@/lib/utils";
 import { createFractalAuthMessage } from "@/lib/authMessage";
+import useVerificationType from "./use-verification-type";
 
 export type FractalVerificationDetails = {
   proof: `0x${string}` | undefined;
@@ -33,8 +34,11 @@ const fetchProof = async (
 };
 
 export const useKYCProof = () => {
+  const { data: verificationType, isLoading: isVerificationTypeLoading } =
+    useVerificationType();
+    
   const signature = useSignMessage({
-    message: createFractalAuthMessage(),
+    message: createFractalAuthMessage(verificationType),
     onSettled: (data: `0x${string}` | undefined, e: Error | null) => {
       if (e instanceof Error && !(e instanceof UserRejectedRequestError)) {
         toast.error(e.message);
@@ -68,6 +72,7 @@ export const useKYCProof = () => {
       error: signature.error || kyc.error,
       isError: signature.isError || kyc.error,
       signMessage: signature.signMessage,
+      isReady: verificationType && !isVerificationTypeLoading,
     },
   };
 };

@@ -48,18 +48,20 @@ type Wallet = {
 type FractalVerificationProcessStatus = "pending" | "contacted" | "done";
 type CredentialStatus = "pending" | "approved" | "rejected";
 
-type VerificationCase = {
+export type VerificationCase = {
   level: string;
   journey_completed: boolean;
   status: FractalVerificationProcessStatus;
   credential: CredentialStatus;
   id: string;
+  type: "KYC" | "KYB";
 };
 
 type FractalUser = {
   uid: string;
-  verification_cases: VerificationCase[];
+  verification_cases: Omit<VerificationCase, "type">[];
   wallets: Wallet[];
+  person?: null | undefined;
 };
 
 export type FractalTokens = {
@@ -109,6 +111,9 @@ export async function refetchKycStatus(
       tokens.accessToken.token,
       address,
     );
+
+    console.log({ kycStatus });
+
     return kycStatus;
   } catch (error) {
     // TODO: sentrify
@@ -118,6 +123,7 @@ export async function refetchKycStatus(
 
 async function processFractalUser(accessToken: string, address: string) {
   const fractalUser = await fetchFractalUser(accessToken);
+
   if (!fractalUser) {
     throw new Error("No Fractal user found");
   }
@@ -163,7 +169,14 @@ function getFractalVerificationCase(
         journey_completed && level === requiredLevel,
     );
 
-    return matchingCase;
+    if (!matchingCase) {
+      throw new Error(
+        `No matching verification case found for level: ${requiredLevel}`,
+      );
+    }
+
+    const verificationType = fractalUser?.person === null ? "KYB" : "KYC";
+    return { ...matchingCase, type: verificationType };
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error getting Fractal verification case:", error.message);
