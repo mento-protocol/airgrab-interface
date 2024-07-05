@@ -112,8 +112,6 @@ export async function refetchKycStatus(
       address,
     );
 
-    console.log({ kycStatus });
-
     return kycStatus;
   } catch (error) {
     // TODO: sentrify
