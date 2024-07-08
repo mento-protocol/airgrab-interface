@@ -19,10 +19,12 @@ function countryList(countryCodes: string[]): string {
     .join(", ");
 }
 
-export function createFractalAuthMessage(): string {
+export function createFractalAuthMessage(
+  verificationType: string = "KYC",
+): string {
   const countriesString = countryList(RESTRICTED_COUNTRIES.split(","));
 
   return `I authorize Airdrop (${FRACTAL_CLIENT_ID}) to get a proof from Fractal that:
-- I passed KYC level plus+liveness
+- I passed ${verificationType} level plus+liveness
 - I am not a resident of the following countries: ${countriesString}`;
 }
