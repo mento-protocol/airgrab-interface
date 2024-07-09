@@ -23,6 +23,10 @@ const mobileMenuAccordionMenuItems = [
       { name: "Twitter", href: links.twitter },
     ],
   },
+  {
+    name: "Other",
+    items: [{ name: "Privacy", href: "/privacy" }],
+  },
 ];
 
 const MobileAccordionMenu = () => {

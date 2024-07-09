@@ -4,12 +4,13 @@ import { useEffect } from "react";
 import { useSession } from "@/contexts/rainbowkit-siwe-iron-session-provider";
 import { SessionData } from "@/lib/session/types";
 import { usePathname, useRouter } from "next/navigation";
-import { LAUNCH_DATE } from "@/lib/constants";
+import { LAUNCH_DATE, legalPages } from "@/lib/constants";
 
 const useRequireAuth = ({ enabled }: { enabled?: boolean }) => {
   const pathname = usePathname();
   const router = useRouter();
   const { status, data: session } = useSession();
+  const isLegalPage = legalPages.includes(pathname);
 
   const isHomePage = pathname === "/";
   const isClaimPage = pathname.startsWith("/claim");
@@ -20,7 +21,7 @@ const useRequireAuth = ({ enabled }: { enabled?: boolean }) => {
   useEffect(() => {
     if (status === "loading" || !enabled) return;
     // every route except home requires a session
-    if (!isHomePage && !hasSession) {
+    if (!isHomePage && !hasSession && !isLegalPage) {
       router.push("/");
       return;
     } else if (isHomePage && hasSession) {
