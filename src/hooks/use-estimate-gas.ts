@@ -1,11 +1,11 @@
 import { useNetwork } from "wagmi";
 import { EstimateContractGasParameters, createPublicClient, http } from "viem";
 import React from "react";
-import useSWR from "swr";
-import * as Sentry from "@sentry/nextjs";
+import { toast } from "sonner";
 
 export const useEstimateGas = (tx: EstimateContractGasParameters | null) => {
   const { chain } = useNetwork();
+  const [gasPrice, setGasPrice] = React.useState<bigint | null>(null);
 
   const publicClient = React.useMemo(() => {
     if (!chain) return null;
@@ -15,20 +15,20 @@ export const useEstimateGas = (tx: EstimateContractGasParameters | null) => {
     });
   }, [chain]);
 
-  return useSWR(
-    "estimate-gas",
-    async () => {
+  React.useEffect(() => {
+    const getGas = async () => {
       try {
-        if (!tx) throw new Error("No transaction provided");
-        if (!publicClient) throw new Error("No public client available");
-        const gas = await publicClient.estimateContractGas(tx);
-        return gas;
+        if (!tx) return;
+        if (!publicClient) return;
+        const gasEstimate = await publicClient.estimateContractGas(tx);
+        setGasPrice(gasEstimate);
       } catch (error) {
-        // log error then rethrow it to be caught by SWR
-        Sentry.captureException(error);
-        throw error;
+        const err = error as Error;
+        toast.error(err.message);
       }
-    },
-    { revalidateOnFocus: false },
-  );
+    };
+    getGas();
+  }, [publicClient, tx]);
+
+  return gasPrice;
 };

@@ -48,7 +48,7 @@ export const useClaimMento = ({
     approvedAt,
     fractalId,
   });
-  const { data: gasEstimate, error: isGasEstimateError } = useEstimateGas(
+  const gasEstimate = useEstimateGas(
     preparedClaimArgs
       ? {
           address: addresses.Airgrab as Address,
@@ -149,9 +149,7 @@ export const useClaimMento = ({
     prepare: {
       ...prepare,
       isError:
-        (prepare.isError &&
-          !(prepare.error instanceof UserRejectedRequestError)) ||
-        isGasEstimateError,
+        prepare.isError && !(prepare.error instanceof UserRejectedRequestError),
     },
     confirmation: wait,
     claim: {
