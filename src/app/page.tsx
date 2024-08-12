@@ -20,7 +20,6 @@ export default function Home() {
   return (
     <div className="flex font-fg flex-col items-center justify-center gap-8">
       <div className="text-center">
-        <p className="text-sm font-light">Thank you</p>
         <h3 className="font-semibold text-2xl text-center leading-none mt-2 -mb-2">
           Airdrop Season 1
         </h3>
@@ -29,11 +28,11 @@ export default function Home() {
       <Locked className="h-[248px] w-[251px]" />
       <div>
         <p className="text-center max-w-[500px] mb-2">
-          Join the MENTO community <br /> and find out more about Airdrop Season
+          Join the MENTO community <br /> to find out more about Airdrop Season
           2
         </p>
-        <Button color="blue" href={links.discord} fullWidth>
-          Join our discord
+        <Button color="blue" href={links.discord} className="font-fg" fullWidth>
+          Join the community
         </Button>
       </div>
     </div>
