@@ -22,13 +22,13 @@ const DesktopHeader = () => {
         <MentoLogo className="w-[108px] h-6" />
       </Link>
       <HeaderNav />
-      <ConnectButton
+      {/* <ConnectButton
         icon={<ChevronRight />}
         color="blush"
         noFlexZone={true}
         width="w-[206px]"
         innerClassNames="pl-10"
-      />
+      /> */}
     </header>
   );
 };

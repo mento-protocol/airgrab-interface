@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import "@rainbow-me/rainbowkit/styles.css";
 import localFont from "next/font/local";
-import { Toaster } from "sonner";
+
 import ClaimCard from "@/components/claim-card";
-import FAQ from "@/components/faq";
+
 import Footer from "@/components/footer";
 import "./globals.css";
 import Spacer from "@/components/spacer";
@@ -29,7 +29,6 @@ import { links } from "@/lib/constants";
 
 import Header from "@/components/header/header";
 import { Providers } from "@/components/providers";
-import TermsModal from "@/components/terms-modal";
 
 const founders_grotesk = localFont({
   variable: "--font-fg",
@@ -70,7 +69,7 @@ export default function RootLayout({
         <Providers>
           <div className="relative w-screen h-full max-w-[1440px]">
             <Header />
-            <TermsModal />
+            {/* <TermsModal /> */}
             <main className="flex-grow z-30">
               <div className="h-12 md:h-24 " />
               <Spacer axis="vertical" size={24} />
@@ -84,16 +83,16 @@ export default function RootLayout({
                 <ClaimCard>{children}</ClaimCard>
               </MaxWidthContainer>
               <div className="h-[56px] sm:h-[112px] md:h-[112px]" />
-              <MaxWidthContainer>
+              {/* <MaxWidthContainer>
                 <FAQ />
-              </MaxWidthContainer>
+              </MaxWidthContainer> */}
               <LearnMoreSection />
             </main>
             <Footer />
             <Background />
           </div>
         </Providers>
-        <Toaster
+        {/* <Toaster
           position="bottom-center"
           toastOptions={{
             duration: 4000,
@@ -106,7 +105,7 @@ export default function RootLayout({
               success: "bg-white",
             },
           }}
-        />
+        /> */}
         <Analytics />
       </body>
     </html>
