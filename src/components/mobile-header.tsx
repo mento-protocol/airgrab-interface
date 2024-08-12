@@ -90,7 +90,7 @@ const DropDownMenuOverlay = ({
         <MobileAccordionMenu />
         <div className="flex flex-col w-full justify-center items-center gap-8">
           <div className="flex flex-col w-full justify-center items-center gap-[18px]">
-            <ConnectionButtons isConnected={isConnected} />
+            {/* <ConnectionButtons isConnected={isConnected} /> */}
             <Button color="blush" href="/">
               Homepage
             </Button>
