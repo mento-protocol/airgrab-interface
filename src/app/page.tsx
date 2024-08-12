@@ -17,10 +17,6 @@ export default function Home() {
   const { openConnectModal } = useConnectModal();
   const hasMounted = useIsMounted();
 
-  //   It should just say Airdrop Season 1 has ended
-  // Then it should say join our discord to find out more about airdrop season 2
-  // With 2 buttons, join discord, go to governance
-
   return (
     <div className="flex font-fg flex-col items-center justify-center gap-8">
       <div className="text-center">
